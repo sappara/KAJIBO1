@@ -36,15 +36,19 @@ foreach ($events as $event) {
       error_log('Non text message has come');
       continue;
     }
-    // オウム返し
-    // $bot->replyText($event->getReplyToken(), $event->getText());
-    replyTextMessage($bot, $event->getReplyToken(), $event->getText());
-    // 他のfunctionを使うときは,それぞれの記述を書く事
-    // テキストを返信
-    // $bot->replyText($event->getReplyToken(), 'TextMessage');
-    // テキストを返信、その２
-    // replyTextMessage($bot, $event->getReplyToken(), 'こんにちは');
-    // その他も同様
+
+    // Buttonsテンプレートメッセージを返信
+    // 引数はLINEBot、返信先、代替テキスト、画像URL、タイトル、本文、アクション(可変長引数)
+    replyButtonsTemplate($bot,
+    $event->getReplyToken(),
+    '「洗う」のステップです',
+    'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    'step1',
+    'まず洗剤を探してください',
+    // タップ時、テキストをユーザーに発言させるアクション、第二引数が画面に印字される
+    new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+      '次へ', '次のステップ'),
+    );
   }
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
@@ -68,8 +72,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // 位置情報を返信。引数はLINEBot、返信先、タイトル、住所、
-  // 緯度、経度
+  // 位置情報を返信。引数はLINEBot、返信先、タイトル、住所、緯度、経度
   function replyLocationMessage($bot, $replyToken, $title, $address, $lat, $lon) {
     // LocationMessageBuilderの引数はダイアログのタイトル、住所、緯度、経度
     $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\LocationMessageBuilder($title, $address, $lat, $lon));
@@ -78,8 +81,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // スタンプを返信。引数はLINEBot、返信先、
-  // スタンプのパッケージID、スタンプID
+  // スタンプを返信。引数はLINEBot、返信先、スタンプのパッケージID、スタンプID
   function replyStickerMessage($bot, $replyToken, $packageId, $stickerId) {
     // StickerMessageBuilderの引数はスタンプのパッケージID、スタンプID
     $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId));
@@ -97,8 +99,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // オーディオファイルを返信。引数はLINEBot、返信先、
-  // ファイルのURL、ファイルの再生時間
+  // オーディオファイルを返信。引数はLINEBot、返信先、ファイルのURL、ファイルの再生時間
   function replyAudioMessage($bot, $replyToken, $originalContentUrl, $audioLength) {
     // AudioMessageBuilderの引数はファイルのURL、ファイルの再生時間
     $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\AudioMessageBuilder($originalContentUrl, $audioLength));
@@ -107,8 +108,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // 複数のメッセージをまとめて返信。引数はLINEBot、
-  // 返信先、メッセージ(可変長引数)
+  // 複数のメッセージをまとめて返信。引数はLINEBot、返信先、メッセージ(可変長引数)
   function replyMultiMessage($bot, $replyToken, ...$msgs) {
     // MultiMessageBuilderをインスタンス化
     $builder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
@@ -122,8 +122,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // Buttonsテンプレートを返信。引数はLINEBot、返信先、代替テキスト、
-  // 画像URL、タイトル、本文、アクション(可変長引数)
+  // Buttonsテンプレートを返信。引数はLINEBot、返信先、代替テキスト、画像URL、タイトル、本文、アクション(可変長引数)
   function replyButtonsTemplate($bot, $replyToken, $alternativeText, $imageUrl, $title, $text, ...$actions) {
     // アクションを格納する配列
     $actionArray = array();
@@ -134,8 +133,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     // TemplateMessageBuilderの引数は代替テキスト、ButtonTemplateBuilder
     $builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
       $alternativeText,
-      // ButtonTemplateBuilderの引数はタイトル、本文、
-      // 画像URL、アクションの配列
+      // ButtonTemplateBuilderの引数はタイトル、本文、画像URL、アクションの配列
       new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder ($title, $text, $imageUrl, $actionArray)
     );
     $response = $bot->replyMessage($replyToken, $builder);
@@ -144,8 +142,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // Confirmテンプレートを返信。引数はLINEBot、返信先、代替テキスト、
-  // 本文、アクション(可変長引数)
+  // Confirmテンプレートを返信。引数はLINEBot、返信先、代替テキスト、本文、アクション(可変長引数)
   function replyConfirmTemplate($bot, $replyToken, $alternativeText, $text, ...$actions) {
     $actionArray = array();
     foreach($actions as $value) {
@@ -162,8 +159,7 @@ function replyTextMessage($bot, $replyToken, $text) {
     }
   }
   
-  // Carouselテンプレートを返信。引数はLINEBot、返信先、代替テキスト、
-  // ダイアログの配列
+  // Carouselテンプレートを返信。引数はLINEBot、返信先、代替テキスト、ダイアログの配列
   function replyCarouselTemplate($bot, $replyToken, $alternativeText, $columnArray) {
     $builder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
     $alternativeText,
