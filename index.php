@@ -57,6 +57,30 @@ foreach ($events as $event) {
       );
     }
 
+    if($word == '洗剤の場所'){
+      // Buttonsテンプレートメッセージを返信
+      replyButtonsTemplate($bot,
+      $event->getReplyToken(),
+      '「洗剤の場所」のステップです',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'step2',
+      '洗剤は引き出しや戸棚の中を探してください',
+      new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗剤の量')
+      );
+    }
+
+    if($word == '洗剤の量'){
+      // Buttonsテンプレートメッセージを返信
+      replyButtonsTemplate($bot,
+      $event->getReplyToken(),
+      '「洗剤の量」のステップです',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'step3',
+      '洗剤の使う量は背面か側面に載ってますので見てください',
+      new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗う前の注意点')
+      );
+    }
+
 
   }
 
