@@ -62,7 +62,7 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗剤の場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0214.jpg',
       'step2',
       '洗剤は引き出しや戸棚の中を探してください',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗剤の量')
@@ -74,7 +74,7 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗剤の量」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0215.jpg',
       'step3',
       '洗剤の使う量は背面か側面に載ってますので見てください',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗う前の注意点')
@@ -122,7 +122,7 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗う前の注意点3」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0222.jpg',
       'step7',
       '洗濯ネットで保護した方が良い衣服が４種類あります。',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗濯ネットに入れるもの')
@@ -134,7 +134,7 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗濯ネットに入れるもの」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0234.jpg',
       'step8',
       '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなものの4つです。該当する衣服があれば洗濯ネットに入れてください。',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗濯ネットの場所')
@@ -146,7 +146,7 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗濯ネットの場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0223.jpg',
       'step9',
       '洗濯ネットは引き出しや戸棚の中を探してください',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗濯機の水量')
@@ -182,9 +182,9 @@ foreach ($events as $event) {
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗剤を入れる場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0218.jpg',
       'step12',
-      '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。ジェルボールは端の方にポンと入れてください',
+      '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
       new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '柔軟剤')
       );
     }
