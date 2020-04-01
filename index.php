@@ -24,6 +24,8 @@ try {
   error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
 }
 
+$actionArray = array();
+
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
     // // MessageEventクラスのインスタンスでなければ処理をスキップ
@@ -36,18 +38,19 @@ foreach ($events as $event) {
     //   error_log('Non text message has come');
     //   continue;
     // }
+    
+    array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('探す場所', 'ボタン'));
+
+    $nextButtun = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder ('次のステップ', '探す場所', null, $actionArray);
 
     // Buttonsテンプレートメッセージを返信
-    // 引数はLINEBot、返信先、代替テキスト、画像URL、タイトル、本文、アクション(可変長引数)
     replyButtonsTemplate($bot,
     $event->getReplyToken(),
     '「洗う」のステップです',
     'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
     'step1',
     'まず洗剤を探してください',
-    // タップ時、テキストをユーザーに発言させるアクション、第二引数が画面に印字される
-    new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-      '次へ', '次のステップ')
+    $nextButtun
     );
   }
 
