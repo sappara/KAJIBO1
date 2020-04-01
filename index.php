@@ -38,16 +38,26 @@ foreach ($events as $event) {
     //   error_log('Non text message has come');
     //   continue;
     // }
-    
-    // Buttonsテンプレートメッセージを返信
-    replyButtonsTemplate($bot,
-    $event->getReplyToken(),
-    '「洗う」のステップです',
-    'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-    'step1',
-    'まず洗剤を探してください',
-    new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗剤の場所')
-    );
+
+    // TextMessageクラスのインスタンスの場合
+    if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
+      // 入力されたテキストを取得
+      $word = $event->getText();
+    }
+
+    if($word == '洗う'){
+      // Buttonsテンプレートメッセージを返信
+      replyButtonsTemplate($bot,
+      $event->getReplyToken(),
+      '「洗う」のステップです',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      'step1',
+      'まず洗剤を探してください',
+      new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗剤の場所')
+      );
+    }
+
+
   }
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
