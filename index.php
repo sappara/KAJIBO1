@@ -26,16 +26,16 @@ try {
 
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
-    // MessageEventクラスのインスタンスでなければ処理をスキップ
-    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-      error_log('Non message event has come');
-      continue;
-    }
-    // TextMessageクラスのインスタンスでなければ処理をスキップ
-    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-      error_log('Non text message has come');
-      continue;
-    }
+    // // MessageEventクラスのインスタンスでなければ処理をスキップ
+    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+    //   error_log('Non message event has come');
+    //   continue;
+    // }
+    // // TextMessageクラスのインスタンスでなければ処理をスキップ
+    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+    //   error_log('Non text message has come');
+    //   continue;
+    // }
 
     // Buttonsテンプレートメッセージを返信
     // 引数はLINEBot、返信先、代替テキスト、画像URL、タイトル、本文、アクション(可変長引数)
@@ -47,7 +47,7 @@ foreach ($events as $event) {
     'まず洗剤を探してください',
     // タップ時、テキストをユーザーに発言させるアクション、第二引数が画面に印字される
     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-      '次へ', '次のステップ'),
+      '次へ', '次のステップ')
     );
   }
 
