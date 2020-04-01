@@ -39,10 +39,6 @@ foreach ($events as $event) {
     //   continue;
     // }
     
-    array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('探す場所', 'ボタン'));
-
-    $nextButtun = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder ('次のステップ', '探す場所', null, $actionArray);
-
     // Buttonsテンプレートメッセージを返信
     replyButtonsTemplate($bot,
     $event->getReplyToken(),
@@ -50,7 +46,7 @@ foreach ($events as $event) {
     'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
     'step1',
     'まず洗剤を探してください',
-    $nextButtun
+    new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', '洗剤の場所')
     );
   }
 
