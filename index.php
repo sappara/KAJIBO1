@@ -60,8 +60,9 @@ foreach ($events as $event) {
         // アクションの配列
         $actionArray = array();
 
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-        '次へ', 'やったね'));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        '次へ', '洗うのステップ群2'));
+
 
         $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
           '洗濯機で洗うステップ開始 (step1/14)',
@@ -93,6 +94,25 @@ foreach ($events as $event) {
           'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
           $actionArray
         );
+        
+
+        // 配列に追加
+        array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
+      // }
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群1', $columnArray);
+    }
+
+    if($word == '洗うのステップ群2'){
+      // Carouselテンプレートメッセージを返信
+      // ダイアログの配列
+      $columnArray = array();
+      
+        $actionArray = array();
+
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        '次へ', '洗うのステップ群3'));
+
+
         $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
           '洗う前の注意点2 (step6/14)',
           '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
@@ -117,12 +137,63 @@ foreach ($events as $event) {
           'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0223.jpg',
           $actionArray
         );
+        $column10 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗濯機の水量 (step10/14)',
+          '全て洗濯機に入れ終わったら、水量を知るために、洗濯機のスタートボタンを押してください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+
 
         // 配列に追加
-        array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
-      // }
-      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群１', $columnArray);
+        array_push($columnArray, $column6,$column7,$column8,$column9,$column10);
+
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群2', $columnArray);
     }
+
+    if($word == '洗うのステップ群3'){
+      // Carouselテンプレートメッセージを返信
+      // ダイアログの配列
+      $columnArray = array();
+      
+        $actionArray = array();
+
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '完了'));
+
+
+        $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗剤を入れる (step11/14)',
+          '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗剤を入れる場所 (step12/14)',
+          '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0218.jpg',
+          $actionArray
+        );
+        $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '柔軟剤 (step13/14)',
+          '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column14 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗濯機スタート (step14/14)',
+          '洗濯機の蓋を閉めると洗濯が始まります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+
+
+        // 配列に追加
+        array_push($columnArray, $column11,$column12,$column13,$column14);
+
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群3', $columnArray);
+    }
+
+
 
     if($word == '洗う'){
       // Buttonsテンプレートメッセージを返信
