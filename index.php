@@ -45,6 +45,12 @@ foreach ($events as $event) {
       $word = $event->getText();
     }
 
+    // PostbackEventクラスのインスタンスの場合
+      if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+      // 入力されたテキストを取得
+      $word = $event->getPostbackData();
+    }
+
     if($word == '洗う'){
       // Buttonsテンプレートメッセージを返信
       replyButtonsTemplate($bot,
