@@ -46,33 +46,59 @@ foreach ($events as $event) {
     }
 
     // PostbackEventクラスのインスタンスの場合
-      if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 入力されたテキストを取得
       $word = $event->getPostbackData();
     }
 
-    // Carouselテンプレートメッセージを返信
-    // ダイアログの配列
-    $columnArray = array();
-    
-    for($i = 0; $i < 9; $i++) {
-      // アクションの配列
-      $actionArray = array();
+    if($word == '洗濯する'){
+      // Carouselテンプレートメッセージを返信
+      // ダイアログの配列
+      $columnArray = array();
+      
+      // for($i = 0; $i < 9; $i++) {
+        // アクションの配列
+        $actionArray = array();
 
-      array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-      '次へ', 'やったね'));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+        '次へ', 'やったね'));
 
-      $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-        'タイトル step'.$i.'/14',
-        '晴れ',
-        'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-        $actionArray
-      );
+        $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'タイトル step1/14',
+          '晴れ',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'タイトル step214',
+          '晴れ',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column3 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'タイトル step3/14',
+          '晴れ',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column4 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'タイトル step4/14',
+          '晴れ',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column5 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'タイトル step5/14',
+          '晴れ',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
 
-      // 配列に追加
-      array_push($columnArray, $column);
+        // 配列に追加
+        array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
+      // }
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群１', $columnArray);
     }
-    replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群１', $columnArray);
 
     if($word == '洗う'){
       // Buttonsテンプレートメッセージを返信
