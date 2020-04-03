@@ -51,6 +51,29 @@ foreach ($events as $event) {
       $word = $event->getPostbackData();
     }
 
+    // Carouselテンプレートメッセージを返信
+    // ダイアログの配列
+    $columnArray = array();
+    
+    for($i = 0; $i < 9; $i++) {
+      // アクションの配列
+      $actionArray = array();
+
+      array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+      '次へ', 'やったね'));
+
+      $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+        'タイトル step'.$i.'/14',
+        '晴れ',
+        'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+        $actionArray
+      );
+
+      // 配列に追加
+      array_push($columnArray, $column);
+    }
+    replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群１', $columnArray);
+
     if($word == '洗う'){
       // Buttonsテンプレートメッセージを返信
       replyButtonsTemplate($bot,
