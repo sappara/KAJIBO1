@@ -61,7 +61,7 @@ foreach ($events as $event) {
         $actionArray = array();
 
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-        '次へ', '洗うのステップ群2'));
+        '次へ', '洗うのステップ群3'));
 
 
         $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
@@ -96,21 +96,21 @@ foreach ($events as $event) {
         );
         
 
-        // 配列に追加
-        array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
-      // }
-      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群1', $columnArray);
-    }
+    //     // 配列に追加
+    //     array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
+    //   // }
+    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群1', $columnArray);
+    // }
 
-    if($word == '洗うのステップ群2'){
-      // Carouselテンプレートメッセージを返信
-      // ダイアログの配列
-      $columnArray = array();
+    // if($word == '洗うのステップ群2'){
+    //   // Carouselテンプレートメッセージを返信
+    //   // ダイアログの配列
+    //   $columnArray = array();
       
-        $actionArray = array();
+    //     $actionArray = array();
 
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-        '次へ', '洗うのステップ群3'));
+    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+    //     '次へ', '洗うのステップ群3'));
 
 
         $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
@@ -146,7 +146,7 @@ foreach ($events as $event) {
 
 
         // 配列に追加
-        array_push($columnArray, $column6,$column7,$column8,$column9,$column10);
+        array_push($columnArray, $column1,$column2,$column3,$column4,$column5,$column6,$column7,$column8,$column9,$column10);
 
       replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群2', $columnArray);
     }
@@ -158,7 +158,7 @@ foreach ($events as $event) {
       
         $actionArray = array();
 
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '完了'));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('完了', '完了'));
 
 
         $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
