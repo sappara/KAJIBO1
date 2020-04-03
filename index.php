@@ -64,33 +64,57 @@ foreach ($events as $event) {
         '次へ', 'やったね'));
 
         $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          'タイトル step1/14',
-          '晴れ',
+          '洗濯機で洗うステップ開始 (step1/14)',
+          'まず洗剤を探してください',
           'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
           $actionArray
         );
         $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          'タイトル step214',
-          '晴れ',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          '洗剤の場所 (step2/14)',
+          '洗剤は引き出しや戸棚の中を探してください',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0214.jpg',
           $actionArray
         );
         $column3 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          'タイトル step3/14',
-          '晴れ',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          '洗剤の量 (step3/14)',
+          '洗剤の使う量は背面か側面に載ってますので見てください',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0215.jpg',
           $actionArray
         );
         $column4 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          'タイトル step4/14',
-          '晴れ',
+          '洗う前の注意点 (step4/14)',
+          '洗うものを洗濯機に入れてください。最初に３つの注意点をお伝えします。',
           'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
           $actionArray
         );
         $column5 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          'タイトル step5/14',
-          '晴れ',
+          '洗う前の注意点1 (step5/14)',
+          '紙や異物が混じってないかポケット確認してください。',
           'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗う前の注意点2 (step6/14)',
+          '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column7 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗う前の注意点3 (step7/14)',
+          '洗濯ネットで保護した方が良い衣服が４種類あります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0222.jpg',
+          $actionArray
+        );
+        $column8 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗濯ネットに入れるもの (step8/14)',
+          '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなものの4つです。該当すれば洗濯ネットへ。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0234.jpg',
+          $actionArray
+        );
+        $column9 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗濯ネットの場所 (step9/14)',
+          '洗濯ネットは引き出しや戸棚の中を探してください',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0223.jpg',
           $actionArray
         );
 
