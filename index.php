@@ -50,7 +50,7 @@ foreach ($events as $event) {
       // 入力されたテキストを取得
       $word = $event->getPostbackData();
     }
-
+// カルーセル中止
     // if($word == '洗濯する'){
     //   // Carouselテンプレートメッセージを返信
     //   // ダイアログの配列
@@ -366,8 +366,8 @@ foreach ($events as $event) {
     if($word == '完了'){
       // スタンプと文字を返信
       replyMultiMessage($bot, $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('これで完了です。お疲れ様でした❣️'),
-        new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002752)
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('これで完了です。お疲れ様でした✨'),
+        new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)
       );
     }
 
