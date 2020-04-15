@@ -84,10 +84,6 @@ foreach ($events as $event) {
       }
     }
 
-    // 作業終了の報告
-    else if(substr($event->getText(), 4) == 'end') {
-      endKaji($bot, $event->getUserId());
-    }
 
     continue;
   }
