@@ -84,6 +84,20 @@ foreach ($events as $event) {
       }
     }
 
+    // ビンゴを終了確認ダイアログ
+    else if(substr($event->getText(), 4) == 'end_confirm') {
+      if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+        replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
+      } else {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', 'cmd_end'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)));
+      }
+    }
+    // 終了
+    else if(substr($event->getText(), 4) == 'end') {
+      endKaji($bot, $event->getUserId());
+}
 
     continue;
   }
