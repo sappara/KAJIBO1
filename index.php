@@ -26,7 +26,7 @@ try {
   error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
 }
 
-$actionArray = array();
+// $actionArray = array();
 
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
@@ -41,193 +41,193 @@ foreach ($events as $event) {
       continue;
     }
 
-    // TextMessageクラスのインスタンスの場合
-    if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-      // 入力されたテキストを取得
-      $word = $event->getText();
-    }
+    // // TextMessageクラスのインスタンスの場合
+    // if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
+    //   // 入力されたテキストを取得
+    //   $word = $event->getText();
+    // }
 
-    // PostbackEventクラスのインスタンスの場合
-    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-      // 入力されたテキストを取得
-      $word = $event->getPostbackData();
-    }
+    // // PostbackEventクラスのインスタンスの場合
+    // if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+    //   // 入力されたテキストを取得
+    //   $word = $event->getPostbackData();
+    // }
 
-    if($word == '洗う'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗濯機で洗うステップ開始 (step1/14)',
-      'まず洗剤を探してください',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
-      );
-    }
+    // if($word == '洗う'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗う」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗濯機で洗うステップ開始 (step1/14)',
+    //   'まず洗剤を探してください',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
+    //   );
+    // }
 
-    if($word == '洗剤の場所'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗剤の場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0214.jpg',
-      '洗剤の場所 (step2/14)',
-      '洗剤は引き出しや戸棚の中を探してください',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の量')
-      );
-    }
+    // if($word == '洗剤の場所'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗剤の場所」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0214.jpg',
+    //   '洗剤の場所 (step2/14)',
+    //   '洗剤は引き出しや戸棚の中を探してください',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の量')
+    //   );
+    // }
 
-    if($word == '洗剤の量'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗剤の量」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0215.jpg',
-      '洗剤の量 (step3/14)',
-      '洗剤の使う量は背面か側面に載ってますので見てください',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗う前の注意点')
-      );
-    }
+    // if($word == '洗剤の量'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗剤の量」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0215.jpg',
+    //   '洗剤の量 (step3/14)',
+    //   '洗剤の使う量は背面か側面に載ってますので見てください',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗う前の注意点')
+    //   );
+    // }
 
-    if($word == '洗う前の注意点'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う前の注意点」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗う前の注意点 (step4/14)',
-      '洗うものを洗濯機に入れてください。最初に３つの注意点をお伝えします。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点1')
-      );
-    }
+    // if($word == '洗う前の注意点'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗う前の注意点」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗う前の注意点 (step4/14)',
+    //   '洗うものを洗濯機に入れてください。最初に３つの注意点をお伝えします。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点1')
+    //   );
+    // }
 
-    if($word == '注意点1'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う前の注意点1」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗う前の注意点1 (step5/14)',
-      '紙や異物が混じってないかポケット確認してください。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点2')
-      );
-    }
+    // if($word == '注意点1'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗う前の注意点1」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗う前の注意点1 (step5/14)',
+    //   '紙や異物が混じってないかポケット確認してください。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点2')
+    //   );
+    // }
 
-    if($word == '注意点2'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う前の注意点2」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗う前の注意点2 (step6/14)',
-      '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点3')
-      );
-    }
+    // if($word == '注意点2'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗う前の注意点2」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗う前の注意点2 (step6/14)',
+    //   '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '注意点3')
+    //   );
+    // }
 
-    if($word == '注意点3'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う前の注意点3」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0222.jpg',
-      '洗う前の注意点3 (step7/14)',
-      '洗濯ネットで保護した方が良い衣服が４種類あります。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯ネットに入れるもの')
-      );
-    }
+    // if($word == '注意点3'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗う前の注意点3」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0222.jpg',
+    //   '洗う前の注意点3 (step7/14)',
+    //   '洗濯ネットで保護した方が良い衣服が４種類あります。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯ネットに入れるもの')
+    //   );
+    // }
 
-    if($word == '洗濯ネットに入れるもの'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗濯ネットに入れるもの」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0234.jpg',
-      '洗濯ネットに入れるもの (step8/14)',
-      '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなものの4つです。該当すれば洗濯ネットへ。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯ネットの場所')
-      );
-    }
+    // if($word == '洗濯ネットに入れるもの'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗濯ネットに入れるもの」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0234.jpg',
+    //   '洗濯ネットに入れるもの (step8/14)',
+    //   '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなものの4つです。該当すれば洗濯ネットへ。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯ネットの場所')
+    //   );
+    // }
 
-    if($word == '洗濯ネットの場所'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗濯ネットの場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0223.jpg',
-      '洗濯ネットの場所 (step9/14)',
-      '洗濯ネットは引き出しや戸棚の中を探してください',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯機の水量')
-      );
-    }
+    // if($word == '洗濯ネットの場所'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗濯ネットの場所」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0223.jpg',
+    //   '洗濯ネットの場所 (step9/14)',
+    //   '洗濯ネットは引き出しや戸棚の中を探してください',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯機の水量')
+    //   );
+    // }
 
-    if($word == '洗濯機の水量'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗濯機の水量」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗濯機の水量 (step10/14)',
-      '全て洗濯機に入れ終わったら、水量を知るために、洗濯機のスタートボタンを押してください。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤を入れる')
-      );
-    }
+    // if($word == '洗濯機の水量'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗濯機の水量」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗濯機の水量 (step10/14)',
+    //   '全て洗濯機に入れ終わったら、水量を知るために、洗濯機のスタートボタンを押してください。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤を入れる')
+    //   );
+    // }
 
-    if($word == '洗剤を入れる'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗剤を入れる」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗剤を入れる (step11/14)',
-      '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤を入れる場所')
-      );
-    }
+    // if($word == '洗剤を入れる'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗剤を入れる」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗剤を入れる (step11/14)',
+    //   '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤を入れる場所')
+    //   );
+    // }
 
-    if($word == '洗剤を入れる場所'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗剤を入れる場所」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0218.jpg',
-      '洗剤を入れる場所 (step12/14)',
-      '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '柔軟剤')
-      );
-    }
+    // if($word == '洗剤を入れる場所'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗剤を入れる場所」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/img0218.jpg',
+    //   '洗剤を入れる場所 (step12/14)',
+    //   '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '柔軟剤')
+    //   );
+    // }
 
-    if($word == '柔軟剤'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「柔軟剤」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '柔軟剤 (step13/14)',
-      '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯機スタート')
-      );
-    }
+    // if($word == '柔軟剤'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「柔軟剤」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '柔軟剤 (step13/14)',
+    //   '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗濯機スタート')
+    //   );
+    // }
 
-    if($word == '洗濯機スタート'){
-      // Buttonsテンプレートメッセージを返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗濯機スタート」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗濯機スタート (step14/14)',
-      '洗濯機の蓋を閉めると洗濯が始まります。',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '完了')
-      );
-    }
+    // if($word == '洗濯機スタート'){
+    //   // Buttonsテンプレートメッセージを返信
+    //   replyButtonsTemplate($bot,
+    //   $event->getReplyToken(),
+    //   '「洗濯機スタート」のステップです',
+    //   'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+    //   '洗濯機スタート (step14/14)',
+    //   '洗濯機の蓋を閉めると洗濯が始まります。',
+    //   new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '完了')
+    //   );
+    // }
 
-    if($word == '完了'){
-      // スタンプと文字を返信
-      replyMultiMessage($bot, $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('これで完了です。お疲れ様でした✨'),
-        new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)
-      );
-    }
+    // if($word == '完了'){
+    //   // スタンプと文字を返信
+    //   replyMultiMessage($bot, $event->getReplyToken(),
+    //     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('これで完了です。お疲れ様でした✨'),
+    //     new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)
+    //   );
+    // }
     
   // リッチコンテンツがタップされた時
   if(substr($event->getText(), 0, 4) == 'cmd_') {
@@ -319,6 +319,19 @@ function createRoomAndGetRoomId($userId) {
   $sth->execute(array($userId, PDO::PARAM_NULL, $roomId));
 
   return $roomId;
+}
+
+// 入室しルームIDを返す
+function enterRoomAndGetRoomId($userId, $roomId) {
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_ROOMS .' (userid, roomid) SELECT pgp_sym_encrypt(?, \'' . getenv('DB_ENCRYPT_PASS') . '\'), ? where exists(select roomid from ' . TABLE_NAME_ROOMS . ' where roomid = ?) returning roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($userId, PDO::PARAM_NULL, $roomId, $roomId));
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['roomid'];
+  }
 }
 
 // 退室
