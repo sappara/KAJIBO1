@@ -83,6 +83,12 @@ foreach ($events as $event) {
         replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
       }
     }
+
+    // 作業終了の報告
+    else if(substr($event->getText(), 4) == 'end') {
+      endKaji($bot, $event->getUserId());
+    }
+
     continue;
   }
 
@@ -144,6 +150,25 @@ function leaveRoom($userId) {
   $sql = 'delete FROM ' . TABLE_NAME_ROOMS . ' where ? = pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\')';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($userId));
+}
+
+// 作業終了の報告
+function endKaji($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array(getRoomIdOfUser($userId)));
+  // 各ユーザーにメッセージを送信
+  foreach ($sth->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('作業終了しました。'));
+  }
+
+  // ルームを削除（ユーザーも削除？）
+  // $sqlDeleteRoom = 'delete FROM ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  // $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
+  // $sthDeleteRoom->execute(array($roomId));
 }
 
 
