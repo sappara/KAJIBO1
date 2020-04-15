@@ -91,7 +91,7 @@ foreach ($events as $event) {
       } else {
         replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
           new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', 'cmd_end'),
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)));
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした💕'));
       }
     }
     // 終了
