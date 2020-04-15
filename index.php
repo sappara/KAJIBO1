@@ -2,6 +2,8 @@
 
 // Composerでインストールしたライブラリを一括読み込み
 require_once __DIR__ . '/vendor/autoload.php';
+// テーブル名を定義
+define('TABLE_NAME_ROOMS', 'rooms');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -29,15 +31,15 @@ $actionArray = array();
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
     // // MessageEventクラスのインスタンスでなければ処理をスキップ
-    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-    //   error_log('Non message event has come');
-    //   continue;
-    // }
+    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+      error_log('Non message event has come');
+      continue;
+    }
     // // TextMessageクラスのインスタンスでなければ処理をスキップ
-    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-    //   error_log('Non text message has come');
-    //   continue;
-    // }
+    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+      error_log('Non text message has come');
+      continue;
+    }
 
     // TextMessageクラスのインスタンスの場合
     if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
@@ -50,150 +52,6 @@ foreach ($events as $event) {
       // 入力されたテキストを取得
       $word = $event->getPostbackData();
     }
-// カルーセル中止
-    // if($word == '洗濯する'){
-    //   // Carouselテンプレートメッセージを返信
-    //   // ダイアログの配列
-    //   $columnArray = array();
-      
-    //   // for($i = 0; $i < 9; $i++) {
-    //     // アクションの配列
-    //     $actionArray = array();
-
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-    //     '次へ', '洗うのステップ群3'));
-
-
-    //     $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗濯機で洗うステップ開始 (step1/14)',
-    //       'まず洗剤を探してください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-    //     $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗剤の場所 (step2/14)',
-    //       '洗剤は引き出しや戸棚の中を探してください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0214.jpg',
-    //       $actionArray
-    //     );
-    //     $column3 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗剤の量 (step3/14)',
-    //       '洗剤の使う量は背面か側面に載ってますので見てください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0215.jpg',
-    //       $actionArray
-    //     );
-    //     $column4 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗う前の注意点 (step4/14)',
-    //       '洗うものを洗濯機に入れてください。最初に３つの注意点をお伝えします。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-    //     $column5 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗う前の注意点1 (step5/14)',
-    //       '紙や異物が混じってないかポケット確認してください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-        
-
-    // //     // 配列に追加
-    // //     array_push($columnArray, $column1,$column2,$column3,$column4,$column5);
-    // //   // }
-    // //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群1', $columnArray);
-    // // }
-
-    // // if($word == '洗うのステップ群2'){
-    // //   // Carouselテンプレートメッセージを返信
-    // //   // ダイアログの配列
-    // //   $columnArray = array();
-      
-    // //     $actionArray = array();
-
-    // //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-    // //     '次へ', '洗うのステップ群3'));
-
-
-    //     $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗う前の注意点2 (step6/14)',
-    //       '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-    //     $column7 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗う前の注意点3 (step7/14)',
-    //       '洗濯ネットで保護した方が良い衣服が４種類あります。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0222.jpg',
-    //       $actionArray
-    //     );
-    //     $column8 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗濯ネットに入れるもの (step8/14)',
-    //       '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなものの4つです。該当すれば洗濯ネットへ。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0234.jpg',
-    //       $actionArray
-    //     );
-    //     $column9 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗濯ネットの場所 (step9/14)',
-    //       '洗濯ネットは引き出しや戸棚の中を探してください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0223.jpg',
-    //       $actionArray
-    //     );
-    //     $column10 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗濯機の水量 (step10/14)',
-    //       '全て洗濯機に入れ終わったら、水量を知るために、洗濯機のスタートボタンを押してください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-
-
-    //     // 配列に追加
-    //     array_push($columnArray, $column1,$column2,$column3,$column4,$column5,$column6,$column7,$column8,$column9,$column10);
-
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群2', $columnArray);
-    // }
-
-    // if($word == '洗うのステップ群3'){
-    //   // Carouselテンプレートメッセージを返信
-    //   // ダイアログの配列
-    //   $columnArray = array();
-      
-    //     $actionArray = array();
-
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('完了', '完了'));
-
-
-    //     $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗剤を入れる (step11/14)',
-    //       '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-    //     $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗剤を入れる場所 (step12/14)',
-    //       '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0218.jpg',
-    //       $actionArray
-    //     );
-    //     $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '柔軟剤 (step13/14)',
-    //       '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-    //     $column14 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       '洗濯機スタート (step14/14)',
-    //       '洗濯機の蓋を閉めると洗濯が始まります。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
-    //       $actionArray
-    //     );
-
-
-    //     // 配列に追加
-    //     array_push($columnArray, $column11,$column12,$column13,$column14);
-
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群3', $columnArray);
-    // }
-
-
 
     if($word == '洗う'){
       // Buttonsテンプレートメッセージを返信
@@ -370,10 +228,91 @@ foreach ($events as $event) {
         new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11537, 52002734)
       );
     }
+    
+    // リッチコンテンツがタップされた時
+    // ルーム作成
+    if($word == 'ルーム作成') {
+      // ユーザーが未入室の時
+      if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+        // ルームを作成し入室後ルームIDを取得
+        $roomId = createRoomAndGetRoomId($event->getUserId());
+        // ルームIDをユーザーに返信
+        replyMultiMessage($bot,
+          $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームを作成し、入室しました。ルームIDは'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($roomId),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('です。'));
+      }
+      // 既に入室している時
+      else {
+        replyTextMessage($bot, $event->getReplyToken(), '既に入室済みです。');
+      }
+    }
+    // 入室
+    else if($word == '入室') {
+      // ユーザーが未入室の時
+      if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+        replyTextMessage($bot, $event->getReplyToken(), 'ルームIDを入力してください。');
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '入室済みです。');
+      }
+    }
+
+    // 退室の確認ダイアログ
+    else if($word == '退室') {
+      replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退出しますか？', '本当に退出しますか？',
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '退室する'),
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('いいえ', 'cancel'));
+    }
+    // 退室
+    else if($word == '退室する') {
+      if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+        leaveRoom($event->getUserId());
+        replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
+      }
+    }
+
+
 
 
 
   }
+
+
+  // ユーザーIDからルームIDを取得
+function getRoomIdOfUser($userId) {
+  $dbh = dbConnection::getConnection();
+  $sql = 'select roomid from ' . TABLE_NAME_ROOMS . ' where ? = pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\')';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($userId));
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['roomid'];
+  }
+}
+
+// ルームを作成し入室後ルームIDを返す
+function createRoomAndGetRoomId($userId) {
+  $roomId = uniqid();
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_ROOMS .' (userid, roomid) values (pgp_sym_encrypt(?, \'' . getenv('DB_ENCRYPT_PASS') . '\'), ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($userId, PDO::PARAM_NULL, $roomId));
+
+  return $roomId;
+}
+
+// 退室
+function leaveRoom($userId) {
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_ROOMS . ' where ? = pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\')';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($userId));
+}
+
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
 function replyTextMessage($bot, $replyToken, $text) {
