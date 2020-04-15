@@ -229,9 +229,10 @@ foreach ($events as $event) {
       );
     }
     
-    // リッチコンテンツがタップされた時
+  // リッチコンテンツがタップされた時
+  if(substr($event->getText(), 0, 4) == 'cmd_') {
     // ルーム作成
-    if($word == 'ルーム作成') {
+    if(substr($event->getText(), 4) == 'newroom') {
       // ユーザーが未入室の時
       if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
         // ルームを作成し入室後ルームIDを取得
@@ -249,7 +250,7 @@ foreach ($events as $event) {
       }
     }
     // 入室
-    else if($word == '入室') {
+    else if(substr($event->getText(), 4) == 'enter') {
       // ユーザーが未入室の時
       if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
         replyTextMessage($bot, $event->getReplyToken(), 'ルームIDを入力してください。');
@@ -259,13 +260,13 @@ foreach ($events as $event) {
     }
 
     // 退室の確認ダイアログ
-    else if($word == '退室') {
+    else if(substr($event->getText(), 4) == 'leave_confirm') {
       replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退出しますか？', '本当に退出しますか？',
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '退室する'),
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', 'cmd_leave'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('いいえ', 'cancel'));
     }
     // 退室
-    else if($word == '退室する') {
+    else if(substr($event->getText(), 4) == 'leave') {
       if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
         leaveRoom($event->getUserId());
         replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
@@ -276,9 +277,24 @@ foreach ($events as $event) {
 
 
 
-
-
+    continue;
   }
+
+}
+
+  // リッチコンテンツ以外の時(ルームIDが入力された時)
+if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+  // 入室
+  $roomId = enterRoomAndGetRoomId($event->getUserId(), $event->getText());
+  // 成功時
+  if($roomId !== PDO::PARAM_NULL) {
+    replyTextMessage($bot, $event->getReplyToken(), "ルームID" . $roomId . "に入室しました。");
+  }
+  // 失敗時
+  else {
+    replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
+  }
+}
 
 
   // ユーザーIDからルームIDを取得
