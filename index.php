@@ -73,6 +73,7 @@ foreach ($events as $event) {
       replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退出しますか？', '本当に退出しますか？',
         new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', 'cmd_leave'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('いいえ', 'cancel'));
+        // このPostbackTemplateActionBuilder「cancel」はどこにも繋がっていない
     }
     // 退室
     else if(substr($event->getText(), 4) == 'leave') {
@@ -84,7 +85,7 @@ foreach ($events as $event) {
       }
     }
 
-    // ビンゴを終了確認ダイアログ
+    // 作業終了の報告
     else if(substr($event->getText(), 4) == 'end_confirm') {
       if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
         replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
@@ -97,7 +98,7 @@ foreach ($events as $event) {
     // 終了
     else if(substr($event->getText(), 4) == 'end') {
       endKaji($bot, $event->getUserId());
-}
+    }
 
     continue;
   }
@@ -172,7 +173,7 @@ function endKaji($bot, $userId) {
   $sth->execute(array(getRoomIdOfUser($userId)));
   // 各ユーザーにメッセージを送信
   foreach ($sth->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('作業終了しました。'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('作業終了しました✨'));
   }
 
   // ルームを削除（ユーザーも削除？）
