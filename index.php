@@ -100,6 +100,15 @@ foreach ($events as $event) {
       endKaji($bot, $event->getUserId());
     }
 
+    // LIFFで完了ボタン押した後の処理
+     else if(substr($event->getText(), 4) == '完了'){
+      // スタンプと文字を返信
+      replyMultiMessage($bot, $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
+        new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
+      );
+    }
+
     continue;
   }
 
