@@ -109,7 +109,7 @@ foreach ($events as $event) {
       );
     }
 
-    // LIFFで洗うボタン押した後の処理
+    // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
       // クイックリプライボタンと文字を返信
       replyMultiMessage($bot, $event->getReplyToken(),
@@ -140,8 +140,8 @@ foreach ($events as $event) {
                         'type' => 'action',
                         'action' => array(
                             'type' => 'message',
-                            'label' => 'Message Send2',
-                            'text' => 'テキストを送信します。2',
+                            'label' => 'Message Send3',
+                            'text' => 'テキストを送信します。3',
                         )
                     ),
                 )
@@ -238,12 +238,9 @@ function endKaji($bot, $userId) {
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
 function replyQuickReplyButton($bot, $replyToken, $actionBuilder) {
-  // 返信を行いレスポンスを取得
-  // TextMessageBuilderの引数はアクション
+  // replyQuickReplyButtonの引数はアクション
   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder($actionBuilder));
-  // レスポンスが異常な場合
   if (!$response->isSucceeded()) {
-    // エラー内容を出力
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
