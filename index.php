@@ -109,6 +109,48 @@ foreach ($events as $event) {
       );
     }
 
+    // LIFFで洗うボタン押した後の処理
+    else if(substr($event->getText(), 4) == '洗う'){
+      // クイックリプライボタンと文字を返信
+      replyMultiMessage($bot, $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('どこから始めますか？'),
+        new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder(
+          array(
+            'type' => 'text',
+            'text' => '選択してください。',
+            'quickReply' => array(
+                'items' => array(
+                    array(
+                        'type' => 'action',
+                        'action' => array(
+                            'type' => 'message',
+                            'label' => 'Message Send1',
+                            'text' => 'テキストを送信します。1',
+                        )
+                    ),
+                    array(
+                        'type' => 'action',
+                        'action' => array(
+                            'type' => 'message',
+                            'label' => 'Message Send2',
+                            'text' => 'テキストを送信します。2',
+                        )
+                    ),
+                    array(
+                        'type' => 'action',
+                        'action' => array(
+                            'type' => 'message',
+                            'label' => 'Message Send2',
+                            'text' => 'テキストを送信します。2',
+                        )
+                    ),
+                )
+            )
+          )
+        )
+      );
+    }
+
     continue;
   }
 
@@ -190,6 +232,22 @@ function endKaji($bot, $userId) {
   // $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
   // $sthDeleteRoom->execute(array($roomId));
 }
+
+
+
+
+// クイックリプライを返信。引数はLINEBot、返信先、アクション
+function replyQuickReplyButton($bot, $replyToken, $actionBuilder) {
+  // 返信を行いレスポンスを取得
+  // TextMessageBuilderの引数はアクション
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder($actionBuilder));
+  // レスポンスが異常な場合
+  if (!$response->isSucceeded()) {
+    // エラー内容を出力
+    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
+
 
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
