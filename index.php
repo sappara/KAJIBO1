@@ -112,12 +112,8 @@ foreach ($events as $event) {
     // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
       // クイックリプライボタンと文字を返信
-      replyMultiMessage($bot, $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('どこから始めますか？'),
-        new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder(
+      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',
           array(
-            'type' => 'text',
-            'text' => '選択してください。',
             'quickReply' => array(
                 'items' => array(
                     array(
@@ -146,8 +142,8 @@ foreach ($events as $event) {
                     ),
                 )
             )
+          
           )
-        )
       );
     }
 
@@ -237,9 +233,9 @@ function endKaji($bot, $userId) {
 
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
-function replyQuickReplyButton($bot, $replyToken, $actionBuilder) {
+function replyQuickReplyButton($bot, $replyToken, $text, $actionBuilder) {
   // replyQuickReplyButtonの引数はアクション
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder($actionBuilder));
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,new \LINE\LINEBot\QuickReplyBuilder\QuickReplyButtonBuilder($actionBuilder)));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
