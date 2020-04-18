@@ -233,8 +233,8 @@ function endKaji($bot, $userId) {
 
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
-function replyQuickReplyButton($bot, $replyToken, $text, $button) {
-  $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($button);
+function replyQuickReplyButton($bot, $replyToken, $text, $actionBuilder) {
+  $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder($actionBuilder));
   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($buttonBuilders)));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
