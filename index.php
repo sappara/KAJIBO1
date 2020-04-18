@@ -112,9 +112,9 @@ foreach ($events as $event) {
     // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
       // クイックリプライボタンと文字を返信
-      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',
+      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',array(
         new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯', 'cmd_洗濯'),
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('掃除', 'cmd_掃除')
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('掃除', 'cmd_掃除'))
 
           // array(
           //   'quickReply' => array(
