@@ -28,16 +28,40 @@ try {
 
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
-  // // MessageEvent型でなければ処理をスキップ
-  // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-  //   error_log('Non message event has come');
-  //   continue;
-  // }
-  // // TextMessage型でなければ処理をスキップ
-  // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-  //   error_log('Non text message has come');
-  //   continue;
-  // }
+  
+    // イベントがPostbackEventクラスのインスタンスであれば
+    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+
+      // テキストを返信し次のイベントの処理へ
+      // replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
+  
+      // 家事stepの選択肢ボタンをタップした時の処理
+      if($event->getPostbackData() == 'step1'){
+        // step1~4を返信
+        replyButtonsTemplate($bot,
+        $event->getReplyToken(),
+        '「洗う」のステップです',
+        'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+        '洗濯機で洗うステップ開始 (step1/14)',
+        'まず洗剤を探してください',
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
+        );
+      }
+  
+      continue;
+    }
+  
+
+  // MessageEvent型でなければ処理をスキップ
+  if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+    error_log('Non message event has come');
+    continue;
+  }
+  // TextMessage型でなければ処理をスキップ
+  if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+    error_log('Non text message has come');
+    continue;
+  }
 
   // リッチコンテンツがタップされた時
   if(substr($event->getText(), 0, 4) == 'cmd_') {
@@ -149,27 +173,6 @@ foreach ($events as $event) {
     }
   }
 
-  // イベントがPostbackEventクラスのインスタンスであれば
-      if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-
-      // テキストを返信し次のイベントの処理へ
-      // replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
-
-      // 家事stepの選択肢ボタンをタップした時の処理
-      if($event->getPostbackData() == 'step1'){
-        // step1~4を返信
-        replyButtonsTemplate($bot,
-        $event->getReplyToken(),
-        '「洗う」のステップです',
-        'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-        '洗濯機で洗うステップ開始 (step1/14)',
-        'まず洗剤を探してください',
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
-        );
-      }
-
-      continue;
-    }
 }
 
 // ユーザーIDからルームIDを取得
