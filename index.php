@@ -245,7 +245,7 @@ $button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuil
 // var_dump($button->buildQuickReplyButton());
 $qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder([$button]);
 // var_dump($qr->buildQuickReply());
-$textMessageBuilder = new TextMessageBuilder($text1, $qr);
+$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text1, $qr);
 // var_dump($textMessageBuilder->buildMessage());
 
 $response = $bot->replyMessage($replyToken, $textMessageBuilder);
