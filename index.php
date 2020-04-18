@@ -113,8 +113,8 @@ foreach ($events as $event) {
     else if(substr($event->getText(), 4) == '洗う'){
       replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',
        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル1', 'cmd_1')),
-       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル2', 'cmd_2')),
-       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル3', 'cmd_3'))
+        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル2', 'cmd_2')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル3', 'cmd_3'))
       //     array(
       //       'quickReply' => array(
       //           'items' => array(
@@ -245,7 +245,7 @@ foreach($actions as $value){
 // // var_dump($action->buildTemplateAction());
 // $button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
 // // var_dump($button->buildQuickReplyButton());
-$qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder([$quickReplyButtons]);
+$qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
 // var_dump($qr->buildQuickReply());
 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text1, $qr);
 // var_dump($textMessageBuilder->buildMessage());
