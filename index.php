@@ -235,7 +235,7 @@ function endKaji($bot, $userId) {
 
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
-function replyQuickReplyButton($bot, $replyToken, $text1, ...$quickReplyButtons) {
+function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 // function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
 $quickReplyButtons = array();
 foreach($actions as $value){
