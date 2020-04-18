@@ -112,7 +112,7 @@ foreach ($events as $event) {
     // 家事stepの選択肢ボタンをタイムラインに投稿
     else if(substr($event->getText(), 4) == '洗う'){
       replyQuickReplyButton($bot, $event->getReplyToken(), 'どのステップにしますか？下のボタンから選択してください。',
-       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('洗濯前の準備', 'cmd_step1')),
+       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('洗濯前の準備', 'step1')),
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤について', 'cmd_step2')),
          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤の投入口＆柔軟剤', 'cmd_step3')),
          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯機スタート', 'cmd_step4'))
@@ -120,13 +120,13 @@ foreach ($events as $event) {
     }
 
     // 家事stepの選択肢ボタンをタップした時の処理
-    else if(substr($event->getText(), 4) == 'cmd_step1'){
+    else if(substr($event->getText(), 4) == 'cmd_step2'){
       // step1~4を返信
       replyButtonsTemplate($bot,
       $event->getReplyToken(),
       '「洗う」のステップです',
       'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗濯機で洗うステップ開始 (step1/14)',
+      '洗濯機で洗うステップ開始 (step2/14)',
       'まず洗剤を探してください',
       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
       );
@@ -148,6 +148,28 @@ foreach ($events as $event) {
       replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
     }
   }
+
+  // イベントがPostbackEventクラスのインスタンスであれば
+      if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+
+      // テキストを返信し次のイベントの処理へ
+      // replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
+
+      // 家事stepの選択肢ボタンをタップした時の処理
+      if($event->getPostbackData() == 'step1'){
+        // step1~4を返信
+        replyButtonsTemplate($bot,
+        $event->getReplyToken(),
+        '「洗う」のステップです',
+        'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+        '洗濯機で洗うステップ開始 (step1/14)',
+        'まず洗剤を探してください',
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
+        );
+      }
+
+      continue;
+    }
 }
 
 // ユーザーIDからルームIDを取得
