@@ -239,11 +239,11 @@ function endKaji($bot, $userId) {
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
 function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
 
-$action = new MessageTemplateActionBuilder($label, $text2);
+$action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text2);
 // var_dump($action->buildTemplateAction());
-$button = new QuickReplyButtonBuilder($action);
+$button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
 // var_dump($button->buildQuickReplyButton());
-$qr = new QuickReplyMessageBuilder([$button]);
+$qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder([$button]);
 // var_dump($qr->buildQuickReply());
 $textMessageBuilder = new TextMessageBuilder($text1, $qr);
 // var_dump($textMessageBuilder->buildMessage());
