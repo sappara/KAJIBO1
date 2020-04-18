@@ -111,12 +111,12 @@ foreach ($events as $event) {
 
     // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
-      // $actionBuilder = array();
-      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル1','cmd_1'));
-      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル2','cmd_2'));
-      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル3','cmd_3'));
-      // クイックリプライボタンと文字を返信
-      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。', 'label', 'test'
+      $button = array();
+      array_push($button, new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル1', 'cmd_1')));
+      array_push($button, new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル2', 'cmd_2')));
+      array_push($button, new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル3', 'cmd_3')));
+
+      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。', $button
       //     array(
       //       'quickReply' => array(
       //           'items' => array(
@@ -237,12 +237,13 @@ function endKaji($bot, $userId) {
 
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
-function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
+function replyQuickReplyButton($bot, $replyToken, $text1, $button) {
+// function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
 
-$action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text2);
-// var_dump($action->buildTemplateAction());
-$button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
-// var_dump($button->buildQuickReplyButton());
+// $action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text2);
+// // var_dump($action->buildTemplateAction());
+// $button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
+// // var_dump($button->buildQuickReplyButton());
 $qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder([$button]);
 // var_dump($qr->buildQuickReply());
 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text1, $qr);
