@@ -113,37 +113,40 @@ foreach ($events as $event) {
     else if(substr($event->getText(), 4) == '洗う'){
       // クイックリプライボタンと文字を返信
       replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',
-          array(
-            'quickReply' => array(
-                'items' => array(
-                    array(
-                        'type' => 'action',
-                        'action' => array(
-                            'type' => 'message',
-                            'label' => 'Message Send1',
-                            'text' => 'テキストを送信します。1',
-                        )
-                    ),
-                    array(
-                        'type' => 'action',
-                        'action' => array(
-                            'type' => 'message',
-                            'label' => 'Message Send2',
-                            'text' => 'テキストを送信します。2',
-                        )
-                    ),
-                    array(
-                        'type' => 'action',
-                        'action' => array(
-                            'type' => 'message',
-                            'label' => 'Message Send3',
-                            'text' => 'テキストを送信します。3',
-                        )
-                    ),
-                )
-            )
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯', 'cmd_洗濯'),
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('掃除', 'cmd_掃除')
+
+          // array(
+          //   'quickReply' => array(
+          //       'items' => array(
+          //           array(
+          //               'type' => 'action',
+          //               'action' => array(
+          //                   'type' => 'message',
+          //                   'label' => 'Message Send1',
+          //                   'text' => 'テキストを送信します。1',
+          //               )
+          //           ),
+          //           array(
+          //               'type' => 'action',
+          //               'action' => array(
+          //                   'type' => 'message',
+          //                   'label' => 'Message Send2',
+          //                   'text' => 'テキストを送信します。2',
+          //               )
+          //           ),
+          //           array(
+          //               'type' => 'action',
+          //               'action' => array(
+          //                   'type' => 'message',
+          //                   'label' => 'Message Send3',
+          //                   'text' => 'テキストを送信します。3',
+          //               )
+          //           ),
+                // )
+          //   )
           
-          )
+          // )
       );
     }
 
@@ -234,7 +237,7 @@ function endKaji($bot, $userId) {
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
 function replyQuickReplyButton($bot, $replyToken, $text, $actionBuilder) {
-  $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder($actionBuilder));
+  $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($actionBuilder);
   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($buttonBuilders)));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
