@@ -28,7 +28,7 @@ try {
 
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
-  
+
     // イベントがPostbackEventクラスのインスタンスであれば
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
 
@@ -143,7 +143,7 @@ foreach ($events as $event) {
       );
     }
 
-    // 家事stepの選択肢ボタンをタップした時の処理
+    // 家事stepの選択肢ボタンをタップした時の処理(一つのボタンテンプレート)
     else if(substr($event->getText(), 4) == 'step2'){
       // step1~4を返信
       replyButtonsTemplate($bot,
@@ -154,6 +154,42 @@ foreach ($events as $event) {
       'まず洗剤を探してください',
       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
       );
+    }
+
+    // 家事stepの選択肢ボタンをタップした時の処理(カルーセルテンプレート)
+    else if(substr($event->getText(), 4) == 'step3'){
+      // step1~4を返信
+      $columnArray = array();      
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('完了', 'cmd_完了'));
+
+        $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗剤を入れる (step11/14)',
+          '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗剤を入れる場所 (step12/14)',
+          '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0218.jpg',
+          $actionArray
+        );
+        $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '柔軟剤 (step13/14)',
+          '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        $column14 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '洗濯機スタート (step14/14)',
+          '洗濯機の蓋を閉めると洗濯が始まります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+          $actionArray
+        );
+        // 配列に追加
+        array_push($columnArray, $column11,$column12,$column13,$column14);
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群3', $columnArray);
     }
 
     continue;
