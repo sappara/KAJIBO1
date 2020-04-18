@@ -111,12 +111,12 @@ foreach ($events as $event) {
 
     // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
-      $actionBuilder = array();
-      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル1','cmd_1'));
-      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル2','cmd_2'));
-      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル3','cmd_3'));
+      // $actionBuilder = array();
+      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル1','cmd_1'));
+      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル2','cmd_2'));
+      // array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル3','cmd_3'));
       // クイックリプライボタンと文字を返信
-      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。', $actionBuilder
+      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。', 'label', 'test'
       //     array(
       //       'quickReply' => array(
       //           'items' => array(
@@ -237,9 +237,20 @@ function endKaji($bot, $userId) {
 
 
 // クイックリプライを返信。引数はLINEBot、返信先、アクション
-function replyQuickReplyButton($bot, $replyToken, $text, $actionBuilder) {
-  $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($actionBuilder);
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($buttonBuilders)));
+function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
+
+$action = new MessageTemplateActionBuilder($label, $text2);
+// var_dump($action->buildTemplateAction());
+$button = new QuickReplyButtonBuilder($action);
+// var_dump($button->buildQuickReplyButton());
+$qr = new QuickReplyMessageBuilder([$button]);
+// var_dump($qr->buildQuickReply());
+$textMessageBuilder = new TextMessageBuilder($text1, $qr);
+// var_dump($textMessageBuilder->buildMessage());
+
+$response = $bot->replyMessage($replyToken, $textMessageBuilder);
+//   $buttonBuilders = new LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(buildQuickReplyButton(buildTemplateAction($actionBuilder)));
+//   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($buttonBuilders)));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
