@@ -111,40 +111,41 @@ foreach ($events as $event) {
 
     // リッチメニューで洗うボタン押した後の処理
     else if(substr($event->getText(), 4) == '洗う'){
+      $actionBuilder = array();
+      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル1','cmd_1'));
+      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル2','cmd_2'));
+      array_push($actionBuilder,new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('ラベル3','cmd_3'));
       // クイックリプライボタンと文字を返信
-      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',array(
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯', 'cmd_洗濯'),
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('掃除', 'cmd_掃除'))
-
-          // array(
-          //   'quickReply' => array(
-          //       'items' => array(
-          //           array(
-          //               'type' => 'action',
-          //               'action' => array(
-          //                   'type' => 'message',
-          //                   'label' => 'Message Send1',
-          //                   'text' => 'テキストを送信します。1',
-          //               )
-          //           ),
-          //           array(
-          //               'type' => 'action',
-          //               'action' => array(
-          //                   'type' => 'message',
-          //                   'label' => 'Message Send2',
-          //                   'text' => 'テキストを送信します。2',
-          //               )
-          //           ),
-          //           array(
-          //               'type' => 'action',
-          //               'action' => array(
-          //                   'type' => 'message',
-          //                   'label' => 'Message Send3',
-          //                   'text' => 'テキストを送信します。3',
-          //               )
-          //           ),
-                // )
-          //   )
+      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。', $actionBuilder
+      //     array(
+      //       'quickReply' => array(
+      //           'items' => array(
+      //               array(
+      //                   'type' => 'action',
+      //                   'action' => array(
+      //                       'type' => 'message',
+      //                       'label' => 'Message Send1',
+                    //         'text' => 'テキストを送信します。1',
+                    //     )
+                    // ),
+                    // array(
+                    //     'type' => 'action',
+                    //     'action' => array(
+                    //         'type' => 'message',
+                    //         'label' => 'Message Send2',
+                    //         'text' => 'テキストを送信します。2',
+                    //     )
+            //         ),
+            //         array(
+            //             'type' => 'action',
+            //             'action' => array(
+            //                 'type' => 'message',
+            //                 'label' => 'Message Send3',
+            //                 'text' => 'テキストを送信します。3',
+            //             )
+            //         ),
+            //     )
+            // )
           
           // )
       );
