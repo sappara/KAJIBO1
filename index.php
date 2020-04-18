@@ -92,7 +92,7 @@ foreach ($events as $event) {
       } else {
         replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
           new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', 'cmd_end'),
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした💕'));
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした🍺'));
       }
     }
     // 終了
@@ -109,12 +109,26 @@ foreach ($events as $event) {
       );
     }
 
-    // リッチメニューで洗うボタン押した後の処理
+    // 家事stepの選択肢ボタンをタイムラインに投稿
     else if(substr($event->getText(), 4) == '洗う'){
-      replyQuickReplyButton($bot, $event->getReplyToken(), '選択してください。',
-       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('ラベル1', 'cmd_1')),
-        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル2', 'cmd_2')),
-         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('ラベル3', 'cmd_3'))
+      replyQuickReplyButton($bot, $event->getReplyToken(), 'どのステップにしますか？下のボタンから選択してください。',
+       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('洗濯前の準備', 'cmd_step1')),
+        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤について', 'cmd_step2')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤の投入口＆柔軟剤', 'cmd_step3')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯機スタート', 'cmd_step4'))
+      );
+    }
+
+    // 家事stepの選択肢ボタンをタップした時の処理
+    else if(substr($event->getText(), 4) == 'cmd_step1'){
+      // step1~4を返信
+      replyButtonsTemplate($bot,
+      $event->getReplyToken(),
+      '「洗う」のステップです',
+      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+      '洗濯機で洗うステップ開始 (step1/14)',
+      'まず洗剤を探してください',
+      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
       );
     }
 
