@@ -37,7 +37,6 @@ foreach ($events as $event) {
         // $json = json_decode($json,true);
         // $message = [ $json ];
         $contents = [
-          'contents' => [
             'type' => 'bubble',
             'body' => [
               'type' => 'box',
@@ -53,7 +52,6 @@ foreach ($events as $event) {
                 ]
               ]
             ]
-          ]
         ];
         $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($contents);
         $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
