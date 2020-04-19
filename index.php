@@ -35,8 +35,8 @@ foreach ($events as $event) {
       if($event->getPostbackData() == 'お試し'){
         $json = file_get_contents('flex2.json');
         $json = json_decode($json,true);
-        $Message = [ $json ];
-        $flexMessage = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($Message);
+        // $Message = [ $json ];
+        $flexMessage = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($json);
         // $flexMessage->build($Message);
         // step一個を返信
         replyFlexMessage($bot,$event->getReplyToken(), 'alttext', $flexMessage
