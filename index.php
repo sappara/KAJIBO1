@@ -33,9 +33,9 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $json = file_get_contents('flex4.json');
-        $json = json_decode($json,true);
-        $container = [ $json ];
+        // $json = file_get_contents('flex4.json');
+        // $json = json_decode($json,true);
+        // $container = [ $json ];
         // $contents = [
         //   "type" => "bubble",
         //   "header" => [
@@ -86,7 +86,14 @@ foreach ($events as $event) {
         //     ]
         //   ]
         // ];
-        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($container);
+        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout('vertical');
+        $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1');
+        $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
+        // $heroComponentBuilder = new \
+        // $bodyComponentBuilder = new \
+        // $footerComponentBuilder = new \
+        // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder, $heroComponentBuilder, $bodyComponentBuilder, $footerComponentBuilder);
         $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
