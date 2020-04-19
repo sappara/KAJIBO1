@@ -33,60 +33,60 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        // $json = file_get_contents('flex3.json');
-        // $json = json_decode($json,true);
-        // $message = [ $json ];
-        $contents = [
-          "type" => "bubble",
-          "header" => [
-            "type" => "box",
-            "layout" => "vertical",
-            "contents" => [
-              [
-                "type" => "text",
-                "text" => "step1",
-                "weight" => "bold",
-                "size" => "xl"
-              ]
-            ]
-          ],
-          "hero" => [
-            "type" => "image",
-            "url" => 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg',
-            "size" => "full",
-            "aspectRatio" => "20:13",
-            "aspectMode" => "cover",
-          ],
-          "body" => [
-            "type" => "box",
-            "layout" => "vertical",
-            "contents" => [
-              [
-                "type" => "text",
-                "text" => "下準備１：異物混入チェック",
-                "weight" => "bold",
-                "size" => "lg",
-                "wrap" => true
-              ]
-            ]
-          ],
-          "footer" => [
-            "type" => "box",
-            "layout" => "vertical",
-            "contents" => [
-              [
-                "type" => "text",
-                "text" => "黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。",
-                "wrap" => true
-              ],
-              [
-                "type" => "spacer",
-                "size" => "xxl"
-              ]
-            ]
-          ]
-        ];
-        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($contents);
+        $json = file_get_contents('flex3.json');
+        $json = json_decode($json,true);
+        $message = [ $json ];
+        // $contents = [
+        //   "type" => "bubble",
+        //   "header" => [
+        //     "type" => "box",
+        //     "layout" => "vertical",
+        //     "contents" => [
+        //       [
+        //         "type" => "text",
+        //         "text" => "step1",
+        //         "weight" => "bold",
+        //         "size" => "xl"
+        //       ]
+        //     ]
+        //   ],
+        //   "hero" => [
+        //     "type" => "image",
+        //     "url" => 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg',
+        //     "size" => "full",
+        //     "aspectRatio" => "20:13",
+        //     "aspectMode" => "cover",
+        //   ],
+        //   "body" => [
+        //     "type" => "box",
+        //     "layout" => "vertical",
+        //     "contents" => [
+        //       [
+        //         "type" => "text",
+        //         "text" => "下準備１：異物混入チェック",
+        //         "weight" => "bold",
+        //         "size" => "lg",
+        //         "wrap" => true
+        //       ]
+        //     ]
+        //   ],
+        //   "footer" => [
+        //     "type" => "box",
+        //     "layout" => "vertical",
+        //     "contents" => [
+        //       [
+        //         "type" => "text",
+        //         "text" => "黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。",
+        //         "wrap" => true
+        //       ],
+        //       [
+        //         "type" => "spacer",
+        //         "size" => "xxl"
+        //       ]
+        //     ]
+        //   ]
+        // ];
+        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($message);
         $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
