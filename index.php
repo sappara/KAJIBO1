@@ -55,7 +55,8 @@ foreach ($events as $event) {
             ]
           ]
         ];
-        $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $contents);
+        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder($contents);
+        $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
