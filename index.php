@@ -37,7 +37,7 @@ foreach ($events as $event) {
         $json = json_decode($json,true);
         $FlexMessage = [ $json ];
         // step一個を返信
-        replyFlexMessage($bot,$event->getReplyToken(), $FlexMessage
+        replyFlexMessage($bot,$event->getReplyToken(), 'altText', $FlexMessage
         
         // '「洗う」のステップです',
         // 'step1',
@@ -399,8 +399,8 @@ if (!$response->isSucceeded()) {
   // $footerComponentBuilder = createFooterBlock();
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
-function replyFlexMessage($bot, $replyToken, $FlexMessage) {
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($FlexMessage));
+function replyFlexMessage($bot, $replyToken, $altText, $FlexMessage) {
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $FlexMessage));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
