@@ -31,20 +31,16 @@ foreach ($events as $event) {
 
     // イベントがPostbackEventクラスのインスタンスであれば
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-
-      // テキストを返信し次のイベントの処理へ
-      // replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
-  
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
         // step一個を返信
-        replyButtonsTemplate($bot,
+        replyFlexMessage($bot,
         $event->getReplyToken(),
         '「洗う」のステップです',
+        'step1',
         'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
-        '洗濯機で洗うステップ開始 (step1/14)',
-        'まず洗剤を探してください',
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
+        '洗濯機で洗うステップ開始',
+        'まず洗剤を探してください'
         );
       }
   
@@ -376,6 +372,23 @@ if (!$response->isSucceeded()) {
   }
 }
 
+// フレックスメッセージ
+function replyFlexMessage($bot, $replyToken, $altText, $dir_text, $url, $body_text, $foot_text) {
+
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($dir_text);
+  $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($body_text);
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($foot_text);
+
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder,$heroComponentBuilder,$bodyComponentBuilder,$footerComponentBuilder);
+  $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText,$containerBuilder);
+
+  $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
+
+  if (!$response->isSucceeded()) {
+    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
 
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
