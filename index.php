@@ -33,14 +33,23 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
+        $json = file_get_contents('flex1.json');
+        $json = json_decode($json,true);
         // step一個を返信
         replyFlexMessage($bot,
         $event->getReplyToken(),
-        '「洗う」のステップです',
-        'step1',
-        'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
-        '洗濯機で洗うステップ開始',
-        'まず洗剤を探してください'
+        $FlexMessage = [
+          'type' => 'flex',
+          'altText' => 'flexmessage',
+          'contents' => [
+                          $json
+                        ]
+                 ]
+        // '「洗う」のステップです',
+        // 'step1',
+        // 'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
+        // '洗濯機で洗うステップ開始',
+        // 'まず洗剤を探してください'
         );
       }
   
@@ -373,7 +382,7 @@ if (!$response->isSucceeded()) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $FlexMessage) {
+// function replyFlexMessage($bot, $replyToken, $FlexMessage) {
 
   // $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($dir_text);
   // $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url);
@@ -381,23 +390,23 @@ function replyFlexMessage($bot, $replyToken, $FlexMessage) {
   // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($foot_text);
 
   // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder,$heroComponentBuilder,$bodyComponentBuilder,$footerComponentBuilder);
-  $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
-  $FlexMessageBuilder -> setAltText('Restaurant');
-  $FlexMessageBuilder -> setContents($containerBuilder);
+  // $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
+  // $FlexMessageBuilder -> setAltText('Restaurant');
+  // $FlexMessageBuilder -> setContents($containerBuilder);
 
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
-  $containerBuilder ->setHero($heroComponentBuilder);
-  $containerBuilder ->setBody($bodyComponentBuilder);
-  $containerBuilder ->setFooter($footerComponentBuilder);
-  $containerBuilder ->setSize(BubleContainerSize::GIGA);
+  // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
+  // $containerBuilder ->setHero($heroComponentBuilder);
+  // $containerBuilder ->setBody($bodyComponentBuilder);
+  // $containerBuilder ->setFooter($footerComponentBuilder);
+  // $containerBuilder ->setSize(BubleContainerSize::GIGA);
 
-  $heroComponentBuilder = createHeroBlock();
-  $bodyComponentBuilder = createBodyBlock();
-  $footerComponentBuilder = createFooterBlock();
-  
+  // $heroComponentBuilder = createHeroBlock();
+  // $bodyComponentBuilder = createBodyBlock();
+  // $footerComponentBuilder = createFooterBlock();
 
-  $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
-
+  // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
+function replyFlexMessage($bot, $replyToken, $FlexMessage) {
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($FlexMessage));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }

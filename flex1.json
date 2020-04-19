@@ -1,0 +1,21 @@
+{
+  "type": "bubble",
+  "styles": {
+    "footer": {
+      "separator": true
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "hogehoge,hugahuga",
+        "size": "xl",
+        "color": "#555555",
+        "wrap": true
+      }
+    ]
+  }
+}
