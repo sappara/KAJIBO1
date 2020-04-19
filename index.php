@@ -92,7 +92,10 @@ foreach ($events as $event) {
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
         // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
-        $bot->replyMessage($event->getReplyToken(), $messageBuilder);
+        $response = $bot->replyMessage($event->getReplyToken(), $messageBuilder);
+        if (!$response->isSucceeded()) {
+          error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+        }
         
         // '「洗う」のステップです',
         // 'step1',
