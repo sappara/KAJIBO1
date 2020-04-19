@@ -402,7 +402,7 @@ if (!$response->isSucceeded()) {
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
 function replyFlexMessage($bot, $replyToken, $altText, $flexMessage) {
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder($flexMessage);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($flexMessage);
   // build()
   $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   // buildMessage()
