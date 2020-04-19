@@ -55,7 +55,7 @@ foreach ($events as $event) {
             ]
           ]
         ];
-        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder($contents);
+        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($contents);
         $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
