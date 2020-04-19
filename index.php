@@ -36,12 +36,12 @@ foreach ($events as $event) {
       // replyTextMessage($bot, $event->getReplyToken(), 'Postback受信「' . $event->getPostbackData() . '」');
   
       // 家事stepの選択肢ボタンをタップした時の処理
-      if($event->getPostbackData() == 'step1'){
-        // step1~4を返信
+      if($event->getPostbackData() == 'お試し'){
+        // step一個を返信
         replyButtonsTemplate($bot,
         $event->getReplyToken(),
         '「洗う」のステップです',
-        'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
+        'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
         '洗濯機で洗うステップ開始 (step1/14)',
         'まず洗剤を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
@@ -135,61 +135,136 @@ foreach ($events as $event) {
 
     // 家事stepの選択肢ボタンをタイムラインに投稿
     else if(substr($event->getText(), 4) == '洗う'){
-      replyQuickReplyButton($bot, $event->getReplyToken(), 'どのステップにしますか？下のボタンから選択してください。',
-       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('洗濯前の準備', 'step1')),
-        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤について', 'cmd_step2')),
-         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤の投入口＆柔軟剤', 'cmd_step3')),
-         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯機スタート', 'cmd_step4'))
-      );
-    }
-
-    // 家事stepの選択肢ボタンをタップした時の処理(一つのボタンテンプレート)
-    else if(substr($event->getText(), 4) == 'step2'){
-      // step1~4を返信
-      replyButtonsTemplate($bot,
-      $event->getReplyToken(),
-      '「洗う」のステップです',
-      'https://' . $_SERVER['HTTP_HOST'] . '/imgs/template.jpg',
-      '洗濯機で洗うステップ開始 (step2/14)',
-      'まず洗剤を探してください',
-      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('次へ', '洗剤の場所')
+      replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯する方法でわからないことがあれば、下のボタンを押してね。',
+       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯前の準備', 'cmd_洗濯前の準備')),
+        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤について', 'cmd_洗剤について')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('柔軟剤について', 'cmd_柔軟剤について')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯機スタート', 'cmd_洗濯機スタート')),
+         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('お試し', 'お試し'))
       );
     }
 
     // 家事stepの選択肢ボタンをタップした時の処理(カルーセルテンプレート)
-    else if(substr($event->getText(), 4) == 'step3'){
+    else if(substr($event->getText(), 4) == '洗濯前の準備'){
       // step1~4を返信
       $columnArray = array();      
         $actionArray = array();
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('完了', 'cmd_完了'));
-
-        $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          '洗剤を入れる (step11/14)',
-          '洗濯物の量に応じて水量が変わります。洗剤を水量に応じて入れます。',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_洗剤について'));
+        // 各stepの内容
+        $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step1 下準備１：異物混入チェック',
+          '紙や異物が混じってないかポケットを確認してください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0724.jpg',
           $actionArray
         );
-        $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          '洗剤を入れる場所 (step12/14)',
-          '洗剤を入れる場所は機種によって異なります。洗濯槽の中かフチか洗濯機の上部かにあります。',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/img0218.jpg',
+        $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step2 下準備２：泥汚れの下洗い',
+          '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0721.jpg',
           $actionArray
         );
-        $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          '柔軟剤 (step13/14)',
-          '柔軟剤も必要であれば入れてください。洗剤とは異なる投入口が洗濯機にあります。',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+        $column3 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step3 下準備３：洗濯ネットで保護',
+          '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg',
           $actionArray
         );
-        $column14 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-          '洗濯機スタート (step14/14)',
-          '洗濯機の蓋を閉めると洗濯が始まります。',
-          'https://' . $_SERVER['HTTP_HOST'] .  '/imgs/template.jpg',
+        $column4 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step4 洗濯ネットの収納場所',
+          '洗濯ネットは「引き出しや戸棚の中」を探してください',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg',
           $actionArray
         );
         // 配列に追加
-        array_push($columnArray, $column11,$column12,$column13,$column14);
-      replyCarouselTemplate($bot, $event->getReplyToken(),'洗うのステップ群3', $columnArray);
+        array_push($columnArray, $column1,$column2,$column3,$column4);
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗濯前の準備', $columnArray);
+    }
+
+    else if(substr($event->getText(), 4) == '洗剤について'){
+      // step5~10を返信
+      $columnArray = array();      
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_柔軟剤について'));
+        // 各stepの内容
+        $column5 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step5 洗剤の収納場所',
+          '洗剤は「引き出しや戸棚の中」を探してください',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg',
+          $actionArray
+        );
+        $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step6 洗剤の種類',
+          '毎日の衣類・タオル類には「ハイジア」を使ってください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg',
+          $actionArray
+        );
+        $column7 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step7 洗濯機の水量',
+          '全て洗濯機に入れたら、水量を知るために、洗濯機のスタートボタンを押してください。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0710.jpg',
+          $actionArray
+        );
+        $column8 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step8 洗剤について',
+          '洗濯物の量に応じて水量が変わります、洗剤を水量に応じて入れます。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0713.jpg',
+          $actionArray
+        );
+        $column9 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step9 洗剤の量について',
+          '洗剤の量は「背面か側面に載ってますので見てください」',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg',
+          $actionArray
+        );
+        $column10 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step10 洗剤の投入口',
+          '洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg',
+          $actionArray
+        );
+        // 配列に追加
+        array_push($columnArray, $column5,$column6,$column7,$column8,$column9,$column10);
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗剤について', $columnArray);
+    }
+
+    else if(substr($event->getText(), 4) == '柔軟剤について'){
+      // step11~12を返信
+      $columnArray = array();      
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_洗濯機スタート'));
+        // 各stepの内容
+        $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step11 柔軟剤について',
+          '柔軟剤は「必要であれば入れてください。」',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/junanzai.jpg',
+          $actionArray
+        );
+        $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step12 柔軟剤の投入口',
+          '柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg',
+          $actionArray
+        );
+        // 配列に追加
+        array_push($columnArray, $column11,$column12);
+      replyCarouselTemplate($bot, $event->getReplyToken(),'柔軟剤について', $columnArray);
+    }
+
+    else if(substr($event->getText(), 4) == '洗濯機スタート'){
+      // step13を返信
+      $columnArray = array();      
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('完了', 'cmd_完了'));
+        // 各stepの内容
+        $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          'step13 洗濯機スタート',
+          '洗濯機の蓋を閉めると洗濯が始まります。',
+          'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0715.jpg',
+          $actionArray
+        );
+        // 配列に追加
+        array_push($columnArray, $column13);
+      replyCarouselTemplate($bot, $event->getReplyToken(),'洗濯機スタート', $columnArray);
     }
 
     continue;
