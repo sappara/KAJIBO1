@@ -33,14 +33,15 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $json = file_get_contents('flex2.json');
+        $json = file_get_contents('flex3.json');
         $json = json_decode($json,true);
         $message = [ $json ];
+        $messageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
         // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
-        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot($Message));
+        $bot->replyMessage($event->getReplyToken(), $messageBuilder);
         
         // '「洗う」のステップです',
         // 'step1',
