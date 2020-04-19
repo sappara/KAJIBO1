@@ -33,7 +33,7 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $json = file_get_contents('flex3.json');
+        $json = file_get_contents('flex4.json');
         $json = json_decode($json,true);
         $message = [ $json ];
         // $contents = [
