@@ -479,8 +479,8 @@ if (!$response->isSucceeded()) {
 function replyFlexMessage($bot, $replyToken, $altText, $text1, $text2) {
   $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($text1);
   $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text2);
-  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($bodyComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   $response = $bot->replyMessage($replyToken, $messageBuilder);
   if (!$response->isSucceeded()) {
