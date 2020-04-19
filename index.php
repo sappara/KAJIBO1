@@ -43,7 +43,7 @@ foreach ($events as $event) {
                         ]
                  ];
         // step一個を返信
-        replyFlexMessage($bot,$event->getReplyToken(), buildMessage($FlexMessage)
+        replyFlexMessage($bot,$event->getReplyToken(), $FlexMessage
         
         // '「洗う」のステップです',
         // 'step1',
@@ -406,7 +406,7 @@ if (!$response->isSucceeded()) {
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
 function replyFlexMessage($bot, $replyToken, $FlexMessage) {
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder($FlexMessage));
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder(buildMessage($FlexMessage)));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
