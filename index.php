@@ -481,7 +481,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
   $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
   $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(null, $bodyComponentBuilder);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setBody($bodyComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   $response = $bot->replyMessage($replyToken, $messageBuilder);
