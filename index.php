@@ -373,15 +373,28 @@ if (!$response->isSucceeded()) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $dir_text, $url, $body_text, $foot_text) {
+function replyFlexMessage($bot, $replyToken, $FlexMessage) {
 
-  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($dir_text);
-  $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url);
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($body_text);
-  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($foot_text);
+  // $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($dir_text);
+  // $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url);
+  // $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($body_text);
+  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($foot_text);
 
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder,$heroComponentBuilder,$bodyComponentBuilder,$footerComponentBuilder);
-  $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText,$containerBuilder);
+  // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder,$heroComponentBuilder,$bodyComponentBuilder,$footerComponentBuilder);
+  $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
+  $FlexMessageBuilder -> setAltText('Restaurant');
+  $FlexMessageBuilder -> setContents($containerBuilder);
+
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
+  $containerBuilder ->setHero($heroComponentBuilder);
+  $containerBuilder ->setBody($bodyComponentBuilder);
+  $containerBuilder ->setFooter($footerComponentBuilder);
+  $containerBuilder ->setSize(BubleContainerSize::GIGA);
+
+  $heroComponentBuilder = createHeroBlock();
+  $bodyComponentBuilder = createBodyBlock();
+  $footerComponentBuilder = createFooterBlock();
+  
 
   $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
 
