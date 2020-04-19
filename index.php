@@ -40,7 +40,7 @@ foreach ($events as $event) {
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
         // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
-        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\MessageBuilder($Message));
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot($Message));
         
         // '「洗う」のステップです',
         // 'step1',
