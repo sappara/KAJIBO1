@@ -38,13 +38,13 @@ foreach ($events as $event) {
         // step一個を返信
         replyFlexMessage($bot,
         $event->getReplyToken(),
-        $FlexMessage = [
+        $FlexMessage = buildMessage([
           'type' => 'flex',
           'altText' => 'flexmessage',
           'contents' => [
                           $json
                         ]
-                 ]
+                 ])
         // '「洗う」のステップです',
         // 'step1',
         // 'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
