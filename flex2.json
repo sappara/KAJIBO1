@@ -1,4 +1,6 @@
 {
+  "type": "flex",
+  "altText": "#",
   "contents": {
     "type": "bubble",
     "hero": {

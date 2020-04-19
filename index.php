@@ -35,9 +35,11 @@ foreach ($events as $event) {
       if($event->getPostbackData() == 'お試し'){
         $json = file_get_contents('flex2.json');
         $json = json_decode($json,true);
-        $FlexMessage = [ $json ];
+        $Message = [ $json ];
+        $flexMessage = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
+        $flexMessage->buildMessage($Message);
         // step一個を返信
-        replyFlexMessage($bot,$event->getReplyToken(), 'altText', $FlexMessage
+        replyFlexMessage($bot,$event->getReplyToken(), $flexMessage
         
         // '「洗う」のステップです',
         // 'step1',
@@ -399,9 +401,10 @@ if (!$response->isSucceeded()) {
   // $footerComponentBuilder = createFooterBlock();
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
-function replyFlexMessage($bot, $replyToken, $altText, $FlexMessage) {
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder(build($FlexMessage));
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder));
+function replyFlexMessage($bot, $replyToken, $flexMessage) {
+  $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($flexMessage);
+  // buildMessage()
+  $response = $bot->replyMessage($replyToken, $flexMessageBuilder);
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
