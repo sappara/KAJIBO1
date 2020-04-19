@@ -400,7 +400,7 @@ if (!$response->isSucceeded()) {
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
 function replyFlexMessage($bot, $replyToken, $FlexMessage) {
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder($FlexMessage));
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($FlexMessage));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
