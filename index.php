@@ -37,7 +37,7 @@ foreach ($events as $event) {
         $json = json_decode($json,true);
         $Message = [ $json ];
         $flexMessage = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
-        $flexMessage->buildMessage($Message);
+        $flexMessage->buildMessage('alttext',$Message);
         // step一個を返信
         replyFlexMessage($bot,$event->getReplyToken(), $flexMessage
         
