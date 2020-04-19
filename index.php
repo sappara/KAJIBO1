@@ -34,6 +34,10 @@ foreach ($events as $event) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
         replyFlexMessage($bot, $event->getReplyToken(), 'altText', 'vertical', 'step1');
+      }
+  
+      continue;
+    }
         // $json = file_get_contents('flex4.json');
         // $json = json_decode($json,true);
         // $container = [ $json ];
@@ -111,10 +115,7 @@ foreach ($events as $event) {
         // '洗濯機で洗うステップ開始',
         // 'まず洗剤を探してください'
         // );
-      }
-  
-      continue;
-    }
+
   
 
   // MessageEvent型でなければ処理をスキップ
@@ -476,11 +477,11 @@ if (!$response->isSucceeded()) {
 //     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
 //   }
 // }
-function replyFlexMessage($bot, $replyToken, $altText, $text1, $text2) {
-  $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($text1);
-  $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text2);
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($bodyComponentBuilder);
+function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
+  $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
+  $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(null, $headerComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   $response = $bot->replyMessage($replyToken, $messageBuilder);
   if (!$response->isSucceeded()) {
