@@ -35,16 +35,16 @@ foreach ($events as $event) {
       if($event->getPostbackData() == 'お試し'){
         $json = file_get_contents('flex1.json');
         $json = json_decode($json,true);
-        // step一個を返信
-        replyFlexMessage($bot,
-        $event->getReplyToken(),
-        $FlexMessage = buildMessage([
+        $FlexMessage = [
           'type' => 'flex',
           'altText' => 'flexmessage',
           'contents' => [
                           $json
                         ]
-                 ])
+                 ];
+        // step一個を返信
+        replyFlexMessage($bot,$event->getReplyToken(), $FlexMessage
+        
         // '「洗う」のステップです',
         // 'step1',
         // 'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
