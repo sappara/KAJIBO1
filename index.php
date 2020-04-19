@@ -35,7 +35,7 @@ foreach ($events as $event) {
       if($event->getPostbackData() == 'お試し'){
         $json = file_get_contents('flex4.json');
         $json = json_decode($json,true);
-        $message = [ $json ];
+        $container = [ $json ];
         // $contents = [
         //   "type" => "bubble",
         //   "header" => [
@@ -86,7 +86,7 @@ foreach ($events as $event) {
         //     ]
         //   ]
         // ];
-        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($message);
+        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($container);
         $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
