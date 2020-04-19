@@ -33,6 +33,7 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', 'vertical', 'step1');
         // $json = file_get_contents('flex4.json');
         // $json = json_decode($json,true);
         // $container = [ $json ];
@@ -86,23 +87,23 @@ foreach ($events as $event) {
         //     ]
         //   ]
         // ];
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout('vertical');
-        $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1');
-        $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-        $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
+        // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout('vertical');
+        // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1');
+        // $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+        // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
         // $heroComponentBuilder = new \
         // $bodyComponentBuilder = new \
         // $footerComponentBuilder = new \
         // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder, $heroComponentBuilder, $bodyComponentBuilder, $footerComponentBuilder);
-        $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
+        // $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
         // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
         // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
-        $response = $bot->replyMessage($event->getReplyToken(), $messageBuilder);
-        if (!$response->isSucceeded()) {
-          error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-        }
+        // $response = $bot->replyMessage($event->getReplyToken(), $messageBuilder);
+        // if (!$response->isSucceeded()) {
+        //   error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+        // }
         
         // '「洗う」のステップです',
         // 'step1',
@@ -469,13 +470,23 @@ if (!$response->isSucceeded()) {
   // build()
   // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $flexMessage);
   // buildMessage()
-  function replyFlexMessage($bot, $replyToken, $flexMessageBuilder) {
-  $response = $bot->replyMessage($replyToken, $flexMessageBuilder);
+//   function replyFlexMessage($bot, $replyToken, $flexMessageBuilder) {
+//   $response = $bot->replyMessage($replyToken, $flexMessageBuilder);
+//   if (!$response->isSucceeded()) {
+//     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+//   }
+// }
+function replyFlexMessage($bot, $replyToken, $altText, $text1, $text2) {
+  $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($text1);
+  $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text2);
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
+  $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
+  $response = $bot->replyMessage($replyToken, $messageBuilder);
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
-
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
 function replyTextMessage($bot, $replyToken, $text) {
