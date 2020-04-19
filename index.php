@@ -33,15 +33,9 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $json = file_get_contents('flex1.json');
+        $json = file_get_contents('flex2.json');
         $json = json_decode($json,true);
-        $FlexMessage = [
-          'type' => 'flex',
-          'altText' => 'flexmessage',
-          'contents' => [
-                          $json
-                        ]
-                 ];
+        $FlexMessage = [ $json ];
         // step一個を返信
         replyFlexMessage($bot,$event->getReplyToken(), $FlexMessage
         
@@ -406,7 +400,7 @@ if (!$response->isSucceeded()) {
 
   // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
 function replyFlexMessage($bot, $replyToken, $FlexMessage) {
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder(buildMessage($FlexMessage)));
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder($FlexMessage));
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
