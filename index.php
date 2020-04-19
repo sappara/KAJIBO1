@@ -36,17 +36,18 @@ foreach ($events as $event) {
         $json = file_get_contents('flex2.json');
         $json = json_decode($json,true);
         $message = [ $json ];
-        $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
+        // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
         // $flexMessageBuilder->buildMessage($Message);
         // step一個を返信
-        replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
+        // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\MessageBuilder($Message));
         
         // '「洗う」のステップです',
         // 'step1',
         // 'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
         // '洗濯機で洗うステップ開始',
         // 'まず洗剤を探してください'
-        );
+        // );
       }
   
       continue;
