@@ -480,14 +480,33 @@ if (!$response->isSucceeded()) {
 function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
   $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
-  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(null, $headerComponentBuilder);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(null, $bodyComponentBuilder);
+  $containerBuilder->setBody($bodyComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   $response = $bot->replyMessage($replyToken, $messageBuilder);
   if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
+// // 重要なのはここですね。
+//     $containerBuilder = new BubbleContainerBuilder();
+//     $containerBuilder->setBody($bodyComponentBuilder);
+// function pushFlexMessage($bot,$target) {
+//   $componentBuilder = new TextComponentBuilder('test');
+//   $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
+//   $containerBuilder = new BubbleContainerBuilder();
+//   $containerBuilder->setBody($bodyComponentBuilder);
+//   $messageBuilder = new FlexMessageBuilder('testalt', $containerBuilder);
+//   $response = $bot->pushMessage($target, $messageBuilder);
+//   if ($response->isSucceeded()) {
+//       echo 'Succeeded!';
+//       return;
+//   }
+//   // Failed
+//   echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+// }
+
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
 function replyTextMessage($bot, $replyToken, $text) {
