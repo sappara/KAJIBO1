@@ -39,8 +39,8 @@ foreach ($events as $event) {
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $spacing = ComponentSpacing::XXL;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing
+        // $spacing = ComponentSpacing::XXL;
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing::XXL
         );
       }
   
