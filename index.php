@@ -33,7 +33,7 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', 'vertical', 'step1');
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', 'vertical', new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1'));
       }
   
       continue;
@@ -477,10 +477,14 @@ if (!$response->isSucceeded()) {
 //     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
 //   }
 // }
-function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
+function replyFlexMessage($bot, $replyToken, $altText, $vertical, ...$TextComponents) {
+  $componentBuilders = array();
+  foreach($TextComponents as $value){
+    array_push($componentBuilders,$value);
+  }
   $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
-  $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, [$componentBuilders]);
+  // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setBody($bodyComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
