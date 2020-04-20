@@ -38,9 +38,9 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         // $spacing = ComponentSpacing::XXL;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing::XXL
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $paddingBottom::XXL
         );
       }
   
@@ -373,26 +373,30 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $spacing) {
-  $headerComponentBuilder = array();
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $paddingBottom) {
+  $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
-    array_push($headerComponentBuilder,$value);
+    array_push($headerBoxComponentBuilder,$value);
   }
   // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
-  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerComponentBuilder);
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
 
-  $bodyComponentBuilders = array();
+  $bodyBoxComponentBuilders = array();
   foreach($bodyTextComponents as $value){
-    array_push($bodyComponentBuilders,$value);
+    array_push($bodyBoxComponentBuilders,$value);
   }
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyComponentBuilders);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
 
-  $footerComponentBuilder = array();
+  $footerBoxComponentBuilder = array();
   foreach($footerTextComponents as $value){
-    array_push($footerComponentBuilder,$value);
+    array_push($footerBoxComponentBuilder,$value);
   }
-  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerComponentBuilder, null, $spacing);
+  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder, null, $spacing);
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder();
+  $footerComponentBuilder->setLayout($layout);
+  $footerComponentBuilder->setContents($footerBoxComponentBuilder);
+  $footerComponentBuilder->setPaddingBottom($paddingBottom);
 
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setHeader($headerComponentBuilder);
