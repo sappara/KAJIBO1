@@ -38,7 +38,7 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $class = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL,$headerTextComponents, $bodyTextComponents, $footerTextComponents
         );
       }
@@ -392,6 +392,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
     array_push($footerComponentBuilder,$value);
   }
   $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerComponentBuilder);
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder();
   $footerComponentBuilder->setPaddingBottom(ComponentSpacing::XXL);
 
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
