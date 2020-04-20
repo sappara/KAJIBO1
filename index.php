@@ -480,7 +480,7 @@ if (!$response->isSucceeded()) {
 function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
   $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, [$componentBuilders]);
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setBody($bodyComponentBuilder);
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
@@ -506,6 +506,9 @@ function replyFlexMessage($bot, $replyToken, $altText, $vertical, $text) {
 //   // Failed
 //   echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 // }
+// 上記のコードだとそこの部分も書き方変えてます
+// $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
+
 
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
