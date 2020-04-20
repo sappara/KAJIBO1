@@ -33,7 +33,7 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', 'vertical', new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1'));
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', ComponentLayout::VERTICAL, new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1'));
       }
   
       continue;
