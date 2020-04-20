@@ -33,9 +33,13 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step2')];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step3')];
         // echo ComponentLayout::VERTICAL;
         $class = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL, new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1'));
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL,$headerTextComponents, $bodyTextComponents, $footerTextComponents
+        );
       }
   
       continue;
@@ -367,16 +371,33 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, ...$TextComponents) {
-  $componentBuilders = array();
-  foreach($TextComponents as $value){
-    array_push($componentBuilders,$value);
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[]) {
+  $headerComponentBuilder = array();
+  foreach($headerTextComponents as $value){
+    array_push($headerComponentBuilder,$value);
   }
   // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
-  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerComponentBuilder);
+
+  $bodyComponentBuilders = array();
+  foreach($bodyTextComponents as $value){
+    array_push($bodyComponentBuilders,$value);
+  }
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyComponentBuilders);
+
+  $footerComponentBuilder = array();
+  foreach($footerTextComponents as $value){
+    array_push($footerComponentBuilder,$value);
+  }
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerComponentBuilder);
+
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
+  $containerBuilder->setHeader($headerComponentBuilder);
+  // $containerBuilder->setHero($heroComponentBuilder);
   $containerBuilder->setBody($bodyComponentBuilder);
+  $containerBuilder->setFooter($footerComponentBuilder);
+
   $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
   $response = $bot->replyMessage($replyToken, $messageBuilder);
   if (!$response->isSucceeded()) {
