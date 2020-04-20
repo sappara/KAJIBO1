@@ -38,7 +38,8 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $class = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL,$headerTextComponents, $bodyTextComponents, $footerTextComponents
+        $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL,$headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing::XXL
         );
       }
   
@@ -371,7 +372,7 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[]) {
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $spacing) {
   $headerComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerComponentBuilder,$value);
@@ -390,7 +391,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
   foreach($footerTextComponents as $value){
     array_push($footerComponentBuilder,$value);
   }
-  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerComponentBuilder);
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerComponentBuilder,null,$spacing);
 
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setHeader($headerComponentBuilder);
