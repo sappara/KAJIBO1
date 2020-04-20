@@ -40,84 +40,6 @@ foreach ($events as $event) {
   
       continue;
     }
-        // $json = file_get_contents('flex4.json');
-        // $json = json_decode($json,true);
-        // $container = [ $json ];
-        // $contents = [
-        //   "type" => "bubble",
-        //   "header" => [
-        //     "type" => "box",
-        //     "layout" => "vertical",
-        //     "contents" => [
-        //       [
-        //         "type" => "text",
-        //         "text" => "step1",
-        //         "weight" => "bold",
-        //         "size" => "xl"
-        //       ]
-        //     ]
-        //   ],
-        //   "hero" => [
-        //     "type" => "image",
-        //     "url" => 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg',
-        //     "size" => "full",
-        //     "aspectRatio" => "20:13",
-        //     "aspectMode" => "cover",
-        //   ],
-        //   "body" => [
-        //     "type" => "box",
-        //     "layout" => "vertical",
-        //     "contents" => [
-        //       [
-        //         "type" => "text",
-        //         "text" => "下準備１：異物混入チェック",
-        //         "weight" => "bold",
-        //         "size" => "lg",
-        //         "wrap" => true
-        //       ]
-        //     ]
-        //   ],
-        //   "footer" => [
-        //     "type" => "box",
-        //     "layout" => "vertical",
-        //     "contents" => [
-        //       [
-        //         "type" => "text",
-        //         "text" => "黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。",
-        //         "wrap" => true
-        //       ],
-        //       [
-        //         "type" => "spacer",
-        //         "size" => "xxl"
-        //       ]
-        //     ]
-        //   ]
-        // ];
-        // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout('vertical');
-        // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1');
-        // $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $componentBuilders);
-        // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder);
-        // $heroComponentBuilder = new \
-        // $bodyComponentBuilder = new \
-        // $footerComponentBuilder = new \
-        // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder, $heroComponentBuilder, $bodyComponentBuilder, $footerComponentBuilder);
-        // $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder('altText', $containerBuilder);
-        // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder($Message);
-        // $flexMessageBuilder->buildMessage($Message);
-        // step一個を返信
-        // replyFlexMessage($bot,$event->getReplyToken(), $flexMessageBuilder
-        // $response = $bot->replyMessage($event->getReplyToken(), $messageBuilder);
-        // if (!$response->isSucceeded()) {
-        //   error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-        // }
-        
-        // '「洗う」のステップです',
-        // 'step1',
-        // 'https://' . $_SERVER['HTTP_HOST'] . '/img/IMG_0724.jpg',
-        // '洗濯機で洗うステップ開始',
-        // 'まず洗剤を探してください'
-        // );
-
   
 
   // MessageEvent型でなければ処理をスキップ
@@ -424,61 +346,27 @@ function endKaji($bot, $userId) {
 // クイックリプライを添付。引数はLINEBot、返信先、textMessage、アクション
 function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 // function replyQuickReplyButton($bot, $replyToken, $text1, $label, $text2) {
-$quickReplyButtons = array();
-foreach($actions as $value){
-  array_push($quickReplyButtons,$value);
-}
-// $action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text2);
-// // var_dump($action->buildTemplateAction());
-// $button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
-// // var_dump($button->buildQuickReplyButton());
-$qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-// var_dump($qr->buildQuickReply());
-$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text1, $qr);
-// var_dump($textMessageBuilder->buildMessage());
+  $quickReplyButtons = array();
+  foreach($actions as $value){
+    array_push($quickReplyButtons,$value);
+  }
+  // $action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text2);
+  // // var_dump($action->buildTemplateAction());
+  // $button = new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder($action);
+  // // var_dump($button->buildQuickReplyButton());
+  $qr = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+  // var_dump($qr->buildQuickReply());
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text1, $qr);
+  // var_dump($textMessageBuilder->buildMessage());
 
-$response = $bot->replyMessage($replyToken, $textMessageBuilder);
+  $response = $bot->replyMessage($replyToken, $textMessageBuilder);
 
-if (!$response->isSucceeded()) {
+  if (!$response->isSucceeded()) {
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
 
 // フレックスメッセージ
-// function replyFlexMessage($bot, $replyToken, $FlexMessage) {
-
-  // $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($dir_text);
-  // $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url);
-  // $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($body_text);
-  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($foot_text);
-
-  // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($headerComponentBuilder,$heroComponentBuilder,$bodyComponentBuilder,$footerComponentBuilder);
-  // $FlexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder();
-  // $FlexMessageBuilder -> setAltText('Restaurant');
-  // $FlexMessageBuilder -> setContents($containerBuilder);
-
-  // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
-  // $containerBuilder ->setHero($heroComponentBuilder);
-  // $containerBuilder ->setBody($bodyComponentBuilder);
-  // $containerBuilder ->setFooter($footerComponentBuilder);
-  // $containerBuilder ->setSize(BubleContainerSize::GIGA);
-
-  // $heroComponentBuilder = createHeroBlock();
-  // $bodyComponentBuilder = createBodyBlock();
-  // $footerComponentBuilder = createFooterBlock();
-
-  // $response = $bot->replyMessage($replyToken, $FlexMessageBuilder);
-// function replyFlexMessage($bot, $replyToken, $altText, $flexMessage) {
-  // $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder($flexMessage);
-  // build()
-  // $flexMessageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $flexMessage);
-  // buildMessage()
-//   function replyFlexMessage($bot, $replyToken, $flexMessageBuilder) {
-//   $response = $bot->replyMessage($replyToken, $flexMessageBuilder);
-//   if (!$response->isSucceeded()) {
-//     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-//   }
-// }
 function replyFlexMessage($bot, $replyToken, $altText, $layout, ...$TextComponents) {
   $componentBuilders = array();
   foreach($TextComponents as $value){
@@ -495,9 +383,6 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, ...$TextComponen
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
-// // 重要なのはここですね。
-//     $containerBuilder = new BubbleContainerBuilder();
-//     $containerBuilder->setBody($bodyComponentBuilder);
 // function pushFlexMessage($bot,$target) {
 //   $componentBuilder = new TextComponentBuilder('test');
 //   $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
@@ -512,6 +397,9 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, ...$TextComponen
 //   // Failed
 //   echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 // }
+// // 重要なのはここですね。
+//     $containerBuilder = new BubbleContainerBuilder();
+//     $containerBuilder->setBody($bodyComponentBuilder);
 // 上記のコードだとそこの部分も書き方変えてます
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
