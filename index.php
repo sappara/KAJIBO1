@@ -33,9 +33,9 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step2')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step3')];
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1',null,null,xl,null,null,null,null,bold)];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,lg,null,null,true,null,bold)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $class = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL,$headerTextComponents, $bodyTextComponents, $footerTextComponents
