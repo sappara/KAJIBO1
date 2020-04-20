@@ -42,7 +42,7 @@ foreach ($events as $event) {
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R3TO4, $aspectMode::COVER
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER
         // $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         // $spacing = ComponentSpacing::XXL;
         // replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $paddingBottom::XXL
