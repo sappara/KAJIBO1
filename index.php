@@ -38,7 +38,11 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents
+        $$url = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg';
+        $size = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $url, $size::FULL, $aspectRatio::R3TO4, $aspectMode::COVER
         // $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         // $spacing = ComponentSpacing::XXL;
         // replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $paddingBottom::XXL
@@ -374,8 +378,7 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-// function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $paddingBottom) {
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[]) {
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $url, $size, $aspectRatio, $aspectMode) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
@@ -401,9 +404,11 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
   // $footerComponentBuilder->setContents($footerBoxComponentBuilder);
   // $footerComponentBuilder->setPaddingBottom($paddingBottom);
 
+  $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($url, null, null, null, null, $size, $aspectRatio, $aspectMode);
+
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setHeader($headerComponentBuilder);
-  // $containerBuilder->setHero($heroComponentBuilder);
+  $containerBuilder->setHero($heroComponentBuilder);
   $containerBuilder->setBody($bodyComponentBuilder);
   $containerBuilder->setFooter($footerComponentBuilder);
 
