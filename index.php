@@ -37,10 +37,10 @@ foreach ($events as $event) {
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
-        $class = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $spacing = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $spacing = ComponentSpacing::XXL;
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $class::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $spacing
         );
       }
   
