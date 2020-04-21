@@ -33,7 +33,7 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'お試し'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1',null,null,'xl',null,null,null,null,'bold')];
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
@@ -50,9 +50,13 @@ foreach ($events as $event) {
         );
         $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
         // $spacing = ComponentSpacing::XXL;
-        $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $paddingBottom::XXL
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::lg, $footerpaddingStart::lg
         );
       }
   
@@ -385,7 +389,7 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply, $paddingBottom) {
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply, $headerPaddingTop, $headerPaddingBottom, $footerPaddingBottom, $footerpaddingEnd, $footerpaddingStart) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
@@ -393,6 +397,8 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
   // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
   // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
   $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
+  $headerComponentBuilder->setPaddingTop($headerPaddingTop);
+  $headerComponentBuilder->setPaddingBottom($headerPaddingBottom);
 
   $bodyBoxComponentBuilders = array();
   foreach($bodyTextComponents as $value){
@@ -409,7 +415,9 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
   // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder();
   // $footerComponentBuilder->setLayout($layout);
   // $footerComponentBuilder->setContents($footerBoxComponentBuilder);
-  $footerComponentBuilder->setPaddingBottom($paddingBottom);
+  $footerComponentBuilder->setPaddingBottom($footerPaddingBottom);
+  $footerComponentBuilder->setPaddingEnd($footerpaddingEnd);
+  $footerComponentBuilder->setPaddingStart($footerpaddingStart);
 
   $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, $heroImageSize, $aspectRatio, $aspectMode);
 
