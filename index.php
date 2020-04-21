@@ -56,7 +56,7 @@ foreach ($events as $event) {
         $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::lg, $footerpaddingStart::lg
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
         );
       }
   
