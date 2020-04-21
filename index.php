@@ -375,7 +375,7 @@ function endKaji($bot, $userId) {
 
 // フレックスメッセージに添付するクイックリプライボタン
 function flexMessageQuickReply(){
-  array( 
+  $flexMessageQuickReply = array( 
     new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('異物混入チェック', 'step1')),
     new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('泥汚れの下洗い', 'step2')),
     new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯ネットで保護', 'step3')),
@@ -390,6 +390,7 @@ function flexMessageQuickReply(){
     new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('柔軟剤の投入口', 'step12')),
     new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯機スタート', 'step13')) 
   );
+  return $flexMessageQuickReply;
 }
 
 
