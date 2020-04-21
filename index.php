@@ -49,19 +49,10 @@ foreach ($events as $event) {
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('label3', 'text3')),
         );
         $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        
-        // $quickReply = replyQuickReplyButton(
-        //   $bot, $event->getReplyToken(), '次のstep見る時は、下のボタンを押してね。',
-        //   new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('step2', 'step2')),
-        //   new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('step3', 'step3')),
-        //   new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('step4', 'step4')),
-        //   new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('step5', 'step5')),
-        //   new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('step6', 'step6'))
-        // );
-        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply
-        // $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         // $spacing = ComponentSpacing::XXL;
-        // replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $paddingBottom::XXL
+        $paddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+
+        replyFlexMessage($bot, $event->getReplyToken(), 'altText', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $paddingBottom::XXL
         );
       }
   
@@ -394,7 +385,7 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply) {
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply, $paddingBottom) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
@@ -414,11 +405,11 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
     array_push($footerBoxComponentBuilder,$value);
   }
   $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder);
-  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder, null, $spacing);
+  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder, null, $spacing);//spacingは横との隙間だった
   // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder();
   // $footerComponentBuilder->setLayout($layout);
   // $footerComponentBuilder->setContents($footerBoxComponentBuilder);
-  // $footerComponentBuilder->setPaddingBottom($paddingBottom);
+  $footerComponentBuilder->setPaddingBottom($paddingBottom);
 
   $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, $heroImageSize, $aspectRatio, $aspectMode);
 
