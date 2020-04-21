@@ -34,7 +34,7 @@ foreach ($events as $event) {
       // 家事stepの選択肢ボタンをタップした時の処理
       if($event->getPostbackData() == 'step1'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦下準備１：異物混入チェック',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('紙や異物が混じってないかポケットを確認してください。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -48,15 +48,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step1', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step1', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step2'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step2   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備２：泥汚れの下洗い',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦下準備２：泥汚れの下洗い',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -70,15 +72,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step2', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step2', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step3'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step3   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備３：洗濯ネットで保護',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦下準備３：洗濯ネットで保護',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -92,15 +96,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step3', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step3', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step4'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step4   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットの収納場所',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗濯ネットの収納場所',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -114,15 +120,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step4', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step4', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step5'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step5   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の収納場所',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗剤の収納場所',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -136,15 +144,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step5', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step5', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step6'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step6   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の種類',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗剤の種類',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「ハイジア」を使ってください。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -158,15 +168,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step6', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step6', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step7'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step7   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の水量',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗濯機の水量',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('全て洗濯機に入れたら、水量を知るために、洗濯機のスタートボタンを押してください。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -180,15 +192,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step7', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step7', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step8'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step8   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤について',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗剤について',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯物の量に応じて水量が変わります、洗剤を水量に応じて入れます。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -202,15 +216,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step8', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step8', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step9'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step9   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量について',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗剤の量について',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「背面か側面に載ってますので見てください」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -224,15 +240,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step9', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step9', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step10'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗剤の投入口',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -246,15 +264,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step11'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step11   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤について',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦柔軟剤について',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -268,15 +288,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step11', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step11', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step12'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step12   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤の投入口',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦柔軟剤の投入口',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -290,15 +312,17 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step12', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step12', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
       else if($event->getPostbackData() == 'step13'){
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step13   ★洗濯機で洗う（全13step）',null,null,'sm')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機スタート',null,null,'lg',null,null,true,null,'bold')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('🟦洗濯機スタート',null,null,'lg',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の蓋を閉めると洗濯が始まります。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
@@ -312,10 +336,12 @@ foreach ($events as $event) {
         // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerpaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step13', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $footerPaddingBottom::XXL, $footerpaddingEnd::LG, $footerpaddingStart::LG
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step13', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
   
@@ -423,128 +449,6 @@ foreach ($events as $event) {
       );
     }
 
-    // 家事stepの選択肢ボタンをタップした時の処理(カルーセルテンプレート)
-    // else if(substr($event->getText(), 4) == '洗濯前の準備'){
-    //   // step1~4を返信
-    //   $columnArray = array();      
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_洗剤について'));
-    //     // 各stepの内容
-    //     $column1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step1 下準備１：異物混入チェック',
-    //       '紙や異物が混じってないかポケットを確認してください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0724.jpg',
-    //       $actionArray
-    //     );
-    //     $column2 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step2 下準備２：泥汚れの下洗い',
-    //       '泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0721.jpg',
-    //       $actionArray
-    //     );
-    //     $column3 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step3 下準備３：洗濯ネットで保護',
-    //       '黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg',
-    //       $actionArray
-    //     );
-    //     $column4 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step4 洗濯ネットの収納場所',
-    //       '洗濯ネットは「引き出しや戸棚の中」を探してください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg',
-    //       $actionArray
-    //     );
-    //     // 配列に追加
-    //     array_push($columnArray, $column1,$column2,$column3,$column4);
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗濯前の準備', $columnArray);
-    // }
-
-    // else if(substr($event->getText(), 4) == '洗剤について'){
-    //   // step5~10を返信
-    //   $columnArray = array();      
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_柔軟剤について'));
-    //     // 各stepの内容
-    //     $column5 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step5 洗剤の収納場所',
-    //       '洗剤は「引き出しや戸棚の中」を探してください',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg',
-    //       $actionArray
-    //     );
-    //     $column6 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step6 洗剤の種類',
-    //       '毎日の衣類・タオル類には「ハイジア」を使ってください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg',
-    //       $actionArray
-    //     );
-    //     $column7 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step7 洗濯機の水量',
-    //       '全て洗濯機に入れたら、水量を知るために、洗濯機のスタートボタンを押してください。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0710.jpg',
-    //       $actionArray
-    //     );
-    //     $column8 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step8 洗剤について',
-    //       '洗濯物の量に応じて水量が変わります、洗剤を水量に応じて入れます。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0713.jpg',
-    //       $actionArray
-    //     );
-    //     $column9 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step9 洗剤の量について',
-    //       '洗剤の量は「背面か側面に載ってますので見てください」',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg',
-    //       $actionArray
-    //     );
-    //     $column10 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step10 洗剤の投入口',
-    //       '洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg',
-    //       $actionArray
-    //     );
-    //     // 配列に追加
-    //     array_push($columnArray, $column5,$column6,$column7,$column8,$column9,$column10);
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗剤について', $columnArray);
-    // }
-
-    // else if(substr($event->getText(), 4) == '柔軟剤について'){
-    //   // step11~12を返信
-    //   $columnArray = array();      
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('次へ', 'cmd_洗濯機スタート'));
-    //     // 各stepの内容
-    //     $column11 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step11 柔軟剤について',
-    //       '柔軟剤は「必要であれば入れてください。」',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/junanzai.jpg',
-    //       $actionArray
-    //     );
-    //     $column12 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step12 柔軟剤の投入口',
-    //       '柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg',
-    //       $actionArray
-    //     );
-    //     // 配列に追加
-    //     array_push($columnArray, $column11,$column12);
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'柔軟剤について', $columnArray);
-    // }
-
-    // else if(substr($event->getText(), 4) == '洗濯機スタート'){
-    //   // step13を返信
-    //   $columnArray = array();      
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ('完了', 'cmd_完了'));
-    //     // 各stepの内容
-    //     $column13 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //       'step13 洗濯機スタート',
-    //       '洗濯機の蓋を閉めると洗濯が始まります。',
-    //       'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0715.jpg',
-    //       $actionArray
-    //     );
-    //     // 配列に追加
-    //     array_push($columnArray, $column13);
-    //   replyCarouselTemplate($bot, $event->getReplyToken(),'洗濯機スタート', $columnArray);
-    // }
 
     continue;
   }
@@ -674,7 +578,7 @@ function replyQuickReplyButton($bot, $replyToken, $text1, ...$actions) {
 }
 
 // フレックスメッセージ
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply, $headerPaddingTop, $headerPaddingBottom, $footerPaddingBottom, $footerpaddingEnd, $footerpaddingStart) {
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $quickReply, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingEnd, $bodyPaddingStart, $footerPaddingBottom, $footerPaddingEnd, $footerPaddingStart) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
@@ -690,6 +594,8 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
     array_push($bodyBoxComponentBuilders,$value);
   }
   $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
+  $bodyComponentBuilder->setPaddingEnd($bodyPaddingEnd);
+  $bodyComponentBuilder->setPaddingStart($bodyPaddingStart);
 
   $footerBoxComponentBuilder = array();
   foreach($footerTextComponents as $value){
@@ -701,8 +607,8 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
   // $footerComponentBuilder->setLayout($layout);
   // $footerComponentBuilder->setContents($footerBoxComponentBuilder);
   $footerComponentBuilder->setPaddingBottom($footerPaddingBottom);
-  $footerComponentBuilder->setPaddingEnd($footerpaddingEnd);
-  $footerComponentBuilder->setPaddingStart($footerpaddingStart);
+  $footerComponentBuilder->setPaddingEnd($footerPaddingEnd);
+  $footerComponentBuilder->setPaddingStart($footerPaddingStart);
 
   $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, $heroImageSize, $aspectRatio, $aspectMode);
 
