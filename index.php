@@ -628,7 +628,7 @@ function endKaji($bot, $userId) {
   $sth->execute(array(getRoomIdOfUser($userId)));
   // 各ユーザーにメッセージを送信
   foreach ($sth->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('作業終了しました✨'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】洗濯機を回しました✨'));
   }
 
   // ルームを削除（ユーザーも削除？）
