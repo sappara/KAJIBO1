@@ -11,3 +11,11 @@ https://www.shoeisha.co.jp/book/detail/9784798150734
 LINE BOT を作ろう!
 
 立花翔さん著
+
+### 下記 SDK を参考にさせていただいています。
+
+https://github.com/line/line-liff-v2-starter.git
+
+MIT License
+
+Copyright (c) 2019 LINE Corporation
