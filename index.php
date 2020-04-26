@@ -484,9 +484,14 @@ foreach ($events as $event) {
     if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     } else {
-      replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
+      // replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
+      //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
+      //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
+      replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ４'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。'));
     }
   }
   // step4に登録を実行
