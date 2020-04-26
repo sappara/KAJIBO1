@@ -485,12 +485,12 @@ foreach ($events as $event) {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     } else {
       replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に 「step4」 とつけて続けて収納場所を書いて送信してください。'),
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cansel'));
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
     }
   }
   // step4に登録を実行
-  if(substr($event->getText(), 0, 7) == '「step4」') {
+  if(substr($event->getText(), 0, 5) == 'ステップ４') {
     // ルーム作成
     // if(substr($event->getText(), 4) == 'newroom') {
       // ユーザーが未入室の時
@@ -500,9 +500,8 @@ foreach ($events as $event) {
     // step4に登録を実行
     // if($event->getText() == 'cmd_登録') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 7);
-      $roomId = getRoomIdOfUser($event->getUserId());
-      registerStep4($roomId, $step4);
+      $step4 = substr($event->getText(), 5);
+      registerStep4($event->getUserId(), $step4);
       replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -510,9 +509,10 @@ foreach ($events as $event) {
   }
 }
 
-
 // step4を登録
-function registerStep4($roomId, $step4){
+function registerStep4($userId, $step4){
+  $roomId = getRoomIdOfUser($userId);
+  
   $dbh = dbConnection::getConnection();
   $sql = 'insert into '. TABLE_NAME_STEP4S .' (roomid, step4) values (?, ?) ';
   $sth = $dbh->prepare($sql);
