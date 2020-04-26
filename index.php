@@ -513,6 +513,30 @@ foreach ($events as $event) {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
   }
+
+  // step4に上書き更新
+  if($event->getText() == '更新したい'){
+    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    } else {
+      replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('4u'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「4u戸棚の中」'));
+    }
+  }
+  // step4に更新を実行
+  if(substr($event->getText(), 0, 2) == '4u') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      $step4 = substr($event->getText(), 2);
+      updateStep4($event->getUserId(), $step4);
+      replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
 }
 
 // step4を登録
@@ -542,6 +566,16 @@ function getStep4($userId) {
     // return json_decode($row['stone']);
     return $row['step4'];
   }
+}
+
+// step4の情報を更新（DBの上書き）
+function updateStep4($userId, $step4) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step4));
 }
 
 // ユーザーIDからルームIDを取得
