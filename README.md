@@ -12,10 +12,10 @@ LINE BOT を作ろう!
 
 立花翔さん著
 
-### 下記 SDK を参考にさせていただいています。
+## 下記 SDK を使用しております。
 
-https://github.com/line/line-liff-v2-starter.git
+https://github.com/line/line-bot-sdk-php
 
-MIT License
+Apache License 2.0
 
-Copyright (c) 2019 LINE Corporation
+Copyright (C) 2016 LINE Corp.
