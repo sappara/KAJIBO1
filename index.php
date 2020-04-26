@@ -575,7 +575,7 @@ function updateStep4($userId, $step4) {
   $dbh = dbConnection::getConnection();
   $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where roomid = ?';
   $sth = $dbh->prepare($sql);
-  $sth->execute(array($roomId, $step4));
+  $sth->execute(array($step4, $roomId));
 }
 
 // ユーザーIDからルームIDを取得
