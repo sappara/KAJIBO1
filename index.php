@@ -522,12 +522,12 @@ foreach ($events as $event) {
       replyMultiMessage($bot,
             $event->getReplyToken(),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('4u'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「4u戸棚の中」'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u4'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u4戸棚の中」'));
     }
   }
   // step4に更新を実行
-  if(substr($event->getText(), 0, 2) == '4u') {
+  if(substr($event->getText(), 0, 2) == 'u4') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       $step4 = substr($event->getText(), 2);
       updateStep4($event->getUserId(), $step4);
