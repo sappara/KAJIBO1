@@ -4,6 +4,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 // テーブル名を定義
 define('TABLE_NAME_ROOMS', 'rooms');
+define('TABLE_NAME_STEP4S', 'step4s');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -478,6 +479,44 @@ foreach ($events as $event) {
     }
   }
 
+  // step4に登録
+  if($event->getText() == '登録したい'){
+    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    } else {
+      replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に 「step4」 とつけて続けて収納場所を書いて送信してください。'),
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cansel'));
+    }
+  }
+  // step4に登録を実行
+  if(substr($event->getText(), 0, 7) == '「step4」') {
+    // ルーム作成
+    // if(substr($event->getText(), 4) == 'newroom') {
+      // ユーザーが未入室の時
+      // if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+        // ルームを作成し入室後ルームIDを取得
+        // $roomId = createRoomAndGetRoomId($event->getUserId());
+    // step4に登録を実行
+    // if($event->getText() == 'cmd_登録') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      $step4 = substr($event->getText(), 7);
+      $roomId = getRoomIdOfUser($event->getUserId());
+      registerStep4($roomId, $step4);
+      replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+}
+
+
+// step4を登録
+function registerStep4($roomId, $step4){
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP4S .' (roomid, step4) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step4));
 }
 
 // ユーザーIDからルームIDを取得
