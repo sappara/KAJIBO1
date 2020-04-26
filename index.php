@@ -201,9 +201,18 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step4'){
+        // if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+        //   $step4 = substr($event->getText(), 1);
+        //   registerStep4($event->getUserId(), $step4);
+        //   replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+        // } else {
+        //   replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        // }
+        $step4 = getStep4($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step4   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットの収納場所',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「'.$step4.'」を探してください',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg';
@@ -490,20 +499,12 @@ foreach ($events as $event) {
       replyMultiMessage($bot,
             $event->getReplyToken(),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ４'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('4'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「4戸棚の中」'));
     }
   }
   // step4に登録を実行
   if(substr($event->getText(), 0, 1) == '4') {
-    // ルーム作成
-    // if(substr($event->getText(), 4) == 'newroom') {
-      // ユーザーが未入室の時
-      // if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-        // ルームを作成し入室後ルームIDを取得
-        // $roomId = createRoomAndGetRoomId($event->getUserId());
-    // step4に登録を実行
-    // if($event->getText() == 'cmd_登録') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       $step4 = substr($event->getText(), 1);
       registerStep4($event->getUserId(), $step4);
@@ -522,6 +523,25 @@ function registerStep4($userId, $step4){
   $sql = 'insert into '. TABLE_NAME_STEP4S .' (roomid, step4) values (?, ?) ';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($roomId, $step4));
+}
+
+// step4を表示
+function getStep4($userId) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step4 from ' . TABLE_NAME_STEP4S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '引き出しや戸棚の中';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step4'];
+  }
 }
 
 // ユーザーIDからルームIDを取得
