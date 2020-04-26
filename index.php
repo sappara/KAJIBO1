@@ -499,14 +499,14 @@ foreach ($events as $event) {
       replyMultiMessage($bot,
             $event->getReplyToken(),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('4'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「4戸棚の中」'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
     }
   }
   // step4に登録を実行
-  if(substr($event->getText(), 0, 1) == '4') {
+  if(substr($event->getText(), 0, 3) == 't04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 1);
+      $step4 = substr($event->getText(), 3);
       registerStep4($event->getUserId(), $step4);
       replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
     } else {
@@ -522,14 +522,14 @@ foreach ($events as $event) {
       replyMultiMessage($bot,
             $event->getReplyToken(),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u4'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u4戸棚の中」'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
     }
   }
   // step4に更新を実行
-  if(substr($event->getText(), 0, 2) == 'u4') {
+  if(substr($event->getText(), 0, 3) == 'u04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 2);
+      $step4 = substr($event->getText(), 3);
       updateStep4($event->getUserId(), $step4);
       replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
     } else {
@@ -573,7 +573,7 @@ function updateStep4($userId, $step4) {
   $roomId = getRoomIdOfUser($userId);
 
   $dbh = dbConnection::getConnection();
-  $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where ? = roomid';
+  $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where roomid = ?';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($roomId, $step4));
 }
