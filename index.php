@@ -530,7 +530,7 @@ foreach ($events as $event) {
   if(substr($event->getText(), 0, 3) == 'u04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       $step4 = substr($event->getText(), 3);
-      updateStep4($event->getUserId(), $step4);
+      updateStep4($bot, $event->getUserId(), $step4);
       replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -591,14 +591,37 @@ function getStep4($userId) {
 }
 
 // step4の情報を更新（DBの上書き）
-function updateStep4($userId, $step4) {
+function updateStep4($bot, $userId, $step4) {
   $roomId = getRoomIdOfUser($userId);
 
   $dbh = dbConnection::getConnection();
   $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where roomid = ?';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($step4, $roomId));
+// }
+// function endBingo($bot, $userId) {
+  // $roomId = getRoomIdOfUser($userId);
+
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を更新しました'));
+  }
+
+  // ユーザーを削除
+  $sqlDeleteUser = 'delete FROM ' . TABLE_NAME_SHEETS . ' where roomid = ?';
+  $sthDeleteUser = $dbh->prepare($sqlDeleteUser);
+  $sthDeleteUser->execute(array($roomId));
+
+  // ルームを削除
+  $sqlDeleteRoom = 'delete FROM ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
+  $sthDeleteRoom->execute(array($roomId));
 }
+
 
 // step4の情報をデータベースから削除
 function deleteStep4($userId) {
