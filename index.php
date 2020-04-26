@@ -495,7 +495,7 @@ foreach ($events as $event) {
     }
   }
   // step4に登録を実行
-  if(substr($event->getText(), 0, 5) == 'ステップ４') {
+  if(substr($event->getText(), 0, 1) == '4') {
     // ルーム作成
     // if(substr($event->getText(), 4) == 'newroom') {
       // ユーザーが未入室の時
@@ -505,7 +505,7 @@ foreach ($events as $event) {
     // step4に登録を実行
     // if($event->getText() == 'cmd_登録') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 5);
+      $step4 = substr($event->getText(), 1);
       registerStep4($event->getUserId(), $step4);
       replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
     } else {
