@@ -537,6 +537,28 @@ foreach ($events as $event) {
     }
   }
 
+  // step4をDBから削除
+  if($event->getText() == '削除したい'){
+    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    } else {
+      replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名をつけて、送信してください。例「s04」'));
+    }
+  }
+  // step4の削除を実行
+  if(substr($event->getText(), 0, 3) == 's04') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      deleteStep4($event->getUserId());
+      replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
 }
 
 // step4を登録
@@ -576,6 +598,16 @@ function updateStep4($userId, $step4) {
   $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where roomid = ?';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($step4, $roomId));
+}
+
+// step4の情報をデータベースから削除
+function deleteStep4($userId) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP4S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
 }
 
 // ユーザーIDからルームIDを取得
