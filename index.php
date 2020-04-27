@@ -538,7 +538,13 @@ foreach ($events as $event) {
         updateStep4($bot, $event->getUserId(), $step4);
         // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
       } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
+        // replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「t04戸棚の中」'));
       }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
