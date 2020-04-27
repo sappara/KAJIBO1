@@ -465,7 +465,8 @@ foreach ($events as $event) {
     $directory_path = 'tmp';
     // 保存するファイル名
     // $filename = uniqid();
-    $filename = 'step10photo';
+    $roomId = getRoomIdOfUser($event->getUserId());
+    $filename = $roomId.'step10photo';
     // コンテンツの種類を取得
     $extension = explode('/', $headers['Content-Type'])[1];
     // 保存先フォルダが存在しなければ
@@ -545,7 +546,8 @@ foreach ($events as $event) {
     // echo ComponentLayout::VERTICAL;
     $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
     // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
-    $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/step10photo.jpeg';
+    $roomId = getRoomIdOfUser($event->getUserId());
+    $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
     $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
     $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
     $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
