@@ -479,10 +479,18 @@ foreach ($events as $event) {
     // 保存先フォルダにコンテンツを保存
     file_put_contents($directory_path . '/' . $filename . '.' . $extension, $content->getRawBody());
     // 保存したファイルのURLを返信→ユーザーがタップすると画像を閲覧できる
-    replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
+    // replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
+    replyMultiMessage($bot,
+    $event->getReplyToken(),
+    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
+    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
+    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「step10」'));
+    // 下のstep10に表示に続く
   }
-  // 実際の表示url
+  // 実際の表示url (uniqid)の時
   // http://アプリ名.herokuapp.com/tmp/xxxxxxx.jpeg
+  // 実際の表示url (固定)の時
+  // http://アプリ名.herokuapp.com/tmp/step10photo.jpeg
   // githubに保存してる画像ファイルを表示する時はこちら
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
   
@@ -529,6 +537,31 @@ foreach ($events as $event) {
       replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
       // 上方の、ImageMessage型イベント確認グループに続く
     }
+  }
+  if($event->getText() == 'step10'){
+    $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+    $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+    $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+    // echo ComponentLayout::VERTICAL;
+    $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+    // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+    $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/step10photo.jpeg';
+    $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+    $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+    $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+    // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+    $quickReplyButtons =  flexMessageQuickReply();
+    $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+    // $spacing = ComponentSpacing::XXL;
+    $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+    replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+    );
   }
 
   // step4に登録
