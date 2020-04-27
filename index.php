@@ -450,8 +450,36 @@ foreach ($events as $event) {
         );
       }
   
-      continue;
+    continue;
+  }
+
+
+  // ユーザーから送信された画像ファイルを取得し、サーバーに保存する
+  // イベントがImageMessage型であれば
+  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
+    // イベントのコンテンツを取得
+    $content = $bot->getMessageContent($event->getMessageId());
+    // コンテンツヘッダーを取得
+    $headers = $content->getHeaders();
+    // 画像の保存先フォルダ
+    $directory_path = 'tmp';
+    // 保存するファイル名
+    $filename = uniqid();
+    // コンテンツの種類を取得
+    $extension = explode('/', $headers['Content-Type'])[1];
+    // 保存先フォルダが存在しなければ
+    if(!file_exists($directory_path)) {
+      // フォルダを作成
+      if(mkdir($directory_path, 0777, true)) {
+        // 権限を変更
+        chmod($directory_path, 0777);
+      }
     }
+    // 保存先フォルダにコンテンツを保存
+    file_put_contents($directory_path . '/' . $filename . '.' . $extension, $content->getRawBody());
+    // 保存したファイルのURLを返信
+    replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
+  }
   
 
   // MessageEvent型でなければ処理をスキップ
