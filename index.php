@@ -533,9 +533,13 @@ foreach ($events as $event) {
   // step4に更新を実行
   if(substr($event->getText(), 0, 3) == 'u04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 3);
-      updateStep4($bot, $event->getUserId(), $step4);
-      // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');//pushmessage追加したら投稿されなくなった
+      if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step4 = substr($event->getText(), 3);
+        updateStep4($bot, $event->getUserId(), $step4);
+        // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
+      }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
