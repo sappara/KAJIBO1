@@ -464,7 +464,8 @@ foreach ($events as $event) {
     // 画像の保存先フォルダ
     $directory_path = 'tmp';
     // 保存するファイル名
-    $filename = uniqid();
+    // $filename = uniqid();
+    $filename = 'step10photo';
     // コンテンツの種類を取得
     $extension = explode('/', $headers['Content-Type'])[1];
     // 保存先フォルダが存在しなければ
@@ -477,9 +478,13 @@ foreach ($events as $event) {
     }
     // 保存先フォルダにコンテンツを保存
     file_put_contents($directory_path . '/' . $filename . '.' . $extension, $content->getRawBody());
-    // 保存したファイルのURLを返信
+    // 保存したファイルのURLを返信→ユーザーがタップすると画像を閲覧できる
     replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
   }
+  // 実際の表示url
+  // http://アプリ名.herokuapp.com/tmp/xxxxxxx.jpeg
+  // githubに保存してる画像ファイルを表示する時はこちら
+  // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
   
 
   // MessageEvent型でなければ処理をスキップ
@@ -513,6 +518,16 @@ foreach ($events as $event) {
     // 失敗時
     else {
       replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
+    }
+  }
+
+  // step10に登録
+  if($event->getText() == '写真変えたい'){
+    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
+      // 上方の、ImageMessage型イベント確認グループに続く
     }
   }
 
