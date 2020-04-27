@@ -565,8 +565,12 @@ foreach ($events as $event) {
   // step4の削除を実行
   if(substr($event->getText(), 0, 3) == 's04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      deleteStep4($bot, $event->getUserId());
-      // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
+      if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep4($bot, $event->getUserId());
+        // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
