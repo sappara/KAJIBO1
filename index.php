@@ -506,9 +506,13 @@ foreach ($events as $event) {
   // step4に登録を実行
   if(substr($event->getText(), 0, 3) == 't04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      $step4 = substr($event->getText(), 3);
-      registerStep4($bot, $event->getUserId(), $step4);
-      // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+      if(getDetailOfStep4($event->getUserId()) === PDO::PARAM_NULL) {
+        $step4 = substr($event->getText(), 3);
+        registerStep4($bot, $event->getUserId(), $step4);
+        // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+      }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
@@ -546,14 +550,14 @@ foreach ($events as $event) {
             $event->getReplyToken(),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名をつけて、送信してください。例「s04」'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
     }
   }
   // step4の削除を実行
   if(substr($event->getText(), 0, 3) == 's04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       deleteStep4($bot, $event->getUserId());
-      replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
+      // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
@@ -632,6 +636,22 @@ function deleteStep4($bot, $userId) {
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」の登録を削除しました'));
+  }
+}
+
+// ユーザーIDからstep4の登録内容を取得
+function getDetailOfStep4($userId) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step4 from ' . TABLE_NAME_STEP4S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step4'];
   }
 }
 
