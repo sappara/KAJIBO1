@@ -508,7 +508,7 @@ foreach ($events as $event) {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       $step4 = substr($event->getText(), 3);
       registerStep4($bot, $event->getUserId(), $step4);
-      replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+      // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
@@ -552,7 +552,7 @@ foreach ($events as $event) {
   // step4の削除を実行
   if(substr($event->getText(), 0, 3) == 's04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      deleteStep4($event->getUserId());
+      deleteStep4($bot, $event->getUserId());
       replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -614,27 +614,25 @@ function updateStep4($bot, $userId, $step4) {
   foreach ($sthUsers->fetchAll() as $row) {
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を更新しました'));
   }
-
-  // // ユーザーを削除
-  // $sqlDeleteUser = 'delete FROM ' . TABLE_NAME_SHEETS . ' where roomid = ?';
-  // $sthDeleteUser = $dbh->prepare($sqlDeleteUser);
-  // $sthDeleteUser->execute(array($roomId));
-
-  // // ルームを削除
-  // $sqlDeleteRoom = 'delete FROM ' . TABLE_NAME_ROOMS . ' where roomid = ?';
-  // $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
-  // $sthDeleteRoom->execute(array($roomId));
 }
 
 
 // step4の情報をデータベースから削除
-function deleteStep4($userId) {
+function deleteStep4($bot, $userId) {
   $roomId = getRoomIdOfUser($userId);
 
   $dbh = dbConnection::getConnection();
   $sql = 'delete FROM ' . TABLE_NAME_STEP4S . ' where roomid = ?';
   $sth = $dbh->prepare($sql);
   $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」の登録を削除しました'));
+  }
 }
 
 // ユーザーIDからルームIDを取得
