@@ -529,8 +529,9 @@ foreach ($events as $event) {
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
       $filesize = filesize($path);
-      // $filesize_save = floor(1000/$filesize)*100;
-      $quality = 'q_'.$filesize;
+      // 238830だった<=238kb
+      $filesize_save = floor(100000/$filesize)*100;
+      $quality = 'q_'.$filesize_save;
       $roomId = getRoomIdOfUser($event->getUserId());
       $filename_save = array('transformation'=>$quality, 'folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
