@@ -528,12 +528,12 @@ foreach ($events as $event) {
 
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
-      $filesize = filesize($path);
+      // $filesize = filesize($path);
       // 238830だった<=238kb
-      $filesize_save = intdiv(100000, $filesize)*100;
-      $quality = 'q_'.$filesize_save;
+      // $filesize_save = intdiv(100000, $filesize)*100;
+      // $quality = 'q_'.$filesize_save;
       $roomId = getRoomIdOfUser($event->getUserId());
-      $filename_save = array('transformation'=>$quality, 'folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
+      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'q_40']);
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
 
       $bot->replyMessage($event->getReplyToken(),
