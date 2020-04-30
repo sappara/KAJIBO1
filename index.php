@@ -533,7 +533,7 @@ foreach ($events as $event) {
       // $filesize_save = intdiv(100000, $filesize)*100;
       // $quality = 'q_'.$filesize_save;
       $roomId = getRoomIdOfUser($event->getUserId());
-      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'q_40']);
+      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'40']);
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
 
       $bot->replyMessage($event->getReplyToken(),
