@@ -528,12 +528,14 @@ foreach ($events as $event) {
 
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
-      $filesize = filesize($path);
+      // $filesize = filesize($path);
       // 238830だった<=238kb
-      $filesize_save = intdiv(100000, $filesize)*100;
+      // $filesize_save = floor(intdiv(100000, $filesize)*100);
+      // 変数を入れ込むとうまくいかない、q_0になってしまう、もしくは計算上76kbの筈が7.9kbと一桁少なく保存される。なので固定値で。
       $roomId = getRoomIdOfUser($event->getUserId());
-      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>$filesize_save]);
+      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
+      // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
 
       $bot->replyMessage($event->getReplyToken(),
           (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
@@ -542,7 +544,6 @@ foreach ($events as $event) {
       ;
     }
   }
-  // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
   
 
   // MessageEvent型でなければ処理をスキップ
