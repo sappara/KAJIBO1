@@ -537,10 +537,15 @@ foreach ($events as $event) {
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
       // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
 
-      $bot->replyMessage($event->getReplyToken(),
-          (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
-            ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
-        );
+      // $bot->replyMessage($event->getReplyToken(),
+      //     (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
+      //       ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
+      //   );
+      replyMultiMessage($bot, $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「step10」'));
+        // 下のstep10に表示に続く
       ;
     }
   }
@@ -597,7 +602,8 @@ foreach ($events as $event) {
     $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
     // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
     $roomId = getRoomIdOfUser($event->getUserId());
-    $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
+    // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
+    $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
     $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
     $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
     $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
