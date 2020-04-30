@@ -456,44 +456,80 @@ foreach ($events as $event) {
 
   // ユーザーから送信された画像ファイルを取得し、サーバーに保存する
   // イベントがImageMessage型であれば
-  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
-    // イベントのコンテンツを取得
-    $content = $bot->getMessageContent($event->getMessageId());
-    // コンテンツヘッダーを取得
-    $headers = $content->getHeaders();
-    // 画像の保存先フォルダ
-    $directory_path = 'tmp';
-    // 保存するファイル名
-    // $filename = uniqid();
-    $roomId = getRoomIdOfUser($event->getUserId());
-    $filename = $roomId.'step10photo';
-    // コンテンツの種類を取得
-    $extension = explode('/', $headers['Content-Type'])[1];
-    // 保存先フォルダが存在しなければ
-    if(!file_exists($directory_path)) {
-      // フォルダを作成
-      if(mkdir($directory_path, 0777, true)) {
-        // 権限を変更
-        chmod($directory_path, 0777);
-      }
-    }
-    // 保存先フォルダにコンテンツを保存
-    file_put_contents($directory_path . '/' . $filename . '.' . $extension, $content->getRawBody());
-    // 保存したファイルのURLを返信→ユーザーがタップすると画像を閲覧できる
-    // replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
-    replyMultiMessage($bot,
-    $event->getReplyToken(),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「step10」'));
-    // 下のstep10に表示に続く
-  }
+  // if ($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
+  //   // イベントのコンテンツを取得
+  //   $content = $bot->getMessageContent($event->getMessageId());
+  //   // コンテンツヘッダーを取得
+  //   $headers = $content->getHeaders();
+  //   // 画像の保存先フォルダ
+  //   $directory_path = 'tmp';
+  //   // 保存するファイル名
+  //   // $filename = uniqid();
+  //   $roomId = getRoomIdOfUser($event->getUserId());
+  //   $filename = $roomId.'step10photo';
+  //   // コンテンツの種類を取得
+  //   $extension = explode('/', $headers['Content-Type'])[1];
+  //   // 保存先フォルダが存在しなければ
+  //   if(!file_exists($directory_path)) {
+  //     // フォルダを作成
+  //     if(mkdir($directory_path, 0777, true)) {
+  //       // 権限を変更
+  //       chmod($directory_path, 0777);
+  //     }
+  //   }
+  //   // 保存先フォルダにコンテンツを保存
+  //   file_put_contents($directory_path . '/' . $filename . '.' . $extension, $content->getRawBody());
+  //   // 保存したファイルのURLを返信→ユーザーがタップすると画像を閲覧できる
+  //   // replyTextMessage($bot, $event->getReplyToken(), 'http://' . $_SERVER['HTTP_HOST'] . '/' . $directory_path. '/' . $filename . '.' . $extension);
+  //   replyMultiMessage($bot,
+  //   $event->getReplyToken(),
+  //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
+  //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
+  //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「step10」'));
+  //   // 下のstep10に表示に続く
+  // }
   // 実際の表示url (uniqid)の時
   // http://アプリ名.herokuapp.com/tmp/xxxxxxx.jpeg
   // 実際の表示url (固定)の時
   // http://アプリ名.herokuapp.com/tmp/step10photo.jpeg
   // githubに保存してる画像ファイルを表示する時はこちら
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+
+
+  if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
+    if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
+      \Cloudinary::config(array(
+        'cloud_name' => getenv('CLOUDINARY_NAME'),
+        'api_key' => getenv('CLOUDINARY_KEY'),
+        'api_secret' => getenv('CLOUDINARY_SECRET')
+      ));
+
+      $response = $bot->getMessageContent($event->getMessageId());
+      $im = imagecreatefromstring($response->getRawBody());
+
+      if ($im !== false) {
+          $roomId = getRoomIdOfUser($event->getUserId());
+          $filename = $roomId.'step10photo';
+          // $filename = uniqid();
+          $directory_path = 'tmp';
+          if(!file_exists($directory_path)) {
+            if(mkdir($directory_path, 0777, true)) {
+                chmod($directory_path, 0777);
+            }
+          }
+          imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
+      }
+
+      $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
+      $result = \Cloudinary\Uploader::upload($path);
+
+      $bot->replyMessage($event->getReplyToken(),
+          (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
+            ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['url']))
+        );
+      ;
+    }
+  }
   
 
   // MessageEvent型でなければ処理をスキップ
