@@ -523,6 +523,7 @@ foreach ($events as $event) {
           imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
       }
 
+      $filesize = new \LINE\LINEBot\Event\MessageEvent;
       $filesize = $bot->getMessageContent($event->getFileSize());
       $filesize_save = floor(1000/$filesize)*100;
       $quality = 'q_'.$filesize_save;
