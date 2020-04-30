@@ -523,14 +523,18 @@ foreach ($events as $event) {
           imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
       }
 
+      $filesize = $bot->getMessageContent($event->getFileSize());
+      $filesize_save = floor(1000/$filesize)*100;
+      $quality = 'q_'.$filesize_save;
+
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
       $roomId = getRoomIdOfUser($event->getUserId());
-      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
+      $filename_save = array('transformation'=>$quality, 'folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
 
       $bot->replyMessage($event->getReplyToken(),
           (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
-            ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['url']))
+            ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
         );
       ;
     }
