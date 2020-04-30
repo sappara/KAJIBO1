@@ -507,11 +507,13 @@ foreach ($events as $event) {
       $response = $bot->getMessageContent($event->getMessageId());
       $im = imagecreatefromstring($response->getRawBody());
       // PHP Fatal error:  Uncaught Error: Call to undefined function imagecreatefromstring()
+      // imagecreatefromstring — 文字列の中のイメージストリームから新規イメージを作成する
+      // ext-gd入れたら解決
 
       if ($im !== false) {
-          $roomId = getRoomIdOfUser($event->getUserId());
-          $filename = $roomId.'step10photo';
-          // $filename = uniqid();
+          // $roomId = getRoomIdOfUser($event->getUserId());
+          // $filename = $roomId.'step10photo';
+          $filename = uniqid();
           $directory_path = 'tmp';
           if(!file_exists($directory_path)) {
             if(mkdir($directory_path, 0777, true)) {
@@ -522,7 +524,9 @@ foreach ($events as $event) {
       }
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
-      $result = \Cloudinary\Uploader::upload($path);
+      $roomId = getRoomIdOfUser($event->getUserId());
+      $filename_save = array('folder'=>'kajibo/'.$roomId, 'public_id'=>'step10photo', 'format'=>'jpg');
+      $result = \Cloudinary\Uploader::upload($path, $filename_save);
 
       $bot->replyMessage($event->getReplyToken(),
           (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
@@ -531,6 +535,7 @@ foreach ($events as $event) {
       ;
     }
   }
+  // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
   
 
   // MessageEvent型でなければ処理をスキップ
