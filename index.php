@@ -523,12 +523,14 @@ foreach ($events as $event) {
           imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
       }
 
-      $filesize = new \LINE\LINEBot\Event\MessageEvent;
-      $filesize = $bot->getMessageContent($event->getFileSize());
-      $filesize_save = floor(1000/$filesize)*100;
-      $quality = 'q_'.$filesize_save;
+      // $filesize = new \LINE\LINEBot\Event\MessageEvent();
+      // $filesize = $bot->getMessageContent($event->getFileSize());
+
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
+      $filesize = filesize($path);
+      $filesize_save = floor(1000/$filesize)*100;
+      $quality = 'q_'.$filesize_save;
       $roomId = getRoomIdOfUser($event->getUserId());
       $filename_save = array('transformation'=>$quality, 'folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
