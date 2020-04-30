@@ -525,7 +525,7 @@ foreach ($events as $event) {
 
       $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
       $roomId = getRoomIdOfUser($event->getUserId());
-      $filename_save = array('folder'=>'kajibo/'.$roomId, 'public_id'=>'step10photo', 'format'=>'jpg');
+      $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg');
       $result = \Cloudinary\Uploader::upload($path, $filename_save);
 
       $bot->replyMessage($event->getReplyToken(),
