@@ -506,6 +506,7 @@ foreach ($events as $event) {
 
       $response = $bot->getMessageContent($event->getMessageId());
       $im = imagecreatefromstring($response->getRawBody());
+      // PHP Fatal error:  Uncaught Error: Call to undefined function imagecreatefromstring()
 
       if ($im !== false) {
           $roomId = getRoomIdOfUser($event->getUserId());
