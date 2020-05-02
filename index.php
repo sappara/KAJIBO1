@@ -124,8 +124,8 @@ foreach ($events as $event) {
 
         // cmd_how_to_use
         else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-          // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-          // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+          $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+          $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
           $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
         }
 
