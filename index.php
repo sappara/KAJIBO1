@@ -124,9 +124,31 @@ foreach ($events as $event) {
 
         // cmd_how_to_use
         else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-          $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-          $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-          $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
+          // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
+          // -H "Authorization: Bearer {channel access token}"
+          $userId = $event->getUserId();
+          $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
+          $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-edcc5ac7bc07db4ee2f7becf00160c9f';
+          $curl = curl_init($url);
+          $options = array(
+            //HEADER
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$channelaccesstoken,
+            ),
+            //Method
+            CURLOPT_POST => true,//POST
+            //body
+            CURLOPT_POSTFIELDS => http_build_query($post_args),
+            // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
+          );
+          //set options
+          curl_setopt_array($curl, $options);
+          // request
+          $result = curl_exec($curl);
+          // 以下サンプルは動かず
+          // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+          // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+          // $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
         }
 
 
