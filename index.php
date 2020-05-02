@@ -104,7 +104,7 @@ foreach ($events as $event) {
         // }
 
         // 家事stepの選択肢ボタンをタイムラインに投稿
-        else if(substr($event->getPostbackData(), 4) == '洗う'){
+        else if(substr($event->getPostbackData(), 4) == 'kaji'){
           replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで見れるよ。ボタンを押してね。',
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
             new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
@@ -120,6 +120,13 @@ foreach ($events as $event) {
               new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12')),
               new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
           );
+        }
+
+        // cmd_how_to_use
+        else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
+          // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+          // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+          $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
         }
 
 
