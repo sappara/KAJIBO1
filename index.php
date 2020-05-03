@@ -123,6 +123,22 @@ foreach ($events as $event) {
         }
 
         // cmd_how_to_use
+        else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
+        }
+        // cmd_kaji_menu
+        else if(substr($event->getPostbackData(), 4) == 'kaji_menu'){
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe')));
+        }
+        // cmd_room_menu
+        else if(substr($event->getPostbackData(), 4) == 'room_menu'){
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-0497d90d09a9dc238929295866e324d0')));
+        }
+        // cmd_modification_menu
+        else if(substr($event->getPostbackData(), 4) == 'modification_menu'){
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-483be03d906642db37c9bf40a14c421b')));
+        }
+        // cmd_main_menu
         else if(substr($event->getPostbackData(), 4) == 'main_menu'){
           $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-04eeffc6e1d8b4d8d6e5a07354195c9b')));
           // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
@@ -882,61 +898,61 @@ function getDetailOfStep4($userId) {
   // else {
   //   return $decoded_json->{"message"};
   // }
-  function createNewRichmenuKaji($channelAccessToken) {
-  $url = "https://api.line.me/v2/bot/richmenu";
-  $curl = curl_init($url);
-  $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
-  $options = array(
-    //HEADER
-    CURLOPT_HTTPHEADER => array(
-      'Authorization: Bearer'.$channelAccessToken,
-      'Content-Type: application/json',
-    ),
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS=>$body, 
-  );
-  //set options
-  curl_setopt_array($curl, $options);
-  // request実行
-  $result = curl_exec($curl);
+//   function createNewRichmenuKaji($channelAccessToken) {
+//   $url = "https://api.line.me/v2/bot/richmenu";
+//   $curl = curl_init($url);
+//   $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
+//   $options = array(
+//     //HEADER
+//     CURLOPT_HTTPHEADER => array(
+//       'Authorization: Bearer'.$channelAccessToken,
+//       'Content-Type: application/json',
+//     ),
+//     CURLOPT_POST => true,
+//     CURLOPT_POSTFIELDS=>$body, 
+//   );
+//   //set options
+//   curl_setopt_array($curl, $options);
+//   // request実行
+//   $result = curl_exec($curl);
 
-  if(isset($result['richMenuId'])) {
-    return $result['richMenuId'];
-  }
-  else {
-    return $result['message'];
-  }
-}
+//   if(isset($result['richMenuId'])) {
+//     return $result['richMenuId'];
+//   }
+//   else {
+//     return $result['message'];
+//   }
+// }
 
-function uploadImageToRichmenuKaji($channelAccessToken, $channelSecret, $richmenuId) {
-  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
-  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
-  $imagePath = 'https://' . $_SERVER['HTTP_HOST'] .  '/richmenu/rich5.jpg';
-  $contentType = 'image/jpeg';
-  $response = $bot->uploadRichMenuImage($richmenuId, $imagePath, $contentType);
-  // if(!isRichmenuIdValid($richmenuId)) {
-  //   return 'invalid richmenu id';
-  // }
-  // 用意された５種類の画像の中から、ランダムに選ばれ、リッチメニューとしてアップロードされる
-//   $imageIndex = 5;
-//   $imagePath = realpath('') . 'richmenu/' . 'rich' . $imageIndex . '.jpg';
-//   $sh = <<< EOF
-//   curl -X POST \
-//   -H 'Authorization: Bearer $channelAccessToken' \
-//   -H 'Content-Type: image/jpg' \
-//   -H 'Expect:' \
-//   -T $imagePath \
-//   https://api.line.me/v2/bot/richmenu/$richmenuId/content
-// EOF;
-//   $result = json_decode(shell_exec(str_replace('\\', '', str_replace(PHP_EOL, '', $sh))), true);
-  // if(isset($result['message'])) {
-  //   return $result['message'];
-  //   // 失敗するとエラー内容が記述されて返ってきます。{'message': 'error description'}
-  // }
-  // else {
-  //   return 'success. Image #0' . $randomImageIndex . ' has uploaded onto ' . $richmenuId;
-  // }
-}
+// function uploadImageToRichmenuKaji($channelAccessToken, $channelSecret, $richmenuId) {
+//   $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
+//   $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
+//   $imagePath = 'https://' . $_SERVER['HTTP_HOST'] .  '/richmenu/rich5.jpg';
+//   $contentType = 'image/jpeg';
+//   $response = $bot->uploadRichMenuImage($richmenuId, $imagePath, $contentType);
+//   // if(!isRichmenuIdValid($richmenuId)) {
+//   //   return 'invalid richmenu id';
+//   // }
+//   // 用意された５種類の画像の中から、ランダムに選ばれ、リッチメニューとしてアップロードされる
+// //   $imageIndex = 5;
+// //   $imagePath = realpath('') . 'richmenu/' . 'rich' . $imageIndex . '.jpg';
+// //   $sh = <<< EOF
+// //   curl -X POST \
+// //   -H 'Authorization: Bearer $channelAccessToken' \
+// //   -H 'Content-Type: image/jpg' \
+// //   -H 'Expect:' \
+// //   -T $imagePath \
+// //   https://api.line.me/v2/bot/richmenu/$richmenuId/content
+// // EOF;
+// //   $result = json_decode(shell_exec(str_replace('\\', '', str_replace(PHP_EOL, '', $sh))), true);
+//   // if(isset($result['message'])) {
+//   //   return $result['message'];
+//   //   // 失敗するとエラー内容が記述されて返ってきます。{'message': 'error description'}
+//   // }
+//   // else {
+//   //   return 'success. Image #0' . $randomImageIndex . ' has uploaded onto ' . $richmenuId;
+//   // }
+// }
 function linkToUser($channelAccessToken, $userId, $richmenuId) {
   if(!isRichmenuIdValid($richmenuId)) {
     return 'invalid richmenu id';
