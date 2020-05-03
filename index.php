@@ -139,10 +139,11 @@ foreach ($events as $event) {
             new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder4, $actionBuilder4)
           ];
           $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
 
-          uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
+          // uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
 
-          linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $event->getUserId(), $richmenuId);
+          // linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $event->getUserId(), $richmenuId);
         }
         //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
         //   // -H "Authorization: Bearer {channel access token}"
@@ -869,6 +870,9 @@ function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAre
   $response = $bot->createRichMenu($richMenuBuilder);
   if(isset($response['richMenuId'])) {
     return $response['richMenuId'];
+  }
+  else {
+    return $result['message'];
   }
   // $url = "https://api.line.me/v2/bot/richmenu";
   // $curl = curl_init($url);
