@@ -191,6 +191,45 @@ foreach ($events as $event) {
           // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
           // $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
         }
+        // cmd_insert
+        else if(substr($event->getPostbackData(), 4) == 'insert'){
+        // if($event->getText() == '登録したい'){
+          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+          } else {
+            replyMultiMessage($bot,
+                  $event->getReplyToken(),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
+          }
+        }
+        // cmd_update
+        else if(substr($event->getPostbackData(), 4) == 'update'){
+        // if($event->getText() == '更新したい'){
+          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+          } else {
+            replyMultiMessage($bot,
+                  $event->getReplyToken(),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
+          }
+        }
+        // cmd_delete
+        else if(substr($event->getPostbackData(), 4) == 'delete'){
+        if($event->getText() == '削除したい'){
+          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+          } else {
+            replyMultiMessage($bot,
+                  $event->getReplyToken(),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
+          }
+        }
 
 
         continue;
@@ -692,21 +731,21 @@ foreach ($events as $event) {
     );
   }
 
-  // step4に登録
-  if($event->getText() == '登録したい'){
-    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    } else {
-      // replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
-      //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
-      //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
-      replyMultiMessage($bot,
-            $event->getReplyToken(),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
-    }
-  }
+  // step4に登録→postbackに変更
+  // if($event->getText() == '登録したい'){
+  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  //   } else {
+  //     // replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
+  //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
+  //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
+  //     replyMultiMessage($bot,
+  //           $event->getReplyToken(),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
+  //   }
+  // }
   // step4に登録を実行
   if(substr($event->getText(), 0, 3) == 't04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
@@ -722,18 +761,18 @@ foreach ($events as $event) {
     }
   }
 
-  // step4に上書き更新
-  if($event->getText() == '更新したい'){
-    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    } else {
-      replyMultiMessage($bot,
-            $event->getReplyToken(),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
-    }
-  }
+  // step4に上書き更新→postbackに変更
+  // if($event->getText() == '更新したい'){
+  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  //   } else {
+  //     replyMultiMessage($bot,
+  //           $event->getReplyToken(),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
+  //   }
+  // }
   // step4に更新を実行
   if(substr($event->getText(), 0, 3) == 'u04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
@@ -754,18 +793,18 @@ foreach ($events as $event) {
     }
   }
 
-  // step4をDBから削除
-  if($event->getText() == '削除したい'){
-    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    } else {
-      replyMultiMessage($bot,
-            $event->getReplyToken(),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
-    }
-  }
+  // step4をDBから削除→postbackに変更
+  // if($event->getText() == '削除したい'){
+  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  //   } else {
+  //     replyMultiMessage($bot,
+  //           $event->getReplyToken(),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
+  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
+  //   }
+  // }
   // step4の削除を実行
   if(substr($event->getText(), 0, 3) == 's04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
