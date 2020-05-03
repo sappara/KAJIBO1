@@ -868,7 +868,7 @@ function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAre
   }
   $richMenuBuilder = new \LINE\LINEBot\RichMenuBuilder($sizeBuilder, $selected, $name, $chatBarText, $areaBuilders);
   $response = $bot->createRichMenu($richMenuBuilder);
-  return $response;
+  return var_dump($response);
   // // $arr = json_decode($response,true);
   // $decoded_json = json_decode($response);
   // // $decoded_json->{"c"}
