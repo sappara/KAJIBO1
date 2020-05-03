@@ -64,10 +64,10 @@ foreach ($events as $event) {
         }
         // 退室の確認ダイアログ
         else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
-          replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退出しますか？', '本当に退出しますか？',
+          replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？',
             new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
-            // このPostbackTemplateActionBuilder「cancel」はどこにも繋がっていない
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
+            // この時の「いいえ」はどこにも繋がっていない。これで終了。
         }
         // 退室
         else if(substr($event->getPostbackData(), 4) == 'leave') {
@@ -453,7 +453,7 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/junanzai.jpg';
+        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg';
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
