@@ -123,7 +123,7 @@ foreach ($events as $event) {
         }
 
         // cmd_how_to_use
-        else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
+        else if(substr($event->getPostbackData(), 4) == 'main_menu'){
           // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
           // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
           // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
@@ -140,14 +140,14 @@ foreach ($events as $event) {
           // ];
           // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
           // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
-          $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
-          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
+          // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
+          // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
 
 
           // uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
 
           // linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $event->getUserId(), $richmenuId);
-        }
+        // }
         //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
         //   // -H "Authorization: Bearer {channel access token}"
         //   $userId = $event->getUserId();
@@ -170,10 +170,10 @@ foreach ($events as $event) {
         //   // request
         //   $result = curl_exec($curl);
         //   // 以下サンプルは動かず
-        //   // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-        //   // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-        //   // $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
-        // }
+          $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+          $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+          $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
+        }
 
 
         continue;
