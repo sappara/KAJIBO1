@@ -219,7 +219,7 @@ foreach ($events as $event) {
         }
         // cmd_delete
         else if(substr($event->getPostbackData(), 4) == 'delete'){
-        if($event->getText() == '削除したい'){
+        // if($event->getText() == '削除したい'){
           if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
             replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
           } else {
