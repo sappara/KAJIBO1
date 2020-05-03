@@ -124,22 +124,25 @@ foreach ($events as $event) {
 
         // cmd_how_to_use
         else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-          $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
-          $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
-          $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
-          $actionBuilder2 =  new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
-          $boundsBuilder3 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(600,0,300,405);
-          $actionBuilder3 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('個別に見る','cmd_kaji');
-          $boundsBuilder4 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(900,0,300,405);
-          $actionBuilder4 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('完了報告','cmd_end_confirm');
-          $richMenuAreaBuilder=[
-            new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder1, $actionBuilder1),
-            new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder2, $actionBuilder2),
-            new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder3, $actionBuilder3),
-            new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder4, $actionBuilder4)
-          ];
-          $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
+          // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
+          // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
+          // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
+          // $actionBuilder2 =  new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
+          // $boundsBuilder3 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(600,0,300,405);
+          // $actionBuilder3 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('個別に見る','cmd_kaji');
+          // $boundsBuilder4 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(900,0,300,405);
+          // $actionBuilder4 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('完了報告','cmd_end_confirm');
+          // $richMenuAreaBuilder=[
+          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder1, $actionBuilder1),
+          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder2, $actionBuilder2),
+          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder3, $actionBuilder3),
+          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder4, $actionBuilder4)
+          // ];
+          // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
+          // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
+          $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
           $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
+
 
           // uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
 
@@ -855,20 +858,20 @@ function getDetailOfStep4($userId) {
 
 // 家事する時のリッチメニュー rich5.jpg
 // 一覧で見る 個別に見る 完了報告 戻る
-function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAreaBuilder=[]) {
-  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
-  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
-  $sizeBuilder = new \LINE\LINEBot\RichMenuBuilder\RichMenuSizeBuilder(405,1200);
-  $selected = true;
-  $name = 'KAJIBO_richmenu_kaji';
-  $chatBarText = 'メニューを開く/閉じる';
-  $areaBuilders = array();
-  foreach($richMenuAreaBuilder as $value){
-    array_push($areaBuilders,$value);
-  }
-  $richMenuBuilder = new \LINE\LINEBot\RichMenuBuilder($sizeBuilder, $selected, $name, $chatBarText, $areaBuilders);
-  $response = $bot->createRichMenu($richMenuBuilder);
-  return var_dump($response);
+// function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAreaBuilder=[]) {
+  // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
+  // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
+  // $sizeBuilder = new \LINE\LINEBot\RichMenuBuilder\RichMenuSizeBuilder(405,1200);
+  // $selected = true;
+  // $name = 'KAJIBO_richmenu_kaji';
+  // $chatBarText = 'メニューを開く/閉じる';
+  // $areaBuilders = array();
+  // foreach($richMenuAreaBuilder as $value){
+  //   array_push($areaBuilders,$value);
+  // }
+  // $richMenuBuilder = new \LINE\LINEBot\RichMenuBuilder($sizeBuilder, $selected, $name, $chatBarText, $areaBuilders);
+  // $response = $bot->createRichMenu($richMenuBuilder);
+  // return var_dump($response);
   // // $arr = json_decode($response,true);
   // $decoded_json = json_decode($response);
   // // $decoded_json->{"c"}
@@ -878,29 +881,30 @@ function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAre
   // else {
   //   return $decoded_json->{"message"};
   // }
-  // $url = "https://api.line.me/v2/bot/richmenu";
-  // $curl = curl_init($url);
-  // $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
-  // $options = array(
-  //   //HEADER
-  //   CURLOPT_HTTPHEADER => array(
-  //     'Authorization: Bearer'.$channelAccessToken,
-  //     'Content-Type: application/json',
-  //   ),
-  //   CURLOPT_POST => true,
-  //   CURLOPT_POSTFIELDS=>$body, 
-  // );
-  // //set options
-  // curl_setopt_array($curl, $options);
-  // // request実行
-  // $result = curl_exec($curl);
+  function createNewRichmenuKaji($channelAccessToken) {
+  $url = "https://api.line.me/v2/bot/richmenu";
+  $curl = curl_init($url);
+  $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
+  $options = array(
+    //HEADER
+    CURLOPT_HTTPHEADER => array(
+      'Authorization: Bearer'.$channelAccessToken,
+      'Content-Type: application/json',
+    ),
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS=>$body, 
+  );
+  //set options
+  curl_setopt_array($curl, $options);
+  // request実行
+  $result = curl_exec($curl);
 
-  // if(isset($result['richMenuId'])) {
-  //   return $result['richMenuId'];
-  // }
-  // else {
-  //   return $result['message'];
-  // }
+  if(isset($result['richMenuId'])) {
+    return $result['richMenuId'];
+  }
+  else {
+    return $result['message'];
+  }
 }
 
 function uploadImageToRichmenuKaji($channelAccessToken, $channelSecret, $richmenuId) {
