@@ -124,32 +124,36 @@ foreach ($events as $event) {
 
         // cmd_how_to_use
         else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-          // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
-          // -H "Authorization: Bearer {channel access token}"
-          $userId = $event->getUserId();
-          $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
-          $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-edcc5ac7bc07db4ee2f7becf00160c9f';
-          $curl = curl_init($url);
-          $options = array(
-            //HEADER
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$channelaccesstoken,
-            ),
-            //Method
-            CURLOPT_POST => true,//POST
-            //body
-            CURLOPT_POSTFIELDS => http_build_query($post_args),
-            // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
-          );
-          //set options
-          curl_setopt_array($curl, $options);
-          // request
-          $result = curl_exec($curl);
-          // 以下サンプルは動かず
-          // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-          // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-          // $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
+          $result = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
+          uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), $result);
+          linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), $result);
         }
+        //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
+        //   // -H "Authorization: Bearer {channel access token}"
+        //   $userId = $event->getUserId();
+        //   $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
+        //   $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-edcc5ac7bc07db4ee2f7becf00160c9f';
+        //   $curl = curl_init($url);
+        //   $options = array(
+        //     //HEADER
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Authorization: Bearer '.$channelaccesstoken,
+        //     ),
+        //     //Method
+        //     CURLOPT_POST => true,//POST
+        //     //body
+        //     CURLOPT_POSTFIELDS => http_build_query($post_args),
+        //     // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
+        //   );
+        //   //set options
+        //   curl_setopt_array($curl, $options);
+        //   // request
+        //   $result = curl_exec($curl);
+        //   // 以下サンプルは動かず
+        //   // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+        //   // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+        //   // $response = $bot->linkRichMenu($event->getUserId(), 'richmenu-edcc5ac7bc07db4ee2f7becf00160c9f');
+        // }
 
 
         continue;
@@ -830,6 +834,100 @@ function getDetailOfStep4($userId) {
     return $row['step4'];
   }
 }
+
+
+// 家事する時のリッチメニュー rich5.jpg
+// 一覧で見る 個別に見る 完了報告 戻る
+function createNewRichmenuKaji($channelAccessToken) {
+  $url = "https://api.line.me/v2/bot/richmenu";
+  $curl = curl_init($url);
+  $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
+  $options = array(
+    //HEADER
+    CURLOPT_HTTPHEADER => array(
+      'Authorization: Bearer'.$channelAccessToken,
+      'Content-Type: application/json',
+    ),
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS=>$body, 
+  );
+  //set options
+  curl_setopt_array($curl, $options);
+  // request実行
+  $result = curl_exec($curl);
+
+  if(isset($result['richMenuId'])) {
+    return $result['richMenuId'];
+  }
+  // else {
+  //   return $result['message'];
+  // }
+}
+
+function uploadImageToRichmenuKaji($channelAccessToken, $richmenuId) {
+  // if(!isRichmenuIdValid($richmenuId)) {
+  //   return 'invalid richmenu id';
+  // }
+  // 用意された５種類の画像の中から、ランダムに選ばれ、リッチメニューとしてアップロードされる
+  $imageIndex = 5;
+  $imagePath = realpath('') . 'richmenu/' . 'rich' . $imageIndex . '.jpg';
+  $sh = <<< EOF
+  curl -X POST \
+  -H 'Authorization: Bearer $channelAccessToken' \
+  -H 'Content-Type: image/jpg' \
+  -H 'Expect:' \
+  -T $imagePath \
+  https://api.line.me/v2/bot/richmenu/$richmenuId/content
+EOF;
+  $result = json_decode(shell_exec(str_replace('\\', '', str_replace(PHP_EOL, '', $sh))), true);
+  // if(isset($result['message'])) {
+  //   return $result['message'];
+  //   // 失敗するとエラー内容が記述されて返ってきます。{'message': 'error description'}
+  // }
+  // else {
+  //   return 'success. Image #0' . $randomImageIndex . ' has uploaded onto ' . $richmenuId;
+  // }
+}
+
+function linkToUser($channelAccessToken, $userId, $richmenuId) {
+  // if(!isRichmenuIdValid($richmenuId)) {
+  //   return 'invalid richmenu id';
+  // }
+//   $sh = <<< EOF
+//   curl -X POST \
+//   -H 'Authorization: Bearer $channelAccessToken' \
+//   -H 'Content-Length: 0' \
+//   https://api.line.me/v2/bot/user/$userId/richmenu/$richmenuId
+// EOF;
+//   $result = json_decode(shell_exec(str_replace('\\', '', str_replace(PHP_EOL, '', $sh))), true);
+  // $body = '';
+  $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/'.$richmenuId;
+  $curl = curl_init($url);
+  $options = array(
+    //HEADER
+    CURLOPT_HTTPHEADER => array(
+      'Authorization: Bearer'.$channelAccessToken,
+      'Content-Length: 0',
+    ),
+    //Method
+    CURLOPT_POST => true,//POST
+    //body
+    // CURLOPT_POSTFIELDS => http_build_query($post_args), 
+    // CURLOPT_POSTFIELDS=>$body, 
+  );
+  //set options
+  curl_setopt_array($curl, $options);
+  // request
+  $result = curl_exec($curl);
+  // if(isset($result['message'])) {
+  //   return $result['message'];
+  //   // 失敗するとエラー内容が記述されて返ってきます。{'message': 'error description'}
+  // }
+  // else {
+  //   return 'success';
+  // }
+}
+
 
 // ユーザーIDからルームIDを取得
 function getRoomIdOfUser($userId) {
