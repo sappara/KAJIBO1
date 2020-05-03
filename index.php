@@ -124,6 +124,7 @@ foreach ($events as $event) {
 
         // cmd_how_to_use
         else if(substr($event->getPostbackData(), 4) == 'main_menu'){
+          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe')));
           // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
           // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
           // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
@@ -150,25 +151,25 @@ foreach ($events as $event) {
         // }
         //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
         //   // -H "Authorization: Bearer {channel access token}"
-          $userId = $event->getUserId();
-          $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
-          $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-d182fe2f083258f273d5e1035bb71dfe';
-          $curl = curl_init($url);
-          $options = array(
-            //HEADER
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$channelaccesstoken,
-            ),
-            //Method
-            CURLOPT_POST => true,//POST
-            //body
-            CURLOPT_POSTFIELDS => http_build_query($post_args),
-            // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
-          );
-          //set options
-          curl_setopt_array($curl, $options);
-          // request
-          $result = curl_exec($curl);
+          // $userId = $event->getUserId();
+          // $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
+          // $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-d182fe2f083258f273d5e1035bb71dfe';
+          // $curl = curl_init($url);
+          // $options = array(
+          //   //HEADER
+          //   CURLOPT_HTTPHEADER => array(
+          //       'Authorization: Bearer '.$channelaccesstoken,
+          //   ),
+          //   //Method
+          //   CURLOPT_POST => true,//POST
+          //   //body
+          //   CURLOPT_POSTFIELDS => http_build_query($post_args),
+          //   // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
+          // );
+          // //set options
+          // curl_setopt_array($curl, $options);
+          // // request
+          // $result = curl_exec($curl);
         //   // 以下サンプルは動かず
           // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
           // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
@@ -936,11 +937,36 @@ function uploadImageToRichmenuKaji($channelAccessToken, $channelSecret, $richmen
   //   return 'success. Image #0' . $randomImageIndex . ' has uploaded onto ' . $richmenuId;
   // }
 }
-
-function linkToUser($channelAccessToken, $channelSecret, $userId, $richmenuId) {
-  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
-  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
-  $response = $bot->linkRichMenu($userId, $richmenuId);
+function linkToUser($channelAccessToken, $userId, $richmenuId) {
+  if(!isRichmenuIdValid($richmenuId)) {
+    return 'invalid richmenu id';
+  }
+  $sh = <<< EOF
+  curl -X POST \
+  -H 'Authorization: Bearer $channelAccessToken' \
+  -H 'Content-Length: 0' \
+  https://api.line.me/v2/bot/user/$userId/richmenu/$richmenuId
+EOF;
+  $result = json_decode(shell_exec(str_replace('\\', '', str_replace(PHP_EOL, '', $sh))), true);
+  if(isset($result['message'])) {
+    return $result['message'];
+    // 失敗するとエラー内容が記述されて返ってきます。{'message': 'error description'}
+  }
+  else {
+    return 'success';
+  }
+}
+function isRichmenuIdValid($string) {
+  if(preg_match('/^[a-zA-Z0-9-]+$/', $string)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// function linkToUser($channelAccessToken, $channelSecret, $userId, $richmenuId) {
+//   $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channelAccessToken);
+//   $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
+//   $response = $bot->linkRichMenu($userId, $richmenuId);
   // if(!isRichmenuIdValid($richmenuId)) {
   //   return 'invalid richmenu id';
   // }
@@ -977,7 +1003,7 @@ function linkToUser($channelAccessToken, $channelSecret, $userId, $richmenuId) {
   // else {
   //   return 'success';
   // }
-}
+// }
 
 
 // ユーザーIDからルームIDを取得
