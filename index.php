@@ -867,6 +867,9 @@ function createNewRichmenuKaji($channelAccessToken, $channelSecret, $richMenuAre
   }
   $richMenuBuilder = new \LINE\LINEBot\RichMenuBuilder($sizeBuilder, $selected, $name, $chatBarText, $areaBuilders);
   $response = $bot->createRichMenu($richMenuBuilder);
+  if(isset($response['richMenuId'])) {
+    return $response['richMenuId'];
+  }
   // $url = "https://api.line.me/v2/bot/richmenu";
   // $curl = curl_init($url);
   // $body = '{"size": {"width": 1200,"height": 405},"selected": false,"name": "KAJIBO_richmenu_2","chatBarText": "メニューを開く/閉じる","areas": [{"bounds": {"x": 0,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_main_menu"}},{"bounds": {"x": 300,"y": 0,"width": 300,"height": 405},"action": {"type": "uri","uri": "https://liff.line.me/1654069050-OPNWVd3j"}},{"bounds": {"x": 600,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_kaji"}},{"bounds": {"x": 900,"y": 0,"width": 300,"height": 405},"action": {"type": "postback","data": "cmd_end_confirm"}}]}';
