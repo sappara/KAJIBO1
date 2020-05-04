@@ -1,7 +1,8 @@
 {
-    "require": {
-        "linecorp/line-bot-sdk": "^4.3",
-        "cloudinary/cloudinary_php": "^1.16",
-        "ext-gd": "^7.3"
-    }
+  "require": {
+    "linecorp/line-bot-sdk": "^4.3",
+    "cloudinary/cloudinary_php": "^1.16",
+    "ext-gd": "^7.3",
+    "ext-mbstring": "*"
+  }
 }
