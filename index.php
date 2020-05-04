@@ -200,8 +200,8 @@ foreach ($events as $event) {
             replyMultiMessage($bot,
                   $event->getReplyToken(),
                   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「登録四戸棚の中」'));
           }
         }
         // cmd_update
@@ -213,8 +213,8 @@ foreach ($events as $event) {
             replyMultiMessage($bot,
                   $event->getReplyToken(),
                   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
           }
         }
         // cmd_delete
@@ -226,8 +226,8 @@ foreach ($events as $event) {
             replyMultiMessage($bot,
                   $event->getReplyToken(),
                   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('削除四'),
+                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「削除四」'));
           }
         }
 
@@ -774,10 +774,12 @@ foreach ($events as $event) {
   //   }
   // }
   // step4に更新を実行
-  if(substr($event->getText(), 0, 3) == 'u04') {
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新四') {
+  // if(substr($event->getText(), 0, 3) == 'u04') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step4 = substr($event->getText(), 3);
+        // $step4 = substr($event->getText(), 3);
+        $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
         updateStep4($bot, $event->getUserId(), $step4);
         // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
       } else {
@@ -785,8 +787,8 @@ foreach ($events as $event) {
         replyMultiMessage($bot,
         $event->getReplyToken(),
         new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「t04戸棚の中」'));
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「登録四戸棚の中」'));
       }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -806,7 +808,7 @@ foreach ($events as $event) {
   //   }
   // }
   // step4の削除を実行
-  if(substr($event->getText(), 0, 3) == 's04') {
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除四') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
         deleteStep4($bot, $event->getUserId());
