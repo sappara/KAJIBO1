@@ -747,10 +747,10 @@ foreach ($events as $event) {
   //   }
   // }
   // step4に登録を実行
-  if(substr($event->getText(), 0, 3) == 't04') {
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録四') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       if(getDetailOfStep4($event->getUserId()) === PDO::PARAM_NULL) {
-        $step4 = substr($event->getText(), 3);
+        $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
         registerStep4($bot, $event->getUserId(), $step4);
         // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
       } else {
