@@ -36,546 +36,546 @@ try {
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
 
-    // イベントがPostbackEventクラスのインスタンスであれば
-    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+  // イベントがPostbackEventクラスのインスタンスであれば
+  if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
 
-      // リッチコンテンツがタップされた時
-      if(substr($event->getPostbackData(), 0, 4) == 'cmd_') {
-        // ルーム作成
-        if(substr($event->getPostbackData(), 4) == 'newroom') {
-          // ユーザーが未入室の時
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            // ルームを作成し入室後ルームIDを取得
-            $roomId = createRoomAndGetRoomId($event->getUserId());
-            // ルームIDをユーザーに返信
-            replyMultiMessage($bot,
-              $event->getReplyToken(),
-              new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームを作成し、入室しました。ルームIDは'),
-              new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($roomId),
-              new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('です。'));
-          }
-          // 既に入室している時
-          else {
-            replyTextMessage($bot, $event->getReplyToken(), '既に入室済みです。');
-          }
+    // リッチコンテンツがタップされた時
+    if(substr($event->getPostbackData(), 0, 4) == 'cmd_') {
+      // ルーム作成
+      if(substr($event->getPostbackData(), 4) == 'newroom') {
+        // ユーザーが未入室の時
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          // ルームを作成し入室後ルームIDを取得
+          $roomId = createRoomAndGetRoomId($event->getUserId());
+          // ルームIDをユーザーに返信
+          replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームを作成し、入室しました。ルームIDは'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($roomId),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('です。'));
         }
-        // 入室
-        else if(substr($event->getPostbackData(), 4) == 'enter') {
-          // ユーザーが未入室の時
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームIDを入力してください。');
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '入室済みです。');
-          }
+        // 既に入室している時
+        else {
+          replyTextMessage($bot, $event->getReplyToken(), '既に入室済みです。');
         }
-        // 退室の確認ダイアログ
-        else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
-          replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
-            // この時の「いいえ」はどこにも繋がっていない。これで終了。
+      }
+      // 入室
+      else if(substr($event->getPostbackData(), 4) == 'enter') {
+        // ユーザーが未入室の時
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームIDを入力してください。');
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), '入室済みです。');
         }
-        // 退室
-        else if(substr($event->getPostbackData(), 4) == 'leave') {
-          if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-            leaveRoom($event->getUserId());
-            replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
-          }
+      }
+      // 退室の確認ダイアログ
+      else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？',
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
+          // この時の「いいえ」はどこにも繋がっていない。これで終了。
+      }
+      // 退室
+      else if(substr($event->getPostbackData(), 4) == 'leave') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          leaveRoom($event->getUserId());
+          replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
         }
+      }
 
-        // 作業終了の報告
-        else if(substr($event->getPostbackData(), 4) == 'end_confirm') {
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
-          } else {
-            replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_end'),
-              new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした🍺'));
-          }
+      // 作業終了の報告
+      else if(substr($event->getPostbackData(), 4) == 'end_confirm') {
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
+        } else {
+          replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_end'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした🍺'));
         }
-        // 終了
-        else if(substr($event->getPostbackData(), 4) == 'end') {
-          endKaji($bot, $event->getUserId());
-        }
+      }
+      // 終了
+      else if(substr($event->getPostbackData(), 4) == 'end') {
+        endKaji($bot, $event->getUserId());
+      }
 
-        // // LIFFで完了ボタン押した後の処理
-        // else if(substr($event->getText(), 4) == '完了'){
-        //   // スタンプと文字を返信
-        //   replyMultiMessage($bot, $event->getReplyToken(),
-        //     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
-        //     new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
-        //   );
-        // }
+      // // LIFFで完了ボタン押した後の処理
+      // else if(substr($event->getText(), 4) == '完了'){
+      //   // スタンプと文字を返信
+      //   replyMultiMessage($bot, $event->getReplyToken(),
+      //     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
+      //     new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
+      //   );
+      // }
 
-        // 家事stepの選択肢ボタンをタイムラインに投稿
-        else if(substr($event->getPostbackData(), 4) == 'kaji'){
-          replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで見れるよ。ボタンを押してね。',
-          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('7)洗濯機の水量', 'step7')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('8)洗剤の量と水量の関係性', 'step8')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('10)洗剤の投入口', 'step10')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12')),
-              new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
-          );
-        }
+      // 家事stepの選択肢ボタンをタイムラインに投稿
+      else if(substr($event->getPostbackData(), 4) == 'kaji'){
+        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで見れるよ。ボタンを押してね。',
+        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('7)洗濯機の水量', 'step7')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('8)洗剤の量と水量の関係性', 'step8')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('10)洗剤の投入口', 'step10')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12')),
+            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
+        );
+      }
 
-        // cmd_how_to_use
-        else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-          $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
-        }
-        // cmd_kaji_menu
-        else if(substr($event->getPostbackData(), 4) == 'kaji_menu'){
-          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('家事をする時のメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe')));
-        }
-        // cmd_room_menu
-        else if(substr($event->getPostbackData(), 4) == 'room_menu'){
-          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('ルームのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-0497d90d09a9dc238929295866e324d0')));
-        }
-        // cmd_modification_menu
-        else if(substr($event->getPostbackData(), 4) == 'modification_menu'){
-          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('カスタマイズのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-483be03d906642db37c9bf40a14c421b')));
-        }
-        // cmd_main_menu
-        else if(substr($event->getPostbackData(), 4) == 'main_menu'){
-          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-04eeffc6e1d8b4d8d6e5a07354195c9b')));
-          // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
-          // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
-          // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
-          // $actionBuilder2 =  new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
-          // $boundsBuilder3 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(600,0,300,405);
-          // $actionBuilder3 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('個別に見る','cmd_kaji');
-          // $boundsBuilder4 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(900,0,300,405);
-          // $actionBuilder4 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('完了報告','cmd_end_confirm');
-          // $richMenuAreaBuilder=[
-          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder1, $actionBuilder1),
-          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder2, $actionBuilder2),
-          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder3, $actionBuilder3),
-          //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder4, $actionBuilder4)
-          // ];
-          // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
-          // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
-          // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
-          // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
-
-
-          // uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
-
-          // linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $event->getUserId(), $richmenuId);
-        // }
-        //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
-        //   // -H "Authorization: Bearer {channel access token}"
-          // $userId = $event->getUserId();
-          // $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
-          // $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-d182fe2f083258f273d5e1035bb71dfe';
-          // $curl = curl_init($url);
-          // $options = array(
-          //   //HEADER
-          //   CURLOPT_HTTPHEADER => array(
-          //       'Authorization: Bearer '.$channelaccesstoken,
-          //   ),
-          //   //Method
-          //   CURLOPT_POST => true,//POST
-          //   //body
-          //   CURLOPT_POSTFIELDS => http_build_query($post_args),
-          //   // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
-          // );
-          // //set options
-          // curl_setopt_array($curl, $options);
-          // // request
-          // $result = curl_exec($curl);
-        //   // 以下サンプルは動かず
-          // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-          // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-          // $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
-        }
-        // cmd_insert
-        else if(substr($event->getPostbackData(), 4) == 'insert'){
-        // if($event->getText() == '登録したい'){
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-          } else {
-            replyMultiMessage($bot,
-                  $event->getReplyToken(),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「登録四戸棚の中」'));
-          }
-        }
-        // cmd_update
-        else if(substr($event->getPostbackData(), 4) == 'update'){
-        // if($event->getText() == '更新したい'){
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-          } else {
-            replyMultiMessage($bot,
-                  $event->getReplyToken(),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
-          }
-        }
-        // cmd_delete
-        else if(substr($event->getPostbackData(), 4) == 'delete'){
-        // if($event->getText() == '削除したい'){
-          if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-            replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-          } else {
-            replyMultiMessage($bot,
-                  $event->getReplyToken(),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('削除四'),
-                  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「削除四」'));
-          }
-        }
+      // cmd_how_to_use
+      else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
+        $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
+      }
+      // cmd_kaji_menu
+      else if(substr($event->getPostbackData(), 4) == 'kaji_menu'){
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('家事をする時のメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe')));
+      }
+      // cmd_room_menu
+      else if(substr($event->getPostbackData(), 4) == 'room_menu'){
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('ルームのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-0497d90d09a9dc238929295866e324d0')));
+      }
+      // cmd_modification_menu
+      else if(substr($event->getPostbackData(), 4) == 'modification_menu'){
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('カスタマイズのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-483be03d906642db37c9bf40a14c421b')));
+      }
+      // cmd_main_menu
+      else if(substr($event->getPostbackData(), 4) == 'main_menu'){
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-04eeffc6e1d8b4d8d6e5a07354195c9b')));
+        // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
+        // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
+        // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
+        // $actionBuilder2 =  new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
+        // $boundsBuilder3 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(600,0,300,405);
+        // $actionBuilder3 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('個別に見る','cmd_kaji');
+        // $boundsBuilder4 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(900,0,300,405);
+        // $actionBuilder4 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('完了報告','cmd_end_confirm');
+        // $richMenuAreaBuilder=[
+        //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder1, $actionBuilder1),
+        //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder2, $actionBuilder2),
+        //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder3, $actionBuilder3),
+        //   new LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($boundsBuilder4, $actionBuilder4)
+        // ];
+        // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richMenuAreaBuilder);
+        // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
+        // $richmenuId = createNewRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'));
+        // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($richmenuId));
 
 
-        continue;
+        // uploadImageToRichmenuKaji(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $richmenuId);
+
+        // linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), getenv('CHANNEL_SECRET'), $event->getUserId(), $richmenuId);
+      // }
+      //   // curl -v -X POST https://api.line.me/v2/bot/user/{userId}/richmenu/{richMenuId} \
+      //   // -H "Authorization: Bearer {channel access token}"
+        // $userId = $event->getUserId();
+        // $channelaccesstoken = getenv('CHANNEL_ACCESS_TOKEN');
+        // $url = 'https://api.line.me/v2/bot/user/'.$userId.'/richmenu/richmenu-d182fe2f083258f273d5e1035bb71dfe';
+        // $curl = curl_init($url);
+        // $options = array(
+        //   //HEADER
+        //   CURLOPT_HTTPHEADER => array(
+        //       'Authorization: Bearer '.$channelaccesstoken,
+        //   ),
+        //   //Method
+        //   CURLOPT_POST => true,//POST
+        //   //body
+        //   CURLOPT_POSTFIELDS => http_build_query($post_args),
+        //   // 注意点、空のボディを送信するとき（APIのPOSTだけをCall）のような場合でもフィールドは必須。空文字をセットしないとContent-Length: -1 を送信してしまう。
+        // );
+        // //set options
+        // curl_setopt_array($curl, $options);
+        // // request
+        // $result = curl_exec($curl);
+      //   // 以下サンプルは動かず
+        // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+        // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+        // $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
+      }
+      // cmd_insert
+      else if(substr($event->getPostbackData(), 4) == 'insert'){
+      // if($event->getText() == '登録したい'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          replyMultiMessage($bot,
+                $event->getReplyToken(),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「登録四戸棚の中」'));
+        }
+      }
+      // cmd_update
+      else if(substr($event->getPostbackData(), 4) == 'update'){
+      // if($event->getText() == '更新したい'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          replyMultiMessage($bot,
+                $event->getReplyToken(),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
+        }
+      }
+      // cmd_delete
+      else if(substr($event->getPostbackData(), 4) == 'delete'){
+      // if($event->getText() == '削除したい'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          replyMultiMessage($bot,
+                $event->getReplyToken(),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('削除四'),
+                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「削除四」'));
+        }
       }
 
 
-      // 家事stepの選択肢ボタンをタップした時の処理
-      if($event->getPostbackData() == 'step1'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('紙や異物が混じってないかポケットを確認してください。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0724.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step1', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step2'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step2   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備２：泥汚れの下洗い',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0721.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step2', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step3'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step3   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備３：洗濯ネットで保護',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step3', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step4'){
-        // if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-        //   $step4 = substr($event->getText(), 1);
-        //   registerStep4($event->getUserId(), $step4);
-        //   replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
-        // } else {
-        //   replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        // }
-        $step4 = getStep4($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step4   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットの収納場所',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「'.$step4.'」を探してください',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step4', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step5'){
-        $step5 = getStep5($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step5   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の収納場所',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「'.$step5.'」を探してください',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step5', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step6'){
-        $step6 = getStep6($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step6   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の種類',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「ハイジア」を使ってください。',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「'.$step6.'」を使ってください。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step6', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step7'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step7   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の水量',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('全て洗濯機に入れたら、水量を知るために、洗濯機のスタートボタンを押してください。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0710.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step7', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step8'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step8   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量と水量の関係性',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯物の量に応じて水量が変わります、洗剤を水量に応じて入れます。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0713.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step8', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step9'){
-        $step9 = getStep9($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step9   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量について',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「背面か側面に載ってますので見てください」',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「'.$step9.'」',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step9', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step10'){
-        $step10 = getStep10($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step11'){
-        $step11 = getStep11($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step11   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤について',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「'.$step11.'」',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step11', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step12'){
-        $step12 = getStep12($event->getUserId());
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step12   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',null,null,null,null,null,true)];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「'.$step12.'」',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step12', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
-      else if($event->getPostbackData() == 'step13'){
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step13   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機スタート',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の蓋を閉めると洗濯が始まります。',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0715.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step13', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-        );
-      }
+      continue;
+    }
+
+
+    // 家事stepの選択肢ボタンをタップした時の処理
+    else if($event->getPostbackData() == 'step1'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('紙や異物が混じってないかポケットを確認してください。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0724.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step1', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step2'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step2   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備２：泥汚れの下洗い',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('泥や排泄物で汚れていたら、風呂場で軽く下洗いしてください。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0721.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step2', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step3'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step3   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備３：洗濯ネットで保護',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('黒いもの。長いもの。引っかかりそうなもの。剥がれそうなもの。該当すれば洗濯ネットに入れて保護。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0234.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step3', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step4'){
+      // if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //   $step4 = substr($event->getText(), 1);
+      //   registerStep4($event->getUserId(), $step4);
+      //   replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+      // } else {
+      //   replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      // }
+      $step4 = getStep4($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step4   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットの収納場所',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「'.$step4.'」を探してください',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step4', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step5'){
+      $step5 = getStep5($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step5   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の収納場所',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「'.$step5.'」を探してください',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step5', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step6'){
+      $step6 = getStep6($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step6   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の種類',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「ハイジア」を使ってください。',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「'.$step6.'」を使ってください。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step6', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step7'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step7   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の水量',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('全て洗濯機に入れたら、水量を知るために、洗濯機のスタートボタンを押してください。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0710.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step7', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step8'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step8   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量と水量の関係性',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯物の量に応じて水量が変わります、洗剤を水量に応じて入れます。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0713.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step8', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step9'){
+      $step9 = getStep9($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step9   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量について',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「背面か側面に載ってますので見てください」',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「'.$step9.'」',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step9', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step10'){
+      $step10 = getStep10($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step11'){
+      $step11 = getStep11($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step11   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤について',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「'.$step11.'」',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step11', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step12'){
+      $step12 = getStep12($event->getUserId());
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step12   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「'.$step12.'」',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step12', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
+    else if($event->getPostbackData() == 'step13'){
+      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step13   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機スタート',null,null,'xl',null,null,true,null,'bold')];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯機の蓋を閉めると洗濯が始まります。',null,null,null,null,null,true)];
+      // echo ComponentLayout::VERTICAL;
+      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0715.jpg';
+      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+      // $spacing = ComponentSpacing::XXL;
+      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+      replyFlexMessage($bot, $event->getReplyToken(), 'step13', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+      );
+    }
   
     continue;
   }
@@ -623,7 +623,7 @@ foreach ($events as $event) {
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
 
 
-  if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
+  else if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
     if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
       \Cloudinary::config(array(
         'cloud_name' => getenv('CLOUDINARY_NAME'),
@@ -675,437 +675,441 @@ foreach ($events as $event) {
         // 下のstep10に表示に続く
       ;
     }
-  }
+  // }
   
 
-  // MessageEvent型でなければ処理をスキップ
-  if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-    error_log('Non message event has come');
-    continue;
-  }
-  // TextMessage型でなければ処理をスキップ
-  if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-    error_log('Non text message has come');
-    continue;
-  }
-
-  // LIFFで完了ボタン押した後の処理
-  if($event->getText() == '洗濯開始作業完了！'){
-    // スタンプと文字を返信
-    replyMultiMessage($bot, $event->getReplyToken(),
-      new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
-      new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
-    );
-  }
-
-  // リッチコンテンツ以外の時(ルームIDが入力された時)
-  if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-    // 入室
-    $roomId = enterRoomAndGetRoomId($event->getUserId(), $event->getText());
-    // 成功時
-    if($roomId !== PDO::PARAM_NULL) {
-      replyTextMessage($bot, $event->getReplyToken(), "ルームID" . $roomId . "に入室しました。");
-    }
-    // 失敗時
-    else {
-      replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
-    }
-  }
-
-  // step10に登録
-  if($event->getText() == '写真変えたい'){
-    if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
-      // 上方の、ImageMessage型イベント確認グループに続く
-    }
-  }
-  if($event->getText() == 'step10'){
-    $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-    $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-    $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
-    // echo ComponentLayout::VERTICAL;
-    $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-    // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
-    $roomId = getRoomIdOfUser($event->getUserId());
-    // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
-    $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
-    $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-    $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-    $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-    // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-    $quickReplyButtons =  flexMessageQuickReply();
-    $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-    // $spacing = ComponentSpacing::XXL;
-    $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-    replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-    );
-  }
-  // -----------------------step4------------------------------------
-  // step4に登録→postbackに変更
-  // if($event->getText() == '登録したい'){
-  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  //   } else {
-  //     // replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
-  //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
-  //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
-  //     replyMultiMessage($bot,
-  //           $event->getReplyToken(),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
-  //   }
+  // // MessageEvent型でなければ処理をスキップ
+  // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+  //   error_log('Non message event has come');
+  //   continue;
   // }
-  // step4に登録を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録四') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep4($event->getUserId()) === PDO::PARAM_NULL) {
-        $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
-        registerStep4($bot, $event->getUserId(), $step4);
-        // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-
-  // step4に上書き更新→postbackに変更
-  // if($event->getText() == '更新したい'){
-  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  //   } else {
-  //     replyMultiMessage($bot,
-  //           $event->getReplyToken(),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
-  //   }
+  // // TextMessage型でなければ処理をスキップ
+  // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+  //   error_log('Non text message has come');
+  //   continue;
   // }
-  // step4に更新を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新四') {
-  // if(substr($event->getText(), 0, 3) == 'u04') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
-        // $step4 = substr($event->getText(), 3);
-        $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep4($bot, $event->getUserId(), $step4);
-        // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
-      } else {
-        // replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗濯ネットを収納している場所を書いて再度送信してください。例「登録四タオルが入っている戸棚の中の上から三段目」'));
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
+    else if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
 
-  // step4をDBから削除→postbackに変更
-  // if($event->getText() == '削除したい'){
-  //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-  //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  //   } else {
-  //     replyMultiMessage($bot,
-  //           $event->getReplyToken(),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
-  //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
-  //   }
-  // }
-  // step4の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除四') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep4($bot, $event->getUserId());
-        // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      // LIFFで完了ボタン押した後の処理
+      if($event->getText() == '洗濯開始作業完了！'){
+        // スタンプと文字を返信
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
+          new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
+        );
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
 
-// -----------------------step5------------------------------------
-// step5に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録五') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep5($event->getUserId()) === PDO::PARAM_NULL) {
-      $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep5($bot, $event->getUserId(), $step5);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step5に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep5($bot, $event->getUserId(), $step5);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録五'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を収納している場所を書いて再度送信してください。例「登録五洗面所の下の開戸の中」'));
+      // リッチコンテンツ以外の時(ルームIDが入力された時)
+      else if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+        // 入室
+        $roomId = enterRoomAndGetRoomId($event->getUserId(), $event->getText());
+        // 成功時
+        if($roomId !== PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), "ルームID" . $roomId . "に入室しました。");
+        }
+        // 失敗時
+        else {
+          replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step5の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep5($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
 
-// -----------------------step6------------------------------------
-// step6に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録六') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep6($event->getUserId()) === PDO::PARAM_NULL) {
-      $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep6($bot, $event->getUserId(), $step6);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step6に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新六') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep6($bot, $event->getUserId(), $step6);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録六'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の名前を書いて再度送信してください。例「登録六ハイジア」'));
+      // step10に登録
+      else if($event->getText() == '写真変えたい'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
+          // 上方の、ImageMessage型イベント確認グループに続く
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step6の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除六') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep6($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      else if($event->getText() == 'step10'){
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+        // echo ComponentLayout::VERTICAL;
+        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+        $roomId = getRoomIdOfUser($event->getUserId());
+        // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+        $quickReplyButtons =  flexMessageQuickReply();
+        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+        // $spacing = ComponentSpacing::XXL;
+        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        );
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
+      // -----------------------step4------------------------------------
+      // step4に登録→postbackに変更
+      // if($event->getText() == '登録したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     // replyConfirmTemplate($bot, $event->getReplyToken(), 'step4に登録しますか。', 'step4に登録しますか。',
+      //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '先頭に ステップ４ とつけて続けて収納場所を書いて送信してください。'),
+      //     //   new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'cancel'));
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('t04'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「t04戸棚の中」'));
+      //   }
+      // }
+      // step4に登録を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録四') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep4($event->getUserId()) === PDO::PARAM_NULL) {
+            $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
+            registerStep4($bot, $event->getUserId(), $step4);
+            // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
 
-// -----------------------step9------------------------------------
-// step9に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録九') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep9($event->getUserId()) === PDO::PARAM_NULL) {
-      $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep9($bot, $event->getUserId(), $step9);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step9に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新九') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep9($bot, $event->getUserId(), $step9);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録九'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の量を書いて再度送信してください。例「登録九ジェルボール1個」'));
+      // step4に上書き更新→postbackに変更
+      // if($event->getText() == '更新したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('u04'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「u04戸棚の中」'));
+      //   }
+      // }
+      // step4に更新を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新四') {
+      // if(substr($event->getText(), 0, 3) == 'u04') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+            // $step4 = substr($event->getText(), 3);
+            $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
+            updateStep4($bot, $event->getUserId(), $step4);
+            // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');
+          } else {
+            // replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗濯ネットを収納している場所を書いて再度送信してください。例「登録四タオルが入っている戸棚の中の上から三段目」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step9の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除九') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep9($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-    
-// -----------------------step11------------------------------------
-// step11に登録を実行
-if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十一') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep11($event->getUserId()) === PDO::PARAM_NULL) {
-      $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
-      registerStep11($bot, $event->getUserId(), $step11);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step11に更新を実行
-if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十一') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
-        updateStep11($bot, $event->getUserId(), $step11);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤について書いて再度送信してください。例「登録十一ソフラン」'));
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step11の削除を実行
-  if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十一') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep11($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
 
-// -----------------------step12------------------------------------
-// step12に登録を実行
-if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十二') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep12($event->getUserId()) === PDO::PARAM_NULL) {
-      $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
-      registerStep12($bot, $event->getUserId(), $step12);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step12に更新を実行
-if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十二') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
-        updateStep12($bot, $event->getUserId(), $step12);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+      // step4をDBから削除→postbackに変更
+      // if($event->getText() == '削除したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('s04'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
+      //   }
+      // }
+      // step4の削除を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除四') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep4($bot, $event->getUserId());
+            // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step12の削除を実行
-  if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十二') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep12($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+
+      // -----------------------step5------------------------------------
+      // step5に登録を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録五') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep5($event->getUserId()) === PDO::PARAM_NULL) {
+            $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
+            registerStep5($bot, $event->getUserId(), $step5);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-
-
-// -----------------------step10------------------------------------
-// step10に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep10($event->getUserId()) === PDO::PARAM_NULL) {
-      $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep10($bot, $event->getUserId(), $step10);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step10に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep10($bot, $event->getUserId(), $step10);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を入れる場所を書いて再度送信してください。例「登録十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
+      // step5に更新を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
+            updateStep5($bot, $event->getUserId(), $step5);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録五'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を収納している場所を書いて再度送信してください。例「登録五洗面所の下の開戸の中」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step10の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep10($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      // step5の削除を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep5($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+
+      // -----------------------step6------------------------------------
+      // step6に登録を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録六') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep6($event->getUserId()) === PDO::PARAM_NULL) {
+            $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
+            registerStep6($bot, $event->getUserId(), $step6);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step6に更新を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新六') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
+            updateStep6($bot, $event->getUserId(), $step6);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録六'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の名前を書いて再度送信してください。例「登録六ハイジア」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step6の削除を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除六') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep6($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+
+      // -----------------------step9------------------------------------
+      // step9に登録を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録九') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep9($event->getUserId()) === PDO::PARAM_NULL) {
+            $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
+            registerStep9($bot, $event->getUserId(), $step9);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step9に更新を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新九') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
+            updateStep9($bot, $event->getUserId(), $step9);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録九'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の量を書いて再度送信してください。例「登録九ジェルボール1個」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step9の削除を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除九') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep9($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+        
+      // -----------------------step11------------------------------------
+      // step11に登録を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十一') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep11($event->getUserId()) === PDO::PARAM_NULL) {
+            $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
+            registerStep11($bot, $event->getUserId(), $step11);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step11に更新を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十一') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
+            updateStep11($bot, $event->getUserId(), $step11);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤について書いて再度送信してください。例「登録十一ソフラン」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step11の削除を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十一') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep11($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+
+      // -----------------------step12------------------------------------
+      // step12に登録を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十二') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep12($event->getUserId()) === PDO::PARAM_NULL) {
+            $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
+            registerStep12($bot, $event->getUserId(), $step12);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step12に更新を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十二') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
+            updateStep12($bot, $event->getUserId(), $step12);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step12の削除を実行
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十二') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep12($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+
+
+      // -----------------------step10------------------------------------
+      // step10に登録を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep10($event->getUserId()) === PDO::PARAM_NULL) {
+            $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
+            registerStep10($bot, $event->getUserId(), $step10);
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step10に更新を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+            $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
+            updateStep10($bot, $event->getUserId(), $step10);
+          } else {
+            replyMultiMessage($bot,
+            $event->getReplyToken(),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を入れる場所を書いて再度送信してください。例「登録十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      // step10の削除を実行
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep10($bot, $event->getUserId());
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+
+
+  
+      continue;
     }
   }
-
-
-
 }
 // ======================以下関数============================
 
