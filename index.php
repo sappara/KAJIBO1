@@ -1288,7 +1288,7 @@ function registerStep6($bot, $userId, $step6){
   }
 }
 // step6を表示
-function getStep($userId) {
+function getStep6($userId) {
   $roomId = getRoomIdOfUser($userId);
   $dbh = dbConnection::getConnection();
   $sql = 'select step6 from ' . TABLE_NAME_STEP6S . ' where ? = roomid';
