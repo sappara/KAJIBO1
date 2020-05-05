@@ -970,6 +970,95 @@ if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新九') {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
     }
   }
+    
+// -----------------------step11------------------------------------
+// step11に登録を実行
+if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十一') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep11($event->getUserId()) === PDO::PARAM_NULL) {
+      $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
+      registerStep11($bot, $event->getUserId(), $step11);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step11に更新を実行
+if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十一') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
+        updateStep11($bot, $event->getUserId(), $step11);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤について書いて再度送信してください。例「登録十一ソフラン」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step11の削除を実行
+  if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十一') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep11($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
+// -----------------------step12------------------------------------
+// step12に登録を実行
+if(mb_substr($event->getText(), 0, 4, "UTF-8") === '登録十二') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep12($event->getUserId()) === PDO::PARAM_NULL) {
+      $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
+      registerStep12($bot, $event->getUserId(), $step12);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step12に更新を実行
+if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十二') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
+        updateStep12($bot, $event->getUserId(), $step12);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step12の削除を実行
+  if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十二') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep12($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
 
 // -----------------------step10------------------------------------
 // step10に登録を実行
@@ -1007,94 +1096,6 @@ if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
         deleteStep10($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  
-// -----------------------step11------------------------------------
-// step11に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十一') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep11($event->getUserId()) === PDO::PARAM_NULL) {
-      $step11 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep11($bot, $event->getUserId(), $step11);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step11に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十一') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step11 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep11($bot, $event->getUserId(), $step11);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤について書いて再度送信してください。例「登録十一ソフラン」'));
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step11の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十一') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep11($bot, $event->getUserId());
-      } else {
-        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-
-// -----------------------step12------------------------------------
-// step12に登録を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十二') {
-  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-    if(getDetailOfStep12($event->getUserId()) === PDO::PARAM_NULL) {
-      $step12 = mb_substr($event->getText(), 3, null, "UTF-8");
-      registerStep12($bot, $event->getUserId(), $step12);
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
-    }
-  } else {
-    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-  }
-}
-// step12に更新を実行
-if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十二') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
-        $step12 = mb_substr($event->getText(), 3, null, "UTF-8");
-        updateStep12($bot, $event->getUserId(), $step12);
-      } else {
-        replyMultiMessage($bot,
-        $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
-      }
-    } else {
-      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-    }
-  }
-  // step12の削除を実行
-  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十二') {
-    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep12($bot, $event->getUserId());
       } else {
         replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
       }
