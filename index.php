@@ -5,6 +5,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 // テーブル名を定義
 define('TABLE_NAME_ROOMS', 'rooms');
 define('TABLE_NAME_STEP4S', 'step4s');
+define('TABLE_NAME_STEP5S', 'step5s');
+define('TABLE_NAME_STEP6S', 'step6s');
+define('TABLE_NAME_STEP9S', 'step9s');
+define('TABLE_NAME_STEP10S', 'step10s');
+define('TABLE_NAME_STEP11S', 'step11s');
+define('TABLE_NAME_STEP12S', 'step12s');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
