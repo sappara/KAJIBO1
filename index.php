@@ -343,9 +343,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step5'){
+        $step5 = getStep5($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step5   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の収納場所',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「引き出しや戸棚の中」を探してください',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「'.$step5.'」を探してください',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg';
@@ -367,9 +369,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step6'){
+        $step6 = getStep6($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step6   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の種類',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「ハイジア」を使ってください。',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「ハイジア」を使ってください。',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「'.$step6.'」を使ってください。',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg';
@@ -439,9 +443,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step9'){
+        $step9 = getStep9($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step9   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量について',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「背面か側面に載ってますので見てください」',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「背面か側面に載ってますので見てください」',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「'.$step9.'」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg';
@@ -463,9 +469,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step10'){
+        $step10 = getStep10($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
@@ -487,9 +495,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step11'){
+        $step11 = getStep11($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step11   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤について',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「必要であれば入れてください。」',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「'.$step11.'」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg';
@@ -511,9 +521,11 @@ foreach ($events as $event) {
         );
       }
       else if($event->getPostbackData() == 'step12'){
+        $step12 = getStep12($event->getUserId());
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step12   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',null,null,null,null,null,true)];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「洗剤とは異なる投入口が洗濯機にあります。」',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「'.$step12.'」',null,null,null,null,null,true)];
         // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg';
@@ -730,7 +742,7 @@ foreach ($events as $event) {
     replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
     );
   }
-
+  // -----------------------step4------------------------------------
   // step4に登録→postbackに変更
   // if($event->getText() == '登録したい'){
   //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
@@ -821,12 +833,279 @@ foreach ($events as $event) {
     }
   }
 
+// -----------------------step5------------------------------------
+// step5に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録五') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep5($event->getUserId()) === PDO::PARAM_NULL) {
+      $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep5($bot, $event->getUserId(), $step5);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
 }
+// step5に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep5($bot, $event->getUserId(), $step5);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録五'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「登録五戸棚の中」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step5の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
 
+// -----------------------step6------------------------------------
+// step6に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録六') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep6($event->getUserId()) === PDO::PARAM_NULL) {
+      $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep6($bot, $event->getUserId(), $step6);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step6に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新六') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep6($bot, $event->getUserId(), $step6);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録六'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の名前を書いて再度送信してください。例「登録六ハイジア」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step6の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除六') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep6($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
+// -----------------------step9------------------------------------
+// step9に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録九') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep9($event->getUserId()) === PDO::PARAM_NULL) {
+      $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep9($bot, $event->getUserId(), $step9);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step9に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新九') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep9($bot, $event->getUserId(), $step9);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録九'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤の量を書いて再度送信してください。例「登録九ジェルボール1個」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step9の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除九') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep9($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
+// -----------------------step10------------------------------------
+// step10に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep10($event->getUserId()) === PDO::PARAM_NULL) {
+      $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep10($bot, $event->getUserId(), $step10);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step10に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep10($bot, $event->getUserId(), $step10);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を入れる場所を書いて再度送信してください。例「登録十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step10の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep10($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  
+// -----------------------step11------------------------------------
+// step11に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十一') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep11($event->getUserId()) === PDO::PARAM_NULL) {
+      $step11 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep11($bot, $event->getUserId(), $step11);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step11に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十一') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step11 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep11($bot, $event->getUserId(), $step11);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤について書いて再度送信してください。例「登録十一ソフラン」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step11の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十一') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep11($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
+// -----------------------step12------------------------------------
+// step12に登録を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '登録十二') {
+  if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+    if(getDetailOfStep12($event->getUserId()) === PDO::PARAM_NULL) {
+      $step12 = mb_substr($event->getText(), 3, null, "UTF-8");
+      registerStep12($bot, $event->getUserId(), $step12);
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
+    }
+  } else {
+    replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+  }
+}
+// step12に更新を実行
+if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十二') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+        $step12 = mb_substr($event->getText(), 3, null, "UTF-8");
+        updateStep12($bot, $event->getUserId(), $step12);
+      } else {
+        replyMultiMessage($bot,
+        $event->getReplyToken(),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+  // step12の削除を実行
+  if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十二') {
+    if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+        deleteStep12($bot, $event->getUserId());
+      } else {
+        replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      }
+    } else {
+      replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+    }
+  }
+
+
+
+}
+// ======================以下関数============================
+
+// -----------------------step4------------------------------------
 // step4を登録
 function registerStep4($bot, $userId, $step4){
   $roomId = getRoomIdOfUser($userId);
-  
   $dbh = dbConnection::getConnection();
   $sql = 'insert into '. TABLE_NAME_STEP4S .' (roomid, step4) values (?, ?) ';
   $sth = $dbh->prepare($sql);
@@ -840,11 +1119,9 @@ function registerStep4($bot, $userId, $step4){
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を登録しました'));
   }
 }
-
 // step4を表示
 function getStep4($userId) {
   $roomId = getRoomIdOfUser($userId);
-
   $dbh = dbConnection::getConnection();
   $sql = 'select step4 from ' . TABLE_NAME_STEP4S . ' where ? = roomid';
   $sth = $dbh->prepare($sql);
@@ -859,11 +1136,9 @@ function getStep4($userId) {
     return $row['step4'];
   }
 }
-
 // step4の情報を更新（DBの上書き）
 function updateStep4($bot, $userId, $step4) {
   $roomId = getRoomIdOfUser($userId);
-
   $dbh = dbConnection::getConnection();
   $sql = 'update ' . TABLE_NAME_STEP4S . ' set step4 = ? where roomid = ?';
   $sth = $dbh->prepare($sql);
@@ -877,12 +1152,9 @@ function updateStep4($bot, $userId, $step4) {
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を更新しました'));
   }
 }
-
-
 // step4の情報をデータベースから削除
 function deleteStep4($bot, $userId) {
   $roomId = getRoomIdOfUser($userId);
-
   $dbh = dbConnection::getConnection();
   $sql = 'delete FROM ' . TABLE_NAME_STEP4S . ' where roomid = ?';
   $sth = $dbh->prepare($sql);
@@ -896,11 +1168,9 @@ function deleteStep4($bot, $userId) {
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」の登録を削除しました'));
   }
 }
-
 // ユーザーIDからstep4の登録内容を取得
 function getDetailOfStep4($userId) {
   $roomId = getRoomIdOfUser($userId);
-
   $dbh = dbConnection::getConnection();
   $sql = 'select step4 from ' . TABLE_NAME_STEP4S . ' where ? = roomid';
   $sth = $dbh->prepare($sql);
@@ -912,6 +1182,498 @@ function getDetailOfStep4($userId) {
     return $row['step4'];
   }
 }
+
+// -----------------------step5------------------------------------
+// step5を登録
+function registerStep5($bot, $userId, $step5){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP5S .' (roomid, step5) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step5));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step5「洗剤の収納場所」を登録しました'));
+  }
+}
+// step5を表示
+function getStep5($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step5 from ' . TABLE_NAME_STEP5S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '引き出しや戸棚の中';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step5'];
+  }
+}
+// step5の情報を更新（DBの上書き）
+function updateStep5($bot, $userId, $step5) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP5S . ' set step5 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step5, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step5「洗剤の収納場所」を更新しました'));
+  }
+}
+// step5の情報をデータベースから削除
+function deleteStep5($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP5S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step5「洗剤の収納場所」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep5の登録内容を取得
+function getDetailOfStep5($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step5 from ' . TABLE_NAME_STEP5S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step5'];
+  }
+}
+
+// -----------------------step6------------------------------------
+// step6を登録
+function registerStep6($bot, $userId, $step6){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP6S .' (roomid, step6) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step6));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step6「洗剤の種類」を登録しました'));
+  }
+}
+// step6を表示
+function getStep($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step6 from ' . TABLE_NAME_STEP6S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return 'ハイジア';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step6'];
+  }
+}
+// step6の情報を更新（DBの上書き）
+function updateStep6($bot, $userId, $step6) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP6S . ' set step6 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step6, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step6「洗剤の種類」を更新しました'));
+  }
+}
+// step6の情報をデータベースから削除
+function deleteStep6($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP6S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step6「洗剤の種類」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep6の登録内容を取得
+function getDetailOfStep6($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step6 from ' . TABLE_NAME_STEP6S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step6'];
+  }
+}
+
+// -----------------------step9------------------------------------
+// step9を登録
+function registerStep9($bot, $userId, $step9){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP9S .' (roomid, step9) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step9));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step9「洗剤の量について」を登録しました'));
+  }
+}
+// step9を表示
+function getStep9($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step9 from ' . TABLE_NAME_STEP9S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '背面か側面に載ってますので見てください';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step9'];
+  }
+}
+// step9の情報を更新（DBの上書き）
+function updateStep9($bot, $userId, $step9) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP9S . ' set step9 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step9, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step9「洗剤の量について」を更新しました'));
+  }
+}
+// step9の情報をデータベースから削除
+function deleteStep9($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP9S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step9「洗剤の量について」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep9の登録内容を取得
+function getDetailOfStep9($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step9 from ' . TABLE_NAME_STEP9S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step9'];
+  }
+}
+
+// -----------------------step10-----------------------------------
+// step10を登録
+function registerStep10($bot, $userId, $step10){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP10S .' (roomid, step10) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step10));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10「洗剤の投入口」を登録しました'));
+  }
+}
+// step10を表示
+function getStep10($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step10 from ' . TABLE_NAME_STEP10S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step10'];
+  }
+}
+// step10の情報を更新（DBの上書き）
+function updateStep10($bot, $userId, $step10) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP10S . ' set step10 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step10, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10「洗剤の投入口」を更新しました'));
+  }
+}
+// step10の情報をデータベースから削除
+function deleteStep10($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP10S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10「洗剤の投入口」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep10の登録内容を取得
+function getDetailOfStep10($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step10 from ' . TABLE_NAME_STEP10S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step10'];
+  }
+}
+
+// -----------------------step11-----------------------------------
+// step11を登録
+function registerStep11($bot, $userId, $step11){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP11S .' (roomid, step11) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step11));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step11「柔軟剤について」を登録しました'));
+  }
+}
+// step11を表示
+function getStep11($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step11 from ' . TABLE_NAME_STEP11S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '必要であれば入れてください。';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step11'];
+  }
+}
+// step11の情報を更新（DBの上書き）
+function updateStep11($bot, $userId, $step11) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP11S . ' set step11 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step11, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step11「柔軟剤について」を更新しました'));
+  }
+}
+// step11の情報をデータベースから削除
+function deleteStep11($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP11S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step11「柔軟剤について」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep11の登録内容を取得
+function getDetailOfStep11($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step11 from ' . TABLE_NAME_STEP11S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step11'];
+  }
+}
+
+// -----------------------step12-----------------------------------
+// step12を登録
+function registerStep12($bot, $userId, $step12){
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'insert into '. TABLE_NAME_STEP12S .' (roomid, step12) values (?, ?) ';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId, $step12));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step12「柔軟剤の投入口」を登録しました'));
+  }
+}
+// step12を表示
+function getStep12($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step12 from ' . TABLE_NAME_STEP12S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければ定型文
+  if (!($row = $sth->fetch())) {
+    // return PDO::PARAM_NULL;
+    return '洗剤とは異なる投入口が洗濯機にあります';
+  } else {
+    // DBの内容を返す
+    // return json_decode($row['stone']);
+    return $row['step12'];
+  }
+}
+// step12の情報を更新（DBの上書き）
+function updateStep12($bot, $userId, $step12) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'update ' . TABLE_NAME_STEP12S . ' set step12 = ? where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($step12, $roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step12「柔軟剤の投入口」を更新しました'));
+  }
+}
+// step12の情報をデータベースから削除
+function deleteStep12($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'delete FROM ' . TABLE_NAME_STEP12S . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $flag = $sth->execute(array($roomId));
+  // $dbh = dbConnection::getConnection();
+  $sqlUsers = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sthUsers = $dbh->prepare($sqlUsers);
+  $sthUsers->execute(array($roomId));
+  // 各ユーザーにメッセージを送信
+  foreach ($sthUsers->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step12「柔軟剤の投入口」の登録を削除しました'));
+  }
+}
+// ユーザーIDからstep12の登録内容を取得
+function getDetailOfStep12($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select step12 from ' . TABLE_NAME_STEP12S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  // レコードが存在しなければnull、あればその内容
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['step12'];
+  }
+}
+
+
+
+
+
+
 
 
 // 家事する時のリッチメニュー rich5.jpg
