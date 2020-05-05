@@ -874,7 +874,7 @@ if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
   if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
     if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
       if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
-        deleteStep($bot, $event->getUserId());
+        deleteStep5($bot, $event->getUserId());
       } else {
         replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
       }
