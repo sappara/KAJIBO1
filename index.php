@@ -806,7 +806,7 @@ foreach ($events as $event) {
         $event->getReplyToken(),
         new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
         new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「登録四戸棚の中」'));
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗濯ネットを収納している場所を書いて再度送信してください。例「登録四タオルが入っている戸棚の中の上から三段目」'));
       }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -864,7 +864,7 @@ if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
         $event->getReplyToken(),
         new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓下記のステップ名をコピペして'),
         new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録五'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて再度送信してください。例「登録五戸棚の中」'));
+        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて洗剤を収納している場所を書いて再度送信してください。例「登録五洗面所の下の開戸の中」'));
       }
     } else {
       replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
