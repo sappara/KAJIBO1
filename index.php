@@ -41,6 +41,8 @@ foreach ($events as $event) {
 
     // リッチコンテンツがタップされた時
     if(substr($event->getPostbackData(), 0, 4) == 'cmd_') {
+
+      // ーーーーーーーーーーーールームのメニュー関連ーーーーーーーーーーーーーーーーー
       // ルーム作成
       if(substr($event->getPostbackData(), 4) == 'newroom') {
         // ユーザーが未入室の時
@@ -85,6 +87,8 @@ foreach ($events as $event) {
         }
       }
 
+      // ーーーーーーーーーーーー家事のメニュー（pushMessage関連）ーーーーーーーーーーーーーーーーー
+
       // 作業終了の報告
       else if(substr($event->getPostbackData(), 4) == 'end_confirm') {
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
@@ -100,14 +104,7 @@ foreach ($events as $event) {
         endKaji($bot, $event->getUserId());
       }
 
-      // // LIFFで完了ボタン押した後の処理
-      // else if(substr($event->getText(), 4) == '完了'){
-      //   // スタンプと文字を返信
-      //   replyMultiMessage($bot, $event->getReplyToken(),
-      //     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
-      //     new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
-      //   );
-      // }
+      // ーーーーーーーーーーーー家事マニュアルの選択肢ーーーーーーーーーーーーーーーーー
 
       // 家事stepの選択肢ボタンをタイムラインに投稿
       else if(substr($event->getPostbackData(), 4) == 'kaji'){
@@ -127,6 +124,8 @@ foreach ($events as $event) {
             new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
         );
       }
+
+      // ーーーーーーーーーーーーリッチメニュー関連ーーーーーーーーーーーーーーーーー
 
       // cmd_how_to_use
       else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
@@ -197,6 +196,9 @@ foreach ($events as $event) {
         // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
         // $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
       }
+
+      // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
+
       // cmd_insert
       else if(substr($event->getPostbackData(), 4) == 'insert'){
       // if($event->getText() == '登録したい'){
@@ -241,6 +243,7 @@ foreach ($events as $event) {
       continue;
     }
 
+    // ーーーーーーーーーーーー家事マニュアル関連ーーーーーーーーーーーーーーーーー
 
     // 家事stepの選択肢ボタンをタップした時の処理
     else if($event->getPostbackData() == 'step1'){
@@ -580,7 +583,7 @@ foreach ($events as $event) {
     continue;
   }
 
-
+  // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
   // ユーザーから送信された画像ファイルを取得し、サーバーに保存する
   // イベントがImageMessage型であれば
   // if ($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
@@ -622,8 +625,12 @@ foreach ($events as $event) {
   // githubに保存してる画像ファイルを表示する時はこちら
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
 
-
+  // イベントがMessageEventクラスのインスタンスであれば
   else if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
+
+    // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
+
+    // ImageMessageクラスのインスタンスであれば
     if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
       \Cloudinary::config(array(
         'cloud_name' => getenv('CLOUDINARY_NAME'),
@@ -688,7 +695,11 @@ foreach ($events as $event) {
   //   error_log('Non text message has come');
   //   continue;
   // }
+
+    // TextMessageクラスのインスタンスであれば
     else if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
+
+      // ーーーーーーーーーーーーLIFF関連ーーーーーーーーーーーーーーーーー
 
       // LIFFで完了ボタン押した後の処理
       if($event->getText() == '洗濯開始作業完了！'){
@@ -698,6 +709,8 @@ foreach ($events as $event) {
           new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
         );
       }
+
+      // ーーーーーーーーーーーールームのメニュー関連ーーーーーーーーーーーーーーーーー
 
       // リッチコンテンツ以外の時(ルームIDが入力された時)
       else if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
@@ -712,6 +725,8 @@ foreach ($events as $event) {
           replyTextMessage($bot, $event->getReplyToken(), "そのルームIDは存在しません。");
         }
       }
+
+      // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
 
       // step10に登録
       else if($event->getText() == '写真変えたい'){
@@ -749,6 +764,9 @@ foreach ($events as $event) {
         replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
+
+      // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
+
       // -----------------------step4------------------------------------
       // step4に登録→postbackに変更
       // if($event->getText() == '登録したい'){
@@ -1112,6 +1130,8 @@ foreach ($events as $event) {
   }
 }
 // ======================以下関数============================
+
+// ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
 
 // -----------------------step4------------------------------------
 // step4を登録
@@ -1685,7 +1705,7 @@ function getDetailOfStep12($userId) {
 
 
 
-
+// ーーーーーーーーーーーーリッチメニュー関連ーーーーーーーーーーーーーーーーー
 
 // 家事する時のリッチメニュー rich5.jpg
 // 一覧で見る 個別に見る 完了報告 戻る
@@ -1835,7 +1855,7 @@ function isRichmenuIdValid($string) {
   // }
 // }
 
-
+// ーーーーーーーーーーーールームのメニュー関連ーーーーーーーーーーーーーーーーー
 // ユーザーIDからルームIDを取得
 function getRoomIdOfUser($userId) {
   $dbh = dbConnection::getConnection();
@@ -1881,6 +1901,7 @@ function leaveRoom($userId) {
   $sth->execute(array($userId));
 }
 
+// ーーーーーーーーーーーー家事のメニュー（pushMessage関連）ーーーーーーーーーーーーーーーーー
 // 作業終了の報告
 function endKaji($bot, $userId) {
   $roomId = getRoomIdOfUser($userId);
@@ -1899,6 +1920,9 @@ function endKaji($bot, $userId) {
   // $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
   // $sthDeleteRoom->execute(array($roomId));
 }
+
+// ーーーーーーーーーーーー家事マニュアルとその選択肢ーーーーーーーーーーーーーーーーー
+// ーーーーーーーーーーーーBotからの返信関連（QuickReplyとflexMessage）ーーーーーーーーーーーーーーーーー
 
 // フレックスメッセージに添付するクイックリプライボタン
 function flexMessageQuickReply(){
@@ -2012,6 +2036,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
 
+// ーーーーーーーーーーーーBotからの返信関連（基本の雛形）ーーーーーーーーーーーーーーーーー
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
 function replyTextMessage($bot, $replyToken, $text) {
@@ -2143,6 +2168,7 @@ function replyCarouselTemplate($bot, $replyToken, $alternativeText, $columnArray
   }
 }
 
+// ーーーーーーーーーーーーDB関連ーーーーーーーーーーーーーーーーー
 // データベースへの接続を管理するクラス
 class dbConnection {
   // インスタンス
