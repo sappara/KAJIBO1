@@ -213,26 +213,26 @@ foreach ($events as $event) {
           // ];
           $layout1 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
 
-          $step4InsideBoxComponentContents = [
+          $step4InsideBoxComponentBuilders = [
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
           ];
 
-          $step4InsideBoxComponentBuilders = array();
-          foreach($step4InsideBoxComponentContents as $value){
-            array_push($step4InsideBoxComponentBuilders,$value);
-          }
+          // $step4InsideBoxComponentBuilders = array();
+          // foreach($step4InsideBoxComponentContents as $value){
+          //   array_push($step4InsideBoxComponentBuilders,$value);
+          // }
           $step4BoxComponentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, $step4InsideBoxComponentBuilders);
 
-          $step5InsideBoxComponentContents = [
+          $step5InsideBoxComponentBuilders = [
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
           ];
 
-          $step5InsideBoxComponentBuilders = array();
-          foreach($step5InsideBoxComponentContents as $value){
-            array_push($step5InsideBoxComponentBuilders,$value);
-          }
+          // $step5InsideBoxComponentBuilders = array();
+          // foreach($step5InsideBoxComponentContents as $value){
+          //   array_push($step5InsideBoxComponentBuilders,$value);
+          // }
           $step5BoxComponentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, $step5InsideBoxComponentBuilders);
 
           $bodyBoxComponentSteps = [
