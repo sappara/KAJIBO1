@@ -301,13 +301,13 @@ foreach ($events as $event) {
         } else {
           $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
-          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update4');
-          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update5');
-          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update6');
-          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update9');
-          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update10');
-          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update11');
-          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update12');
+          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update4');
+          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update5');
+          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update6');
+          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update9');
+          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update10');
+          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update11');
+          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を修正する','cmd_update12');
 
           $bodyBoxComponentSteps = [
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗濯ネットの収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
@@ -348,44 +348,44 @@ foreach ($events as $event) {
       else if(substr($event->getPostbackData(), 4) == 'update4') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗濯ネットを収納している場所を書いて再度送信してください。例「更新四タオルが入っている戸棚の中の上から三段目」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正四'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗濯ネットを収納している場所を書いて再度送信してください。例「修正四タオルが入っている戸棚の中の上から三段目」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新五'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を収納している場所を書いて再度送信してください。例「更新五洗面所の下の開戸の中」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正五'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を収納している場所を書いて再度送信してください。例「修正五洗面所の下の開戸の中」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update6') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新六'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の名前を書いて再度送信してください。例「更新六ハイジア」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正六'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の名前を書いて再度送信してください。例「修正六ハイジア」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update9') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新九'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の量を書いて再度送信してください。例「更新九ジェルボール1個」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正九'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の量を書いて再度送信してください。例「修正九ジェルボール1個」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update10') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を入れる場所を書いて再度送信してください。例「更新十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正十'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を入れる場所を書いて再度送信してください。例「修正十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update11') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十一'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤について書いて再度送信してください。例「更新十一ソフラン」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正十一'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤について書いて再度送信してください。例「修正十一ソフラン」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'update12') {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十二'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤を入れる場所を書いて再度送信してください。例「更新十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('修正十二'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤を入れる場所を書いて再度送信してください。例「修正十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
       }
       // // cmd_insert
       // else if(substr($event->getPostbackData(), 4) == 'insert'){
@@ -815,7 +815,7 @@ foreach ($events as $event) {
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
 
 
-  
+
   // イベントがMessageEventクラスのインスタンスであれば
   else if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
 
@@ -1002,7 +1002,7 @@ foreach ($events as $event) {
       //   }
       // }
       // step4に更新を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新四') {
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '修正四') {
       // if(substr($event->getText(), 0, 3) == 'u04') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
@@ -1064,7 +1064,7 @@ foreach ($events as $event) {
         }
       }
       // step5に更新を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新五') {
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '修正五') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
             $step5 = mb_substr($event->getText(), 3, null, "UTF-8");
@@ -1108,7 +1108,7 @@ foreach ($events as $event) {
         }
       }
       // step6に更新を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新六') {
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '修正六') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
             $step6 = mb_substr($event->getText(), 3, null, "UTF-8");
@@ -1152,7 +1152,7 @@ foreach ($events as $event) {
         }
       }
       // step9に更新を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新九') {
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '修正九') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
             $step9 = mb_substr($event->getText(), 3, null, "UTF-8");
@@ -1196,7 +1196,7 @@ foreach ($events as $event) {
         }
       }
       // step11に更新を実行
-      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十一') {
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '修正十一') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
             $step11 = mb_substr($event->getText(), 4, null, "UTF-8");
@@ -1240,7 +1240,7 @@ foreach ($events as $event) {
         }
       }
       // step12に更新を実行
-      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '更新十二') {
+      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '修正十二') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
             $step12 = mb_substr($event->getText(), 4, null, "UTF-8");
@@ -1285,7 +1285,7 @@ foreach ($events as $event) {
         }
       }
       // step10に更新を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '更新十') {
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '修正十') {
         if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
           if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
             $step10 = mb_substr($event->getText(), 3, null, "UTF-8");
@@ -1371,7 +1371,7 @@ function updateStep4($bot, $userId, $step4) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step4「洗濯ネットの収納場所」を修正しました'));
   }
 }
 // step4の情報をデータベースから削除
@@ -1452,7 +1452,7 @@ function updateStep5($bot, $userId, $step5) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step5「洗剤の収納場所」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step5「洗剤の収納場所」を修正しました'));
   }
 }
 // step5の情報をデータベースから削除
@@ -1533,7 +1533,7 @@ function updateStep6($bot, $userId, $step6) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step6「洗剤の種類」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step6「洗剤の種類」を修正しました'));
   }
 }
 // step6の情報をデータベースから削除
@@ -1614,7 +1614,7 @@ function updateStep9($bot, $userId, $step9) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step9「洗剤の量について」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step9「洗剤の量について」を修正しました'));
   }
 }
 // step9の情報をデータベースから削除
@@ -1695,7 +1695,7 @@ function updateStep10($bot, $userId, $step10) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10「洗剤の投入口」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10「洗剤の投入口」を修正しました'));
   }
 }
 // step10の情報をデータベースから削除
@@ -1776,7 +1776,7 @@ function updateStep11($bot, $userId, $step11) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step11「柔軟剤について」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step11「柔軟剤について」を修正しました'));
   }
 }
 // step11の情報をデータベースから削除
@@ -1857,7 +1857,7 @@ function updateStep12($bot, $userId, $step12) {
   $sthUsers->execute(array($roomId));
   // 各ユーザーにメッセージを送信
   foreach ($sthUsers->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step12「柔軟剤の投入口」を更新しました'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step12「柔軟剤の投入口」を修正しました'));
   }
 }
 // step12の情報をデータベースから削除
