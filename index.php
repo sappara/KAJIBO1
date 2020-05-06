@@ -205,39 +205,43 @@ foreach ($events as $event) {
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs',null, null, true, null, null, '#0d1b2a')];
+          // $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs',null, null, true, null, null, '#0d1b2a')];
 
-          $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
-          $boxComponentsTitleBuilder = array();
-          foreach($boxTextComponentsTitle as $value){
-            array_push($boxComponentsTitleBuilder,$value);
-          }
-          $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
+          // $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
+          // $boxComponentsTitleBuilder = array();
+          // foreach($boxTextComponentsTitle as $value){
+          //   array_push($boxComponentsTitleBuilder,$value);
+          // }
+          // $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          // $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
           
-          $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
-          $boxComponentsTextBuilder = array();
-          foreach($boxTextComponentsText as $value){
-            array_push($boxComponentsTextBuilder,$value);
-          }
-          $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
+          // $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
+          // $boxComponentsTextBuilder = array();
+          // foreach($boxTextComponentsText as $value){
+          //   array_push($boxComponentsTextBuilder,$value);
+          // }
+          // $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          // $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
 
-          $boxComponents = [$boxComponentsTitle, $boxComponentsText];
-          $boxComponentBuilder = array();
-          foreach($boxComponents as $value){
-            array_push($boxComponentBuilder,$value);
-          }
-          $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
+          // $boxComponents = [$boxComponentsTitle, $boxComponentsText];
+          // $boxComponentBuilder = array();
+          // foreach($boxComponents as $value){
+          //   array_push($boxComponentBuilder,$value);
+          // }
+          // $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          // $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
 
-          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
-          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
-          );
+          // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
+          // $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          // replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
+          // );
+          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('step0', 'step0'));
         }
       }
+      // PHP Notice:  Undefined property: LINE\LINEBot\Response::$getHTTPStatus in /app/index.php on line 2106
+      // Failed!  {"message":"A message (messages[0]) in the request body is invalid","details":[{"message":"must be non-empty array","property":"/body/contents"}]}
+      // 
       // // cmd_insert
       // else if(substr($event->getPostbackData(), 4) == 'insert'){
       // // if($event->getText() == '登録したい'){
@@ -282,6 +286,39 @@ foreach ($events as $event) {
       continue;
     }
 
+    else if($event->getPostbackData() == 'step0'){
+      $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs',null, null, true, null, null, '#0d1b2a')];
+
+          $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
+          $boxComponentsTitleBuilder = array();
+          foreach($boxTextComponentsTitle as $value){
+            array_push($boxComponentsTitleBuilder,$value);
+          }
+          $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
+          
+          $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
+          $boxComponentsTextBuilder = array();
+          foreach($boxTextComponentsText as $value){
+            array_push($boxComponentsTextBuilder,$value);
+          }
+          $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
+
+          $boxComponents = [$boxComponentsTitle, $boxComponentsText];
+          $boxComponentBuilder = array();
+          foreach($boxComponents as $value){
+            array_push($boxComponentBuilder,$value);
+          }
+          $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
+
+          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
+          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
+          );
+    }
     // ーーーーーーーーーーーー家事マニュアル関連ーーーーーーーーーーーーーーーーー
 
     // 家事stepの選択肢ボタンをタップした時の処理
@@ -2082,11 +2119,6 @@ function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $
   }
   $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
 
-    // $bodyBoxBoxComponents = array();
-    // foreach($bodyTextComponents as $value){
-    //   array_push($bodyBoxBoxComponents,$value);
-    // }
-    // $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxBoxComponents);
   $bodyBoxComponentBuilders = array();
   foreach($bodyBoxComponents as $value){
     array_push($bodyBoxComponentBuilders,$value);
