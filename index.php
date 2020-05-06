@@ -2140,7 +2140,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
 // フレックスメッセージ
-function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponentSteps, $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingTop) {
+function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponentSteps=[], $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingTop) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
