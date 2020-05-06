@@ -234,11 +234,15 @@ foreach ($events as $event) {
           // }
           // $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
           // $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
+          $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $heroPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $heroPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
           $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
           $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
           $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
+          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $heroPaddingTop::MD, $heroPaddingBottom::MD
           );
           // こちらの既存の方ならうまくいった
           // $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
@@ -2106,12 +2110,14 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
 // フレックスメッセージ
-function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponents=[], $heroImageUrl, $aspectMode) {
+function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponents=[], $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $heroPaddingTop, $heroPaddingBottom) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
   }
   $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
+  $headerComponentBuilder->setPaddingTop($headerPaddingTop);
+  $headerComponentBuilder->setPaddingBottom($headerPaddingBottom);
 
   $bodyBoxComponentBuilders = array();
   foreach($bodyBoxComponents as $value){
@@ -2120,6 +2126,8 @@ function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $
   $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
 
   $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, null, null, $aspectMode);
+  $heroComponentBuilder->setPaddingTop($heroPaddingTop);
+  $heroComponentBuilder->setPaddingBottom($heroPaddingBottom);
 
   $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
   $containerBuilder->setHeader($headerComponentBuilder);
