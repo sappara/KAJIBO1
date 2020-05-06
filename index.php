@@ -236,7 +236,28 @@ foreach ($events as $event) {
           // $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
           // replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
           // );
-          $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('step0', 'step0'));
+          $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step1   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+          $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('下準備１：異物混入チェック',null,null,'xl',null,null,true,null,'bold')];
+          $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('紙や異物が混じってないかポケットを確認してください。',null,null,null,null,null,true)];
+          // echo ComponentLayout::VERTICAL;
+          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0724.jpg';
+          $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+          $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+          $quickReplyButtons =  flexMessageQuickReply();
+          $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+          // $spacing = ComponentSpacing::XXL;
+          $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          replyFlexMessage($bot, $event->getReplyToken(), 'step1', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+          );
         }
       }
       // PHP Notice:  Undefined property: LINE\LINEBot\Response::$getHTTPStatus in /app/index.php on line 2106
@@ -286,39 +307,7 @@ foreach ($events as $event) {
       continue;
     }
 
-    else if($event->getPostbackData() == 'step0'){
-      $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs',null, null, true, null, null, '#0d1b2a')];
 
-          $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
-          $boxComponentsTitleBuilder = array();
-          foreach($boxTextComponentsTitle as $value){
-            array_push($boxComponentsTitleBuilder,$value);
-          }
-          $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
-          
-          $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
-          $boxComponentsTextBuilder = array();
-          foreach($boxTextComponentsText as $value){
-            array_push($boxComponentsTextBuilder,$value);
-          }
-          $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
-
-          $boxComponents = [$boxComponentsTitle, $boxComponentsText];
-          $boxComponentBuilder = array();
-          foreach($boxComponents as $value){
-            array_push($boxComponentBuilder,$value);
-          }
-          $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
-
-          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
-          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
-          );
-    }
     // ーーーーーーーーーーーー家事マニュアル関連ーーーーーーーーーーーーーーーーー
 
     // 家事stepの選択肢ボタンをタップした時の処理
