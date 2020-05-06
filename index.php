@@ -242,11 +242,12 @@ foreach ($events as $event) {
           $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
           $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
           $bodyPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
           $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
           $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
           $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::MD
+          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::MD, $bodyPaddingBottom::MD
           );
         }
       }
@@ -2089,7 +2090,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
 // フレックスメッセージ
-function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponentSteps=[], $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingTop) {
+function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponentSteps=[], $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingTop, $bodyPaddingBottom) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
@@ -2104,6 +2105,8 @@ function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $
     array_push($bodyBoxComponentBuilders,$value);
   }
   $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
+  $bodyComponentBuilder->setPaddingTop($bodyPaddingTop);
+  $bodyComponentBuilder->setPaddingBottom($bodyPaddingBottom);
    
 
   $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, null, null, $aspectMode);
