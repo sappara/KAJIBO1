@@ -207,13 +207,13 @@ foreach ($events as $event) {
         } else {
           $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
-          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
-          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ');
+          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ4');
+          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ5');
+          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ6');
+          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ9');
+          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ10');
+          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ11');
+          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('↑この「〇〇」を登録する','後ろ12');
 
           $bodyBoxComponentSteps = [
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗濯ネットの収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
@@ -236,7 +236,7 @@ foreach ($events as $event) {
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder11),
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１２）柔軟剤の投入口',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
             new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
-            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder12),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder12)
           ];
 
           $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
