@@ -207,11 +207,16 @@ foreach ($events as $event) {
         } else {
           $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
-          // $bodyBoxComponents = [
-          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
-          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
-          // ];
-          $layout1 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('前','後ろ');
+
+          $bodyBoxComponentSteps = [
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder4),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
+          ];
+          // $layout1 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
 
           // $step4InsideBoxComponentBuilders = array();
           // array_push($step4InsideBoxComponentBuilders,
@@ -241,20 +246,20 @@ foreach ($events as $event) {
           // foreach($step5InsideBoxComponentContents as $value){
           //   array_push($step5BoxComponentBuilders,$value);
           // }
-          $step4BoxComponentBuilders = [
-            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
-            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
-          ];
-          $step5BoxComponentBuilders = [
-            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
-            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
-          ];
+          // $step4BoxComponentBuilders = [
+          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
+          // ];
+          // $step5BoxComponentBuilders = [
+          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          //   new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')
+          // ];
           
            
-          $bodyBoxComponentSteps = [
-           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, [$step4BoxComponentBuilders]),
-           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, [$step5BoxComponentBuilders])
-          ];
+          // $bodyBoxComponentSteps = [
+          //  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, [$step4BoxComponentBuilders]),
+          //  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout1::VERTICAL, [$step5BoxComponentBuilders])
+          // ];
           // $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
           // $boxComponentsTitleBuilder = array();
           // foreach($boxTextComponentsTitle as $value){
