@@ -255,7 +255,10 @@ foreach ($events as $event) {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、”洗濯ネットを収納している場所” を書いて送信してください。 例「登録四タオルが入っている戸棚の中の上から三段目」'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('続けて、”洗濯ネットを収納している場所” を書いて'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('送信してください。'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例「登録四タオルが入っている戸棚の中の上から三段目」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'create5') {
         replyMultiMessage($bot, $event->getReplyToken(),
