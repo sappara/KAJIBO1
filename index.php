@@ -201,17 +201,55 @@ foreach ($events as $event) {
 
       // cmd_insert
       else if(substr($event->getPostbackData(), 4) == 'insert'){
-      // if($event->getText() == '登録したい'){
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          replyMultiMessage($bot,
-                $event->getReplyToken(),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「登録四戸棚の中」'));
+          $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs',null, null, true, null, null, '#0d1b2a')];
+
+          $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
+          $boxComponentsTitleBuilder = array();
+          foreach($boxTextComponentsTitle as $value){
+            array_push($boxComponentsTitleBuilder,$value);
+          }
+          $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
+          
+          $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
+          $boxComponentstextBuilder = array();
+          foreach($boxTextComponentsText as $value){
+            array_push($boxComponentsTextBuilder,$value);
+          }
+          $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
+
+          $boxComponents = [$boxComponentsTitle, $boxComponentsText];
+          $boxComponentBuilder = array();
+          foreach($boxComponents as $value){
+            array_push($boxComponentBuilder,$value);
+          }
+          $layout2 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout2::VERTICAL, $boxComponentBuilder);
+
+          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_27.jpg';
+          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          replyFlexMessage($bot, $event->getReplyToken(), '家事マニュアルの登録', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponents, $heroImageUrl, $aspectMode::COVER
+          );
         }
       }
+      // // cmd_insert
+      // else if(substr($event->getPostbackData(), 4) == 'insert'){
+      // // if($event->getText() == '登録したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「登録四戸棚の中」'));
+      //   }
+      // }
       // cmd_update
       else if(substr($event->getPostbackData(), 4) == 'update'){
       // if($event->getText() == '更新したい'){
@@ -2035,6 +2073,38 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // 上記のコードだとそこの部分も書き方変えてます
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
+// フレックスメッセージ
+function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponents=[], $heroImageUrl, $aspectMode) {
+  $headerBoxComponentBuilder = array();
+  foreach($headerTextComponents as $value){
+    array_push($headerBoxComponentBuilder,$value);
+  }
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
+
+    // $bodyBoxBoxComponents = array();
+    // foreach($bodyTextComponents as $value){
+    //   array_push($bodyBoxBoxComponents,$value);
+    // }
+    // $bodyBoxComponents = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxBoxComponents);
+  $bodyBoxComponentBuilders = array();
+  foreach($bodyBoxComponents as $value){
+    array_push($bodyBoxComponentBuilders,$value);
+  }
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
+
+  $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, null, null, $aspectMode);
+
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
+  $containerBuilder->setHeader($headerComponentBuilder);
+  $containerBuilder->setHero($heroComponentBuilder);
+  $containerBuilder->setBody($bodyComponentBuilder);
+
+  $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
+  $response = $bot->replyMessage($replyToken, $messageBuilder);
+  if (!$response->isSucceeded()) {
+    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
 
 // ーーーーーーーーーーーーBotからの返信関連（基本の雛形）ーーーーーーーーーーーーーーーーー
 
