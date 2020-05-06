@@ -253,11 +253,10 @@ foreach ($events as $event) {
       }
       else if(substr($event->getPostbackData(), 4) == 'create4') {
         replyMultiMessage($bot, $event->getReplyToken(),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピーして'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('続けて、”洗濯ネットを収納している場所” を書いて'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('送信してください。'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をペーストして、続けて、'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗濯ネットを収納している場所” を書いて送信してください。'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例「登録四タオルが入っている戸棚の中の上から三段目」'));
       }
       else if(substr($event->getPostbackData(), 4) == 'create5') {
@@ -2415,6 +2414,7 @@ function replyAudioMessage($bot, $replyToken, $originalContentUrl, $audioLength)
 
 // 複数のメッセージをまとめて返信。引数はLINEBot、
 // 返信先、メッセージ(可変長引数)
+// {"message":"Size must be between 1 and 5","property":"messages"}
 function replyMultiMessage($bot, $replyToken, ...$msgs) {
   // MultiMessageBuilderをインスタンス化
   $builder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
