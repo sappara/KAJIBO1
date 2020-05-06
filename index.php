@@ -388,6 +388,92 @@ foreach ($events as $event) {
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、”柔軟剤を入れる場所” を書いて送信してください。 例「修正十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
       }
 
+      // cmd_delete
+      else if(substr($event->getPostbackData(), 4) == 'delete'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'まずはルームに入って、登録してください。');
+        } else {
+          $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
+
+          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete4');
+          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete5');
+          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete6');
+          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete9');
+          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete10');
+          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete11');
+          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を初期化する','cmd_delete12');
+
+          $bodyBoxComponentSteps = [
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗濯ネットの収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder4),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder5),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('６）洗剤の種類',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「〇〇」を使ってください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder6),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('９）洗剤の量について',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder9),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１０）洗剤の投入口',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder10),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１１）柔軟剤について',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder11),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１２）柔軟剤の投入口',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder12)
+          ];
+
+          $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+
+          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_28.jpg';
+          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの削除', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::MD, $bodyPaddingBottom::MD
+          );
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete4') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '４）洗濯ネットの収納場所 を初期化しますか？', '４）洗濯ネットの収納場所 を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除四'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete5') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '５）洗剤の収納場所 を初期化しますか？', '５）洗剤の収納場所 を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除五'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete6') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '６）洗剤の種類 を初期化しますか？', '６）洗剤の種類 を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除六'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete9') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '９）洗剤の量について を初期化しますか？', '９）洗剤の量について を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除九'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete10') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 を初期化しますか？', '１０）洗剤の投入口 を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete11') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '１１）柔軟剤について を初期化しますか？', '１１）柔軟剤について を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十一'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'delete12') {
+        replyConfirmTemplate($bot, $event->getReplyToken(), '１２）柔軟剤の投入口 を初期化しますか？', '１２）柔軟剤の投入口 を初期化しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十二'),
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
   
       // // cmd_insert
       // else if(substr($event->getPostbackData(), 4) == 'insert'){
@@ -415,19 +501,19 @@ foreach ($events as $event) {
       //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
       //   }
       // }
-      // cmd_delete
-      else if(substr($event->getPostbackData(), 4) == 'delete'){
-      // if($event->getText() == '削除したい'){
-        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        } else {
-          replyMultiMessage($bot,
-                $event->getReplyToken(),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('削除四'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「削除四」'));
-        }
-      }
+      // // cmd_delete
+      // else if(substr($event->getPostbackData(), 4) == 'delete'){
+      // // if($event->getText() == '削除したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('削除四'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「削除四」'));
+      //   }
+      // }
 
 
       continue;
