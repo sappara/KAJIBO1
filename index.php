@@ -209,19 +209,19 @@ foreach ($events as $event) {
 
           $boxTextComponentsTitle = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a')];
           $boxComponentsTitleBuilder = array();
-          array_push($boxComponentsTitleBuilder,$boxTextComponentsTitle);
-          // foreach($boxTextComponentsTitle as $value){
-          //   array_push($boxComponentsTitleBuilder,$value);
-          // }
+          // array_push($boxComponentsTitleBuilder,$boxTextComponentsTitle);
+          foreach($boxTextComponentsTitle as $value){
+            array_push($boxComponentsTitleBuilder,$value);
+          }
           $layout3 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
           $boxComponentsTitle = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout3::VERTICAL, $boxComponentsTitleBuilder);
           
           $boxTextComponentsText = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a')];
           $boxComponentstextBuilder = array();
-          array_push($boxComponentsTextBuilder,$boxTextComponentsText);
-          // foreach($boxTextComponentsText as $value){
-          //   array_push($boxComponentsTextBuilder,$value);
-          // }
+          // array_push($boxComponentsTextBuilder,$boxTextComponentsText);
+          foreach($boxTextComponentsText as $value){
+            array_push($boxComponentsTextBuilder,$value);
+          }
           $layout4 = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
           $boxComponentsText = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout4::VERTICAL, $boxComponentsTextBuilder);
 
