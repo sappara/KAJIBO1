@@ -293,6 +293,100 @@ foreach ($events as $event) {
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤を入れる場所を書いて再度送信してください。例「登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
       }
+
+      // cmd_update
+      else if(substr($event->getPostbackData(), 4) == 'update'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'まずはルームに入って、先に登録してください。');
+        } else {
+          $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('家事マニュアルをカスタマイズできます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
+
+          $actionBuilder4 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update4');
+          $actionBuilder5 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update5');
+          $actionBuilder6 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update6');
+          $actionBuilder9 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update9');
+          $actionBuilder10 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update10');
+          $actionBuilder11 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update11');
+          $actionBuilder12 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('↑この「〇〇」を更新する','cmd_update12');
+
+          $bodyBoxComponentSteps = [
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４）洗濯ネットの収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗濯ネットは「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder4),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５）洗剤の収納場所',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤は「〇〇」を探してください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder5),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('６）洗剤の種類',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('毎日の衣類・タオル類には「〇〇」を使ってください。',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder6),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('９）洗剤の量について',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の量は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder9),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１０）洗剤の投入口',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder10),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１１）柔軟剤について',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder11),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１２）柔軟剤の投入口',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤を入れる場所は「〇〇」',null,null,null,null, null, true, null, null, '#0d1b2a'),
+            new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder12)
+          ];
+
+          $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+          $bodyPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+
+          $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+          $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_25.jpg';
+          $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+          replyFlexMessageForModification($bot, $event->getReplyToken(), '家事マニュアルの更新', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::MD, $bodyPaddingBottom::MD
+          );
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update4') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗濯ネットを収納している場所を書いて再度送信してください。例「更新四タオルが入っている戸棚の中の上から三段目」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新五'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を収納している場所を書いて再度送信してください。例「更新五洗面所の下の開戸の中」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update6') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新六'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の名前を書いて再度送信してください。例「更新六ハイジア」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update9') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新九'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤の量を書いて再度送信してください。例「更新九ジェルボール1個」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update10') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、洗剤を入れる場所を書いて再度送信してください。例「更新十洗濯槽の中の壁面、水色の蓋をパカっと開ける」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update11') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十一'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤について書いて再度送信してください。例「更新十一ソフラン」'));
+      }
+      else if(substr($event->getPostbackData(), 4) == 'update12') {
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新十二'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて、柔軟剤を入れる場所を書いて再度送信してください。例「更新十二蓋の付け根のソフト仕上剤と書いてる所を引き出す」'));
+      }
       // // cmd_insert
       // else if(substr($event->getPostbackData(), 4) == 'insert'){
       // // if($event->getText() == '登録したい'){
@@ -307,18 +401,18 @@ foreach ($events as $event) {
       //   }
       // }
       // cmd_update
-      else if(substr($event->getPostbackData(), 4) == 'update'){
-      // if($event->getText() == '更新したい'){
-        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        } else {
-          replyMultiMessage($bot,
-                $event->getReplyToken(),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
-                new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
-        }
-      }
+      // else if(substr($event->getPostbackData(), 4) == 'update'){
+      // // if($event->getText() == '更新したい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyMultiMessage($bot,
+      //           $event->getReplyToken(),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓下記のステップ名をコピペして'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('更新四'),
+      //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('先頭にステップ名をつけて、続けて収納場所を書いて送信してください。例「更新四戸棚の中」'));
+      //   }
+      // }
       // cmd_delete
       else if(substr($event->getPostbackData(), 4) == 'delete'){
       // if($event->getText() == '削除したい'){
@@ -720,6 +814,8 @@ foreach ($events as $event) {
   // githubに保存してる画像ファイルを表示する時はこちら
   // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
 
+
+  
   // イベントがMessageEventクラスのインスタンスであれば
   else if ($event instanceof \LINE\LINEBot\Event\MessageEvent) {
 
