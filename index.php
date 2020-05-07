@@ -1124,7 +1124,6 @@ foreach ($events as $event) {
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
-        // echo ComponentLayout::VERTICAL;
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
         $roomId = getRoomIdOfUser($event->getUserId());
@@ -1140,10 +1139,6 @@ foreach ($events as $event) {
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-        $quickReplyButtons =  flexMessageQuickReply();
-        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-        // $spacing = ComponentSpacing::XXL;
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -1151,7 +1146,7 @@ foreach ($events as $event) {
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
 
@@ -2453,7 +2448,55 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // 上記のコードだとそこの部分も書き方変えてます
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
-// フレックスメッセージ
+// フレックスメッセージ（写真カスタマイズ時のみ）
+function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingEnd, $bodyPaddingStart, $footerPaddingBottom, $footerPaddingEnd, $footerPaddingStart) {
+  $headerBoxComponentBuilder = array();
+  foreach($headerTextComponents as $value){
+    array_push($headerBoxComponentBuilder,$value);
+  }
+  // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout($vertical);
+  // $componentBuilders = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($text);
+  $headerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $headerBoxComponentBuilder);
+  $headerComponentBuilder->setPaddingTop($headerPaddingTop);
+  $headerComponentBuilder->setPaddingBottom($headerPaddingBottom);
+
+  $bodyBoxComponentBuilders = array();
+  foreach($bodyTextComponents as $value){
+    array_push($bodyBoxComponentBuilders,$value);
+  }
+  $bodyComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $bodyBoxComponentBuilders);
+  $bodyComponentBuilder->setPaddingEnd($bodyPaddingEnd);
+  $bodyComponentBuilder->setPaddingStart($bodyPaddingStart);
+
+  $footerBoxComponentBuilder = array();
+  foreach($footerTextComponents as $value){
+    array_push($footerBoxComponentBuilder,$value);
+  }
+  $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder);
+  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder($layout, $footerBoxComponentBuilder, null, $spacing);//spacingは横との隙間だった
+  // $footerComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder();
+  // $footerComponentBuilder->setLayout($layout);
+  // $footerComponentBuilder->setContents($footerBoxComponentBuilder);
+  $footerComponentBuilder->setPaddingBottom($footerPaddingBottom);
+  $footerComponentBuilder->setPaddingEnd($footerPaddingEnd);
+  $footerComponentBuilder->setPaddingStart($footerPaddingStart);
+
+  $heroComponentBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ImageComponentBuilder($heroImageUrl, null, null, null, null, $heroImageSize, $aspectRatio, $aspectMode);
+
+  $containerBuilder = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
+  $containerBuilder->setHeader($headerComponentBuilder);
+  $containerBuilder->setHero($heroComponentBuilder);
+  $containerBuilder->setBody($bodyComponentBuilder);
+  $containerBuilder->setFooter($footerComponentBuilder);
+
+  $messageBuilder = new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $containerBuilder);
+  $response = $bot->replyMessage($replyToken, $messageBuilder);
+  if (!$response->isSucceeded()) {
+    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
+
+// フレックスメッセージ（登録更新時）
 function replyFlexMessageForModification($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyBoxComponentSteps=[], $heroImageUrl, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingTop, $bodyPaddingBottom) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
