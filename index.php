@@ -140,11 +140,11 @@ foreach ($events as $event) {
         $actionBuilder4_1 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('登録','cmd_insert');
         $actionBuilder4_2 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('修正','cmd_update');
         $actionBuilder5_1 = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真登録','cmd_photo');
-        
+        $space = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
         $bodyBoxComponentSteps = [
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【使い方の説明】',null,null,'xs','center', null, true, null, 'bold', '#0d1b2a'),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\FillerComponentBuilder(),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\SpacerComponentBuilder($space::MD),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１：家事マニュアル（洗濯機の使い方）',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('1-1：一度に全てのステップを見たい場合',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder1_1),
