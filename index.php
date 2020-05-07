@@ -1121,7 +1121,8 @@ foreach ($events as $event) {
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
         $roomId = getRoomIdOfUser($event->getUserId());
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v1588832935/kajiboimage/step10photo/5eaa7eeff3c40.jpg';
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
