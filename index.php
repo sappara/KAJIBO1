@@ -1033,7 +1033,7 @@ foreach ($events as $event) {
       // $filesize = $bot->getMessageContent($event->getFileSize());
 
 
-      $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
+      $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg?=' . uniqid();
       // $filesize = filesize($path);
       // 238830だった<=238kb
       // $filesize_save = floor(intdiv(100000, $filesize)*100);
@@ -1124,13 +1124,11 @@ foreach ($events as $event) {
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
         $roomId = getRoomIdOfUser($event->getUserId());
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';//仮
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg?=' . uniqid();
         //初回は正しい写真、2回目からは違う写真（最初の写真のまま）
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/vxxxxxxx/kajiboimage/step10photo/5eaaxxxxx.jpg';//ok
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea15xxxxx.jpg';//違う写真
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v15xxxxx/kajiboimage/step10photo/5eaxxxxx.jpg';//ok
-        // https://res.cloudinary.com/kajibo/image/upload/v1588836433/kajiboimage/step10photo/5eb3b7c4dcdcc.jpg
-        // ルームIDがフルで画像名にならないのか
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
