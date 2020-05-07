@@ -1146,7 +1146,7 @@ foreach ($events as $event) {
         $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        replyFlexMessagePhoto($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
       }
 
@@ -2449,7 +2449,7 @@ function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextCompo
 // $bodyComponentBuilder = new BoxComponentBuilder(ComponentLayout::VERTICAL, > [$componentBuilder]);
 
 // フレックスメッセージ（写真カスタマイズ時のみ）
-function replyFlexMessage($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingEnd, $bodyPaddingStart, $footerPaddingBottom, $footerPaddingEnd, $footerPaddingStart) {
+function replyFlexMessagePhoto($bot, $replyToken, $altText, $layout, $headerTextComponents=[], $bodyTextComponents=[], $footerTextComponents=[], $heroImageUrl, $heroImageSize, $aspectRatio, $aspectMode, $headerPaddingTop, $headerPaddingBottom, $bodyPaddingEnd, $bodyPaddingStart, $footerPaddingBottom, $footerPaddingEnd, $footerPaddingStart) {
   $headerBoxComponentBuilder = array();
   foreach($headerTextComponents as $value){
     array_push($headerBoxComponentBuilder,$value);
