@@ -249,6 +249,19 @@ foreach ($events as $event) {
         // $bot->linkRichMenu($event->getUserId(), 'richmenu-d182fe2f083258f273d5e1035bb71dfe');
       }
 
+
+      // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
+
+      // step10に登録　→リッチメニュの説明文のアクションからの導入に変更
+      else if(substr($event->getPostbackData(), 4) == 'photo'){
+        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
+          // 下方の、ImageMessage型イベント確認グループに続く
+        }
+      }
+
       // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
 
       // cmd_insert
@@ -1033,12 +1046,15 @@ foreach ($events as $event) {
       //     (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
       //       ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
       //   );
-      replyMultiMessage($bot, $event->getReplyToken(),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
-        new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例：　step10'));
+      // replyMultiMessage($bot, $event->getReplyToken(),
+      //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
+      //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
+      //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例：　step10'));
         // 下のstep10に表示に続く
-      ;
+      // ;
+      replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 に写真を登録しますか？', '１０）洗剤の投入口 に写真を登録しますか？',
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '写真十'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
     }
   // }
   
@@ -1086,16 +1102,17 @@ foreach ($events as $event) {
 
       // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
 
-      // step10に登録
-      else if($event->getText() == '写真変えたい'){
-        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
-          // 上方の、ImageMessage型イベント確認グループに続く
-        }
-      }
-      else if($event->getText() == 'step10'){
+      // step10に登録　→リッチメニュの説明文のアクションからの導入に変更
+      // else if($event->getText() == '写真変えたい'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), '写真を一枚送信してください。');
+      //     // 上方の、ImageMessage型イベント確認グループに続く
+      //   }
+      // }
+      // else if($event->getText() == 'step10'){
+      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '写真十') {
         $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
         $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
