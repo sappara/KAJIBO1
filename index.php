@@ -1541,7 +1541,7 @@ function endPhoto($bot, $userId) {
   $sth->execute(array(getRoomIdOfUser($userId)));
   // 各ユーザーにメッセージを送信
   foreach ($sth->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。次の文字をコピペして送ってみてください。→ 写真十'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。次の文字を入力送信するとマニュアルを表示できます。→ 写真十'));
   }
 }
 
