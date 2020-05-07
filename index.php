@@ -167,6 +167,7 @@ foreach ($events as $event) {
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【５：おためし】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('5-1：写真の変更（一枚だけ変更可能）',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder5_1),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('注：写真の更新は反映されません',null,null,'xs',null, null, true, null, null, '#0d1b2a'),
         ];
 
         $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -1121,10 +1122,11 @@ foreach ($events as $event) {
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
         $roomId = getRoomIdOfUser($event->getUserId());
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';//仮
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';//違う写真
-        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v1588832935/kajiboimage/step10photo/5eaa7eeff3c40.jpg';//ok
-        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea156f8e2ade.jpg';//違う写真
-        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v1588230371/kajiboimage/step10photo/5ea156f8e2ade.jpg';//ok
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        //初回は正しい写真、2回目からは違う写真（最初の写真のまま）
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/vxxxxxxx/kajiboimage/step10photo/5eaaxxxxx.jpg';//ok
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea15xxxxx.jpg';//違う写真
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v15xxxxx/kajiboimage/step10photo/5eaxxxxx.jpg';//ok
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
