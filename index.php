@@ -1042,8 +1042,8 @@ foreach ($events as $event) {
         // $filesize_save = floor(intdiv(100000, $filesize)*100);
         // 変数を入れ込むとうまくいかない、q_0になってしまう、もしくは計算上76kbの筈が7.9kbと一桁少なく保存される。なので固定値で。
         $roomId = getRoomIdOfUser($event->getUserId());
-        // $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
-        $filename_save = array('folder'=>'kajiboimage/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+        $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+        // $filename_save = array('folder'=>'kajiboimage/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
         $result = \Cloudinary\Uploader::upload($path, $filename_save);
         // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
 
@@ -1129,9 +1129,10 @@ foreach ($events as $event) {
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
         $roomId = getRoomIdOfUser($event->getUserId());
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';//仮
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg?=' . uniqid();
         // $filename = uniqid();
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/'.$roomId.'/'; 
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/'.$roomId.'/'; 
         //初回は正しい写真、2回目からは違う写真（最初の写真のまま）
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/vxxxxxxx/kajiboimage/step10photo/5eaaxxxxx.jpg';//ok
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea15xxxxx.jpg';//違う写真
