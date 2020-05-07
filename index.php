@@ -143,29 +143,28 @@ foreach ($events as $event) {
         $space = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
 
         $bodyBoxComponentSteps = [
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【使い方の説明】',null,null,'xs','center', null, true, null, 'bold', '#0d1b2a'),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\SpacerComponentBuilder($space::MD),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('１：家事マニュアル（洗濯機の使い方）',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          // new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【使い方の説明】',null,null,'xs','center', null, true, null, 'bold', '#0d1b2a'),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【１：家事マニュアル】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('1-1：一度に全てのステップを見たい場合',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder1_1),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('1-2：各ステップを個別に見たい場合',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder1_2),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('２：二人で使う',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【２：二人で使う】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('2-1：ルームに入る',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder2_1),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('2-2：相手にルームナンバーを伝える',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('2-3：Bot(KAJIBO)と友達になってもらう',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('2-4：ルームに入ってもらう',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder2_4),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('３：家事が完了したら',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【３：家事が完了したら】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('3-1：作業完了の報告LINEを送る（同じルームに入室している全員に送信します）',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder3_1),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('４：家事マニュアルを変える',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【４：家事マニュアルを変える】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('4-1：カスタマイズするステップを選ぶ（必須：ルームへの事前入室）',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder4_1),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('4-2：後から修正も可能',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder4_2),
-          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('５：おためし',null,null,'lg',null, null, true, null, null, '#0d1b2a'),
+          new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('【５：おためし】',null,null,'lg',null, null, true, null, 'bold', '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('5-1：写真の変更（一枚だけ変更可能）',null,null,null,null, null, true, null, null, '#0d1b2a'),
           new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($actionBuilder5_1),
         ];
@@ -178,7 +177,7 @@ foreach ($events as $event) {
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/object_76.jpg';
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        replyFlexMessageForModification($bot, $event->getReplyToken(), '使い方の説明', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::MD, $bodyPaddingBottom::MD
+        replyFlexMessageForModification($bot, $event->getReplyToken(), '使い方の説明', $layout::VERTICAL, $headerTextComponents, $bodyBoxComponentSteps, $heroImageUrl, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingTop::XL, $bodyPaddingBottom::MD
         );
 
 
