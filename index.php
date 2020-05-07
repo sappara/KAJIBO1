@@ -1033,7 +1033,7 @@ foreach ($events as $event) {
       // $filesize = $bot->getMessageContent($event->getFileSize());
 
 
-      $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg?=' . uniqid();
+      $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
       // $filesize = filesize($path);
       // 238830だった<=238kb
       // $filesize_save = floor(intdiv(100000, $filesize)*100);
