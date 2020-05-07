@@ -1130,8 +1130,8 @@ foreach ($events as $event) {
         $roomId = getRoomIdOfUser($event->getUserId());
         // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/tmp/'.$roomId.'step10photo.jpeg';//仮
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg?=' . uniqid();
-        $filename = uniqid();
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/'.$roomId.'/'.$filename.'.jpg'; 
+        // $filename = uniqid();
+        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/'.$roomId.'/'; 
         //初回は正しい写真、2回目からは違う写真（最初の写真のまま）
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/vxxxxxxx/kajiboimage/step10photo/5eaaxxxxx.jpg';//ok
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea15xxxxx.jpg';//違う写真
