@@ -72,7 +72,7 @@ foreach ($events as $event) {
       }
       // 退室の確認ダイアログ
       else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
-        replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？',
+        replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？（全員が退室した場合ルームは削除されカスタマイズされた登録内容も失われます。）',
           new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
           new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
           // この時の「いいえ」はどこにも繋がっていない。これで終了。
@@ -1052,10 +1052,12 @@ foreach ($events as $event) {
       //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
       //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例：　step10'));
         // 下のstep10に表示に続く
-      // ;
-      replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 に写真を登録しますか？', '１０）洗剤の投入口 に写真を登録しますか？',
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '写真十'),
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
+      // 写真の表示につなげる
+      // replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 に写真を登録しますか？', '１０）洗剤の投入口 に写真を登録しますか？',
+      //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '写真十'),
+      //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
+      // ルームメイトにも写真付きマニュアル見れるようにする
+      endPhoto($bot, $event->getUserId());
     }
   // }
   
@@ -1127,6 +1129,8 @@ foreach ($events as $event) {
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/vxxxxxxx/kajiboimage/step10photo/5eaaxxxxx.jpg';//ok
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/5ea15xxxxx.jpg';//違う写真
         // $heroImageUrl = 'https://res.cloudinary.com/kajibo/image/upload/v15xxxxx/kajiboimage/step10photo/5eaxxxxx.jpg';//ok
+        // https://res.cloudinary.com/kajibo/image/upload/v1588836433/kajiboimage/step10photo/5eb3b7c4dcdcc.jpg
+        // ルームIDがフルで画像名にならないのか
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
@@ -1526,6 +1530,20 @@ foreach ($events as $event) {
 // ======================以下関数============================
 
 // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
+
+// 作業終了の報告
+function endPhoto($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+
+  $dbh = dbConnection::getConnection();
+  $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array(getRoomIdOfUser($userId)));
+  // 各ユーザーにメッセージを送信
+  foreach ($sth->fetchAll() as $row) {
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。次の文字をコピペして送ってみてください。→ 写真十'));
+  }
+}
 
 // -----------------------step4------------------------------------
 // step4を登録
