@@ -1270,7 +1270,6 @@ foreach ($events as $event) {
             replyConfirmTemplate($bot, $event->getReplyToken(), 'alttext', 'しますか？',
             new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('結果確認', 'cmd_modification4'),
             new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('他のstep', 'cmd_insert'));
-      }
           } else {
             replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
           }
