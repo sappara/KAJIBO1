@@ -333,7 +333,7 @@ foreach ($events as $event) {
         '洗濯ネットの収納場所',
         '洗濯ネットは「'.$step4.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '「」内に初登録', 'cmd_create4'),
+          '「」内に新規登録', 'cmd_create4'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '「」内を修正', 'cmd_update4'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
@@ -344,7 +344,7 @@ foreach ($events as $event) {
         replyMultiMessage($bot, $event->getReplyToken(),
           // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓　下記のステップ名をコピーしてください'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名を先頭にコピペ。続けて ”洗濯ネットを収納している場所” を書いて送信してください。'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗濯ネットを収納している場所 を入力送信してください。'),
           // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗濯ネットを収納している場所” を書いて送信してください。'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録四タオルが入っている戸棚の中の上から三段目'));
       }
