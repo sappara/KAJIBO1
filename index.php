@@ -193,12 +193,12 @@ foreach ($events as $event) {
       }
       // cmd_modification_menu
       else if(substr($event->getPostbackData(), 4) == 'modification_menu'){
-        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('カスタマイズのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-c80f0d0eba27093c4ee76a97f86e0575')));
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('カスタマイズのメニューへ', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-8405eb278b84adaadae1c5ddb7567c57')));
         // 登録更新削除バージョン'richmenu-483be03d906642db37c9bf40a14c421b'
       }
       // cmd_main_menu
       else if(substr($event->getPostbackData(), 4) == 'main_menu'){
-        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-04eeffc6e1d8b4d8d6e5a07354195c9b')));
+        $bot->replyMessage($event->getReplyToken(), new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る', linkToUser(getenv('CHANNEL_ACCESS_TOKEN'), $event->getUserId(), 'richmenu-09dfd1ce5fcf91cff8d2a64eb2546cfe')));
         // $boundsBuilder1 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(0,0,300,405);
         // $actionBuilder1 =  new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('メインメニューに戻る','cmd_main_menu');
         // $boundsBuilder2 = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder(300,0,300,405);
@@ -268,24 +268,24 @@ foreach ($events as $event) {
 
       // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
 
-      // cmd_insert
-      else if(substr($event->getPostbackData(), 4) == 'check'){
-        if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
-          replyTextMessage($bot, $event->getReplyToken(), '登録するにはルームに入ってください。');
-        } else {
-          replyQuickReplyButton($bot, $event->getReplyToken(), '登録結果を確認できます。stepボタンを押してね。',
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('10)洗剤の投入口', 'step10')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
-            new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12'))
-          ); 
-        }     
-      }
-      // cmd_insert
-      else if(substr($event->getPostbackData(), 4) == 'insert'){
+      // // cmd_check
+      // else if(substr($event->getPostbackData(), 4) == 'check'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     replyTextMessage($bot, $event->getReplyToken(), '登録するにはルームに入ってください。');
+      //   } else {
+      //     replyQuickReplyButton($bot, $event->getReplyToken(), '登録結果を確認できます。stepボタンを押してね。',
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('10)洗剤の投入口', 'step10')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
+      //       new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12'))
+      //     ); 
+      //   }     
+      // }
+      // cmd_modify
+      else if(substr($event->getPostbackData(), 4) == 'modify'){
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), '登録するにはルームに入ってください。');
         } else {
@@ -1266,10 +1266,10 @@ foreach ($events as $event) {
           if(getDetailOfStep4($event->getUserId()) === PDO::PARAM_NULL) {
             $step4 = mb_substr($event->getText(), 3, null, "UTF-8");
             registerStep4($bot, $event->getUserId(), $step4);
-            // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');
-            replyConfirmTemplate($bot, $event->getReplyToken(), 'alttext', 'しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('結果確認', 'cmd_modification4'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('他のstep', 'cmd_insert'));
+            // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
+            replyConfirmTemplate($bot, $event->getReplyToken(), 'alttext', '登録結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
           } else {
             replyTextMessage($bot, $event->getReplyToken(), 'すでに登録されています。');
           }
