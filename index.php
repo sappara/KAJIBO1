@@ -129,7 +129,10 @@ foreach ($events as $event) {
 
       // cmd_how_to_use
       else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
-        $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
+        // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
+        replyVideoMessage($bot, $event->getReplyToken(),
+          'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
+          'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
         // $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('このアプリの使い方を体験できます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
         // $actionBuilder1_1 = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
@@ -1395,11 +1398,11 @@ foreach ($events as $event) {
             // replyTextMessage($bot, $event->getReplyToken(), '登録がありません。');
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録四'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗濯ネットを収納している場所 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗濯ネットを収納している場所” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録四戸棚の上から三段目'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録四戸棚の上から三段目'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1464,11 +1467,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録五'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗剤を収納している場所 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗剤を収納している場所” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録五洗面所の下の開戸の中'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録五洗面所の下の開戸の中'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1519,11 +1522,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録六'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗剤の名前 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗剤の名前” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録六ハイジア'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録六ハイジア'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1574,11 +1577,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録九'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗剤の量 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗剤の量” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録九ジェルボール1個'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録九ジェルボール1個'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1629,11 +1632,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十一'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 柔軟剤について を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”柔軟剤について” 書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録十一ソフラン'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録十一ソフラン'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1684,11 +1687,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十二'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 柔軟剤を入れる場所 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”柔軟剤を入れる場所” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録十二蓋の付け根のソフト仕上剤と書いてる所を引き出す'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
@@ -1740,11 +1743,11 @@ foreach ($events as $event) {
           } else {
             replyMultiMessage($bot,
             $event->getReplyToken(),
-            // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、↓　下記のステップ名をコピーしてください'),
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録がありません。登録しますので、お手数ですが、'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('登録十'),
             new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↑上記ステップ名をコピペ ＋ 洗剤を入れる場所 を入力送信してください。'),
             // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('”洗剤を入れる場所” を書いて再度送信してください。'),
-            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：　登録十洗濯槽の中の壁面、水色の蓋をパカっと開ける'));
+            new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('例：登録十洗濯槽の中の壁面、水色の蓋をパカっと開ける'));
           }
         } else {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
