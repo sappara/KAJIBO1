@@ -130,9 +130,17 @@ foreach ($events as $event) {
       // cmd_how_to_use
       else if(substr($event->getPostbackData(), 4) == 'how_to_use'){
         // $bot->replyMessage($event->getReplyToken(),new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('使い方の説明'));
-        replyVideoMessage($bot, $event->getReplyToken(),
-          'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
-          'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
+        // replyVideoMessage($bot, $event->getReplyToken(),
+        //   'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
+        //   'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
+        replyConfirmTemplate($bot, $event->getReplyToken(),
+        '操作方法の選択肢',
+        '使い方の詳細はWebでご覧いただけます。web遷移時に認証が必要になります。',
+        new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
+          '詳細版(認証必要)', 'https://liff.line.me/1654188823-B2ax05Mb'),
+        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+          '簡易版(認証不要)', '説明')
+        );
         // $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('このアプリの使い方を体験できます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
         // $actionBuilder1_1 = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('一覧で見る','https://liff.line.me/1654069050-OPNWVd3j');
@@ -1273,6 +1281,27 @@ foreach ($events as $event) {
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('洗濯機回してくれてありがとう✨'),
           new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(11539, 52114110)
+        );
+      }
+
+      // ーーーーーーーーーーーーLIFF関連ーーーーーーーーーーーーーーーーー
+
+      // LIFFで「家事マニュアルを見る」ボタン押した後の処理
+      if($event->getText() == '家事マニュアルを見る'){
+        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してね。',
+        new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('7)洗濯機の水量', 'step7')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('8)洗剤の量と水量の関係性', 'step8')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('10)洗剤の投入口', 'step10')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
         );
       }
 
