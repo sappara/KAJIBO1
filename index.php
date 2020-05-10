@@ -137,9 +137,9 @@ foreach ($events as $event) {
         '操作方法の選択肢',
         '使い方の詳細はWebでご覧いただけます。web遷移時に認証が必要になります。',
         new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
-          '詳細版(認証必要)', 'https://liff.line.me/1654188823-B2ax05Mb'),
-        new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-          '簡易版(認証不要)', '説明')
+          'webで見る', 'https://liff.line.me/1654188823-B2ax05Mb'),
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+          '簡易版', 'cmd_simpleHowToUse')
         );
         // $headerTextComponents = [new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('このアプリの使い方を体験できます。',null,null,'xs','center', null, true, null, null, '#0d1b2a')];
 
@@ -261,6 +261,15 @@ foreach ($events as $event) {
       // リッチメニューpostbackだとエラーになる
       // PHP Fatal error:  Uncaught TypeError: Argument 2 passed to LINE\LINEBot::replyMessage() must be an instance of LINE\LINEBot\MessageBuilder, instance of LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder given, called in /app/index.php on line 144 and defined in /app/vendor/linecorp/line-bot-sdk/src/LINEBot.php:125
 
+      // cmd_simpleHowToUse
+      else if(substr($event->getPostbackData(), 4) == 'simpleHowToUse'){
+        replyMultiMessage($bot, $event->getReplyToken(),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルを見る：メニューバー「家事する時」→「個別に見る」→緑のボタン（ステップ選ぶ）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルをカスタマイズ：メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家族とマニュアル共有：①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームIDを受け取ったら：①ルームIDコピー。②KAJIBOと友達になる。③ルームIDをペーストしてKAJIBOへ送信'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('同じルームに入室している全員に家事マニュアルをカスタマイズした時に通知が届きます。'));
+      }
 
 
       // ーーーーーーーーーーーーカスタマイズのメニュー関連（写真）ーーーーーーーーーーーーーーーーー
