@@ -2006,6 +2006,9 @@ foreach ($events as $event) {
 
 
       // -----------------------登録・更新------------------------------------
+      if($event->getText() == '登録を維持します。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
+      }
       else {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
