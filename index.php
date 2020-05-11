@@ -11,7 +11,7 @@ define('TABLE_NAME_STEP9S', 'step9s');
 define('TABLE_NAME_STEP10S', 'step10s');
 define('TABLE_NAME_STEP11S', 'step11s');
 define('TABLE_NAME_STEP12S', 'step12s');
-define('TABLE_NAME_USERSTATUS4S', 'userstatus4s');
+define('TABLE_NAME_USERSITUATIONS', 'usersituations');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -324,12 +324,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step4のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg',
-        '4)洗濯ネットの収納場所',
+        '4 ) 洗濯ネットの収納場所',
         '洗濯ネットは「'.$step4.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do4'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update4'),
+          '登録する', 'cmd_edit4'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update4'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete4')
         );
@@ -339,12 +339,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step5のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg',
-        '5)洗剤の収納場所',
+        '5 ) 洗剤の収納場所',
         '洗剤は「'.$step5.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do5'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update5'),
+          '登録する', 'cmd_edit5'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update5'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete5')
         );
@@ -354,12 +354,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step6のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg',
-        '6)洗剤の種類',
+        '6 ) 洗剤の種類',
         '毎日の衣類・タオル類には「'.$step6.'」を使ってください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do6'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update6'),
+          '登録する', 'cmd_edit6'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update6'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete6')
         );
@@ -369,12 +369,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step9のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg',
-        '9)洗剤の量について',
+        '9 ) 洗剤の量について',
         '洗剤の量は「'.$step9.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do9'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update9'),
+          '登録する', 'cmd_edit9'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update9'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete9')
         );
@@ -387,9 +387,9 @@ foreach ($events as $event) {
         '10)洗剤の投入口',
         '洗剤を入れる場所は「'.$step10.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do10'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update10'),
+          '登録する', 'cmd_edit10'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update10'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete10')
         );
@@ -399,12 +399,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step11のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg',
-        '11)柔軟剤について',
+        '11 ) 柔軟剤について',
         '柔軟剤は「'.$step11.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do11'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update11'),
+          '登録する', 'cmd_edit11'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update11'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete11')
         );
@@ -414,12 +414,12 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step12のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg',
-        '12)柔軟剤の投入口',
+        '12 ) 柔軟剤の投入口',
         '柔軟剤を入れる場所は「'.$step12.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_do12'),
-        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '修正する', 'cmd_update12'),
+          '登録する', 'cmd_edit12'),
+        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+        //   '修正する', 'cmd_update12'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '初期化する', 'cmd_delete12')
         );
@@ -478,13 +478,13 @@ foreach ($events as $event) {
       //   }
       // }
 
-      // cmd_do4
-      else if(substr($event->getPostbackData(), 4) == 'do4') {
+      // cmd_edit4
+      else if(substr($event->getPostbackData(), 4) == 'edit4') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set4');
+          setUserSituation($roomId, 'set4');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
           // if(getUserStauts4($roomId) === PDO::PARAM_NULL) {
           //   // 前回までのステータスがデータベースに保存されてなければ、DBにステータスを登録
@@ -511,57 +511,57 @@ foreach ($events as $event) {
           // getUserStauts4($roomId);
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do5') {
+      else if(substr($event->getPostbackData(), 4) == 'edit5') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set5');
+          setUserSituation($roomId, 'set5');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do6') {
+      else if(substr($event->getPostbackData(), 4) == 'edit6') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set6');
+          setUserSituation($roomId, 'set6');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do9') {
+      else if(substr($event->getPostbackData(), 4) == 'edit9') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set9');
+          setUserSituation($roomId, 'set9');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do10') {
+      else if(substr($event->getPostbackData(), 4) == 'edit10') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set10');
+          setUserSituation($roomId, 'set10');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do11') {
+      else if(substr($event->getPostbackData(), 4) == 'edit11') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set11');
+          setUserSituation($roomId, 'set11');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
-      else if(substr($event->getPostbackData(), 4) == 'do12') {
+      else if(substr($event->getPostbackData(), 4) == 'edit12') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
         } else {
-          setUserStauts4($roomId, 'set12');
+          setUserSituation($roomId, 'set12');
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルを入力送信してください。');
         }
       }
@@ -1908,7 +1908,7 @@ foreach ($events as $event) {
         if($roomId === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), '家事マニュアルの登録には、先にルームを作る必要があります。');
         } else {
-          if(getUserStauts4($roomId) === 'set4'){
+          if(getUserSituation($roomId) === 'set4'){
             if(checkStep4($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep4($bot, $event->getUserId(), $event->getText());
@@ -1916,7 +1916,7 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-              setUserStauts4($roomId, null);
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep4($bot, $event->getUserId(), $event->getText());
@@ -1924,16 +1924,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-              setUserStauts4($roomId, null);
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set5'){
+          } else if(getUserSituation($roomId) === 'set5'){
             if(checkStep5($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep5($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep5($bot, $event->getUserId(), $event->getText());
@@ -1941,15 +1942,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set6'){
+          } else if(getUserSituation($roomId) === 'set6'){
             if(checkStep6($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep6($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep6($bot, $event->getUserId(), $event->getText());
@@ -1957,15 +1960,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set9'){
+          } else if(getUserSituation($roomId) === 'set9'){
             if(checkStep9($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep9($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep9($bot, $event->getUserId(), $event->getText());
@@ -1973,15 +1978,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set10'){
+          } else if(getUserSituation($roomId) === 'set10'){
             if(checkStep10($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep10($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep10($bot, $event->getUserId(), $event->getText());
@@ -1989,15 +1996,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set11'){
+          } else if(getUserSituation($roomId) === 'set11'){
             if(checkStep11($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep11($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep11($bot, $event->getUserId(), $event->getText());
@@ -2005,15 +2014,17 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
-          } else if(getUserStauts4($roomId) === 'set12'){
+          } else if(getUserSituation($roomId) === 'set12'){
             if(checkStep12($roomId) === PDO::PARAM_NULL) {
               // データベースに保存されてなければ、新規登録
               registerStep12($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep12($bot, $event->getUserId(), $event->getText());
@@ -2021,7 +2032,10 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserSituation($roomId, null);
             }
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録したいステップ上の「登録する」ボタンを押してから再送してください。');
           }
         }
       }
@@ -2052,23 +2066,23 @@ function endPhoto($bot, $userId) {
 
 // -----------------------step4------------------------------------
 // 登録状況をデータベースに保存
-function setUserStauts4($roomId, $status) {
-  if(getUserStauts4($roomId) === PDO::PARAM_NULL) {
+function setUserSituation($roomId, $status) {
+  if(getUserSituation($roomId) === PDO::PARAM_NULL) {
     $dbh = dbConnection::getConnection();
-    $sql = 'insert into ' . TABLE_NAME_USERSTATUS4S . ' (roomid, status) values (?, ?)';
+    $sql = 'insert into ' . TABLE_NAME_USERSITUATIONS . ' (roomid, status) values (?, ?)';
     $sth = $dbh->prepare($sql);
     $sth->execute(array($roomId, $status));
   } else {
     $dbh = dbConnection::getConnection();
-    $sql = 'update ' . TABLE_NAME_USERSTATUS4S . ' set status = ? where ? = roomid';
+    $sql = 'update ' . TABLE_NAME_USERSITUATIONS . ' set status = ? where ? = roomid';
     $sth = $dbh->prepare($sql);
     $sth->execute(array($status, $roomId));
   }
 }
 // データベースから登録状況を取得
-function getUserStauts4($roomId) {
+function getUserSituation($roomId) {
   $dbh = dbConnection::getConnection();
-  $sql = 'select status from ' . TABLE_NAME_USERSTATUS4S . ' where ? = roomid';
+  $sql = 'select status from ' . TABLE_NAME_USERSITUATIONS . ' where ? = roomid';
   $sth = $dbh->prepare($sql);
   $sth->execute(array($roomId));
   if (!($row = $sth->fetch())) {
