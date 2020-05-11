@@ -783,40 +783,143 @@ foreach ($events as $event) {
       //     );
       //   }
       // }
+
+      // cmd_delete
       else if(substr($event->getPostbackData(), 4) == 'delete4') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '４）洗濯ネットの収納場所 を初期化しますか？', '４）洗濯ネットの収納場所 を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除四'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete4'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete5') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '５）洗剤の収納場所 を初期化しますか？', '５）洗剤の収納場所 を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除五'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete5'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete6') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '６）洗剤の種類 を初期化しますか？', '６）洗剤の種類 を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除六'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete6'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete9') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '９）洗剤の量について を初期化しますか？', '９）洗剤の量について を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除九'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete9'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete10') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 を初期化しますか？', '１０）洗剤の投入口 を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete10'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete11') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '１１）柔軟剤について を初期化しますか？', '１１）柔軟剤について を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十一'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete11'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
       }
       else if(substr($event->getPostbackData(), 4) == 'delete12') {
         replyConfirmTemplate($bot, $event->getReplyToken(), '１２）柔軟剤の投入口 を初期化しますか？', '１２）柔軟剤の投入口 を初期化しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '削除十二'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+          new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_executeDelete12'),
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '登録を維持します。'));
+      }
+
+      // cmd_executeDelete4
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete4') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep4($bot, $event->getUserId());
+            // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');//pushmessageで送信
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete5') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep5($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete6') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep6($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete9') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep9($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete10') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep10($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete11') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep11($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
+      }
+      else if(substr($event->getPostbackData(), 4) == 'executeDelete12') {
+        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+          if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+            deleteStep12($bot, $event->getUserId());
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+          }
+        } else {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        }
       }
   
       // // cmd_insert
@@ -1553,22 +1656,22 @@ foreach ($events as $event) {
       //           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例「s04」'));
       //   }
       // }
-      // step4の削除を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除四') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep4($bot, $event->getUserId());
-            // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');//pushmessageで送信
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step4の削除を実行
+      // else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除四') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep4($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep4($bot, $event->getUserId());
+      //       // replyTextMessage($bot, $event->getReplyToken(), '削除しました。');//pushmessageで送信
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
       // -----------------------step5------------------------------------
       // // step5に登録を実行
@@ -1609,21 +1712,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step5の削除を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep5($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step5の削除を実行
+      // else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除五') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep5($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep5($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification5'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
       // -----------------------step6------------------------------------
       // // step6に登録を実行
@@ -1664,21 +1767,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step6の削除を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除六') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep6($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step6の削除を実行
+      // else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除六') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep6($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep6($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification6'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
       // -----------------------step9------------------------------------
       // // step9に登録を実行
@@ -1719,21 +1822,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step9の削除を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除九') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep9($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step9の削除を実行
+      // else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除九') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep9($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep9($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification9'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
         
       // -----------------------step11------------------------------------
       // // step11に登録を実行
@@ -1774,21 +1877,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step11の削除を実行
-      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十一') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep11($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step11の削除を実行
+      // else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十一') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep11($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep11($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification11'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
       // -----------------------step12------------------------------------
       // // step12に登録を実行
@@ -1829,21 +1932,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step12の削除を実行
-      else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十二') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep12($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step12の削除を実行
+      // else if(mb_substr($event->getText(), 0, 4, "UTF-8") === '削除十二') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep12($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep12($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification12'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
 
       // -----------------------step10------------------------------------
@@ -1885,21 +1988,21 @@ foreach ($events as $event) {
       //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
       //   }
       // }
-      // step10の削除を実行
-      else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
-            deleteStep10($bot, $event->getUserId());
-            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
-          } else {
-            replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
-          }
-        } else {
-          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
-        }
-      }
+      // // step10の削除を実行
+      // else if(mb_substr($event->getText(), 0, 3, "UTF-8") === '削除十') {
+      //   if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
+      //     if(getDetailOfStep10($event->getUserId()) !== PDO::PARAM_NULL) {
+      //       deleteStep10($bot, $event->getUserId());
+      //       replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification10'),
+      //       new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+      //     } else {
+      //       replyTextMessage($bot, $event->getReplyToken(), '登録がありませんでした。');
+      //     }
+      //   } else {
+      //     replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+      //   }
+      // }
 
 
       // -----------------------登録・更新------------------------------------
