@@ -11,6 +11,7 @@ define('TABLE_NAME_STEP9S', 'step9s');
 define('TABLE_NAME_STEP10S', 'step10s');
 define('TABLE_NAME_STEP11S', 'step11s');
 define('TABLE_NAME_STEP12S', 'step12s');
+define('TABLE_NAME_USERSTATUS4S', 'userstatus4s');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -268,7 +269,7 @@ foreach ($events as $event) {
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルをカスタマイズ：メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家族とマニュアル共有：①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームIDを受け取ったら：①ルームIDコピー。②KAJIBOと友達になる。③ルームIDをペーストしてKAJIBOへ送信'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('同じルームに入室している全員に家事マニュアルをカスタマイズした時に通知が届きます。'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルをカスタマイズした時に、同じルームに入室している全員に通知が届きます。'));
       }
 
 
@@ -326,7 +327,7 @@ foreach ($events as $event) {
         '洗濯ネットの収納場所',
         '洗濯ネットは「'.$step4.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-          '新規登録する', 'cmd_create4'),
+          '新規登録する', 'cmd_do4'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '修正する', 'cmd_update4'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
@@ -476,6 +477,39 @@ foreach ($events as $event) {
       //     );
       //   }
       // }
+
+      // cmd_do4
+      else if(substr($event->getPostbackData(), 4) == 'do4') {
+        $roomId = getRoomIdOfUser($event->getUserId());
+        if($roomId === PDO::PARAM_NULL) {
+          replyTextMessage($bot, $event->getReplyToken(), 'ルームに入ってから登録してください。');
+        } else {
+          // 前回までのステータスがデータベースに保存されていれば、上書き更新
+          if(getUserStauts4($roomId) !== PDO::PARAM_NULL) {
+            $step4 = $event->getText();
+            updateStep4($bot, $event->getUserId(), $step4);
+            // replyTextMessage($bot, $event->getReplyToken(), '更新しました。');//pushmessageで送信
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          } else {
+            // 前回までのステータスがデータベースに保存されてなければ、新規登録
+            $step4 = $event->getText();
+            registerStep4($bot, $event->getUserId(), $step4);
+            setUserStauts4($roomId, 1);
+            // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
+            replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+          }
+          // $lastStatus = getUserStauts4($roomId);
+          // setUserStauts4($roomId, 1);
+          // getUserStauts4($roomId);
+        }
+      }
+
+
+
       else if(substr($event->getPostbackData(), 4) == 'create4') {
         replyMultiMessage($bot, $event->getReplyToken(),
           // new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('↓　下記のステップ名をコピーしてください'),
@@ -1832,6 +1866,32 @@ function endPhoto($bot, $userId) {
 }
 
 // -----------------------step4------------------------------------
+// 登録状況をデータベースに保存
+function setUserStauts4($roomId, $status) {
+  if(getUserStauts4($roomId) === PDO::PARAM_NULL) {
+    $dbh = dbConnection::getConnection();
+    $sql = 'insert into ' . TABLE_NAME_USERSTATUS4S . ' (roomid, status) values (?, ?)';
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array($roomId, $status));
+  } else {
+    $dbh = dbConnection::getConnection();
+    $sql = 'update ' . TABLE_NAME_USERSTATUS4S . ' set status = ? where ? = roomid';
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array($status, $roomId));
+  }
+}
+// データベースから登録状況を取得
+function getUserStauts4($roomId) {
+  $dbh = dbConnection::getConnection();
+  $sql = 'select status from ' . TABLE_NAME_USERSTATUS4S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['status'];
+  }
+}
 // step4を登録
 function registerStep4($bot, $userId, $step4){
   $roomId = getRoomIdOfUser($userId);
