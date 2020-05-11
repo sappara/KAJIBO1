@@ -324,7 +324,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step4のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0725.jpg',
-        '洗濯ネットの収納場所',
+        '4)洗濯ネットの収納場所',
         '洗濯ネットは「'.$step4.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do4'),
@@ -339,7 +339,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step5のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0214.jpg',
-        '洗剤の収納場所',
+        '5)洗剤の収納場所',
         '洗剤は「'.$step5.'」を探してください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do5'),
@@ -354,7 +354,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step6のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0720.jpg',
-        '洗剤の種類',
+        '6)洗剤の種類',
         '毎日の衣類・タオル類には「'.$step6.'」を使ってください',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do6'),
@@ -369,7 +369,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step9のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0215.jpg',
-        '洗剤の量について',
+        '9)洗剤の量について',
         '洗剤の量は「'.$step9.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do9'),
@@ -384,7 +384,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step10のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg',
-        '洗剤の投入口',
+        '10)洗剤の投入口',
         '洗剤を入れる場所は「'.$step10.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do10'),
@@ -399,7 +399,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step11のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg',
-        '柔軟剤について',
+        '11)柔軟剤について',
         '柔軟剤は「'.$step11.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do11'),
@@ -414,7 +414,7 @@ foreach ($events as $event) {
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step12のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0708.jpg',
-        '柔軟剤の投入口',
+        '12)柔軟剤の投入口',
         '柔軟剤を入れる場所は「'.$step12.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '新規登録する', 'cmd_do12'),
@@ -1914,8 +1914,9 @@ foreach ($events as $event) {
               registerStep4($bot, $event->getUserId(), $event->getText());
               // replyTextMessage($bot, $event->getReplyToken(), '登録しました。');//pushmessageで送信
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
-              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
+                new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserStauts4($roomId, null);
             } else {
               // データベースに保存されていれば、上書き更新
               updateStep4($bot, $event->getUserId(), $event->getText());
@@ -1923,6 +1924,7 @@ foreach ($events as $event) {
               replyConfirmTemplate($bot, $event->getReplyToken(), '結果を確認しますか？', '結果を確認しますか？',
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('結果確認', 'cmd_modification4'),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のstepへ', 'cmd_modify'));
+              setUserStauts4($roomId, null);
             }
           } else if(getUserStauts4($roomId) === 'set5'){
             if(checkStep5($roomId) === PDO::PARAM_NULL) {
