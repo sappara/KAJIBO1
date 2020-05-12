@@ -95,9 +95,9 @@ foreach ($events as $event) {
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
         } else {
-          replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？メンバー皆様に完了報告を送信します。', '作業完了しましたか？メンバー皆様に完了報告を送信します。',
+          replyConfirmTemplate($bot, $event->getReplyToken(), '作業完了しましたか？ルーム全員に完了報告を送信します。', '作業完了しましたか？ルーム全員に完了報告を送信します。',
             new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_end'),
-            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', 'おつかされまでした🍺'));
+            new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '送信しません。'));
         }
       }
       // 終了
@@ -1490,7 +1490,7 @@ foreach ($events as $event) {
       // ーーーーーーーーーーーーLIFF関連ーーーーーーーーーーーーーーーーー
 
       // LIFFで「家事マニュアルを見る」ボタン押した後の処理
-      if($event->getText() == '家事マニュアルを見る'){
+      else if($event->getText() == '家事マニュアルを見る'){
         replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してね。',
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
@@ -2006,8 +2006,14 @@ foreach ($events as $event) {
 
 
       // -----------------------登録・更新------------------------------------
-      if($event->getText() == '登録を維持します。'){
+      else if($event->getText() == '登録を維持します。'){
         replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
+      }
+      else if($event->getText() == '退室しません。ルームを維持します。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
+      }
+      else if($event->getText() == '送信しません。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。洗濯おつかされまでした🍺');
       }
       else {
         $roomId = getRoomIdOfUser($event->getUserId());
