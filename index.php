@@ -74,19 +74,23 @@ foreach ($events as $event) {
       }
       // 退室の確認ダイアログ
       else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
-        $a = getRoomMate($event->getUserId());
+        // $a = getRoomMate($event->getUserId());
         replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？（全員が退室した場合ルームは削除されカスタマイズされた登録内容も失われます。）',
           new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', $a));
-          // この時の「いいえ」はどこにも繋がっていない。これで終了。'退室しません。ルームを維持します。'
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
+          // この時の「いいえ」はどこにも繋がっていない。これで終了。
       }
       // 退室
       else if(substr($event->getPostbackData(), 4) == 'leave') {
+        // 先にルームID取っておく
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId !== PDO::PARAM_NULL) {//ルームIDがあれば
-          if(getRoomMate($event->getUserId()) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
+          // 自分のユーザーID消す
+          leaveRoom($event->getUserId());
+
+          if(getRoomMate($roomId) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
             // 自分のユーザーID消す
-            leaveRoom($event->getUserId());
+            // leaveRoom($event->getUserId());
             replyTextMessage($bot, $event->getReplyToken(), '退室しました。1');
           } else {//誰もルームに残ってなかったら
             if(getFilenamePhoto10($roomId) !== PDO::PARAM_NULL) {//ファイル名が保存されてる時
@@ -100,13 +104,13 @@ foreach ($events as $event) {
               $public_id = 'kajiboimage/step10photo/'.$roomId.'/'.$oldfilename;
               $resultDelete = \Cloudinary\Uploader::destroy($public_id);
               // DBの各テーブルからもデータを消す
-              leaveRoom($event->getUserId());
+              // leaveRoom($event->getUserId());
               destroyAllRoom($event->getUserId());
               replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。2');
             } else {//ファイル名の保存がない時
               // Cloudinaryには接続しないで、
               // DBの各テーブルからデータを消す
-              leaveRoom($event->getUserId());
+              // leaveRoom($event->getUserId());
               destroyAllRoom($event->getUserId());
               replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。3');
             }
@@ -3276,8 +3280,8 @@ function destroyAllRoom($userId) {
   $sthPhotoStep10->execute(array($roomId));
 }
 // 
-function getRoomMate($userId) {
-  $roomId = getRoomIdOfUser($userId);
+function getRoomMate($roomId) {
+  // $roomId = getRoomIdOfUser($userId);
   $dbh = dbConnection::getConnection();
   $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
   $sth = $dbh->prepare($sql);
@@ -3288,6 +3292,8 @@ function getRoomMate($userId) {
     return $row['userid'];
   }
 }
+// $a = getRoomMate($event->getUserId());
+// cmd_leave_confirmの時に出力したら「Uab5ab・・・・・」などの毎回違う数値だった（一人の部屋でも二人の部屋でも同じ長さの一つの値のみ）
 
 // ーーーーーーーーーーーー家事のメニュー（pushMessage関連）ーーーーーーーーーーーーーーーーー
 // 作業終了の報告
