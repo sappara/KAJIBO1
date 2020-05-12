@@ -105,13 +105,13 @@ foreach ($events as $event) {
               $resultDelete = \Cloudinary\Uploader::destroy($public_id);
               // DBの各テーブルからもデータを消す
               // leaveRoom($event->getUserId());
-              destroyAllRoom($event->getUserId());
+              destroyAllRoom($roomId);
               replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。2');
             } else {//ファイル名の保存がない時
               // Cloudinaryには接続しないで、
               // DBの各テーブルからデータを消す
               // leaveRoom($event->getUserId());
-              destroyAllRoom($event->getUserId());
+              destroyAllRoom($roomId);
               replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。3');
             }
           }
@@ -3248,34 +3248,34 @@ function leaveRoom($userId) {
   $sth->execute(array($userId));
 }
 // 
-function destroyAllRoom($userId) {
-  $roomId = getRoomIdOfUser($userId);
+function destroyAllRoom($roomId) {
+  // $roomId = getRoomIdOfUser($userId);
   $dbh = dbConnection::getConnection();
-  $sql4 = 'delete FROM ' . TABLE_NAME_STEP4S . ' where ? = roomid';
+  $sql4 = 'delete FROM ' . TABLE_NAME_STEP4S . ' where roomid = ?';
   $sth4 = $dbh->prepare($sql4);
   $sth4->execute(array($roomId));
-  $sql5 = 'delete FROM ' . TABLE_NAME_STEP5S . ' where ? = roomid';
+  $sql5 = 'delete FROM ' . TABLE_NAME_STEP5S . ' where roomid = ?';
   $sth5 = $dbh->prepare($sql5);
   $sth5->execute(array($roomId));
-  $sql6 = 'delete FROM ' . TABLE_NAME_STEP6S . ' where ? = roomid';
+  $sql6 = 'delete FROM ' . TABLE_NAME_STEP6S . ' where roomid = ?';
   $sth6 = $dbh->prepare($sql6);
   $sth6->execute(array($roomId));
-  $sql9 = 'delete FROM ' . TABLE_NAME_STEP9S . ' where ? = roomid';
+  $sql9 = 'delete FROM ' . TABLE_NAME_STEP9S . ' where roomid = ?';
   $sth9 = $dbh->prepare($sql9);
   $sth9->execute(array($roomId));
-  $sql10 = 'delete FROM ' . TABLE_NAME_STEP10S . ' where ? = roomid';
+  $sql10 = 'delete FROM ' . TABLE_NAME_STEP10S . ' where roomid = ?';
   $sth10 = $dbh->prepare($sql10);
   $sth10->execute(array($roomId));
-  $sql11 = 'delete FROM ' . TABLE_NAME_STEP11S . ' where ? = roomid';
+  $sql11 = 'delete FROM ' . TABLE_NAME_STEP11S . ' where roomid = ?';
   $sth11 = $dbh->prepare($sql11);
   $sth11->execute(array($roomId));
-  $sql12 = 'delete FROM ' . TABLE_NAME_STEP12S . ' where ? = roomid';
+  $sql12 = 'delete FROM ' . TABLE_NAME_STEP12S . ' where roomid = ?';
   $sth12 = $dbh->prepare($sql12);
   $sth12->execute(array($roomId));
-  $sqlUserSituation = 'delete FROM ' . TABLE_NAME_USERSITUATIONS . ' where ? = roomid';
+  $sqlUserSituation = 'delete FROM ' . TABLE_NAME_USERSITUATIONS . ' where roomid = ?';
   $sthUserSituation = $dbh->prepare($sqlUserSituation);
   $sthUserSituation->execute(array($roomId));
-  $sqlPhotoStep10 = 'delete FROM ' . TABLE_NAME_PHOTOSTEP10S . ' where ? = roomid';
+  $sqlPhotoStep10 = 'delete FROM ' . TABLE_NAME_PHOTOSTEP10S . ' where roomid = ?';
   $sthPhotoStep10 = $dbh->prepare($sqlPhotoStep10);
   $sthPhotoStep10->execute(array($roomId));
 }
