@@ -74,19 +74,20 @@ foreach ($events as $event) {
       }
       // 退室の確認ダイアログ
       else if(substr($event->getPostbackData(), 4) == 'leave_confirm') {
+        $a = getRoomMate($event->getUserId());
         replyConfirmTemplate($bot, $event->getReplyToken(), '本当に退室しますか？', '本当に退室しますか？（全員が退室した場合ルームは削除されカスタマイズされた登録内容も失われます。）',
           new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('はい', 'cmd_leave'),
-          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '退室しません。ルームを維持します。'));
-          // この時の「いいえ」はどこにも繋がっていない。これで終了。
+          new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', $a));
+          // この時の「いいえ」はどこにも繋がっていない。これで終了。'退室しません。ルームを維持します。'
       }
       // 退室
       else if(substr($event->getPostbackData(), 4) == 'leave') {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId !== PDO::PARAM_NULL) {//ルームIDがあれば
-          if(getRoomMate($bot, $event->getUserId()) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
+          if(getRoomMate($event->getUserId()) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
             // 自分のユーザーID消す
             leaveRoom($event->getUserId());
-            replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
+            replyTextMessage($bot, $event->getReplyToken(), '退室しました。1');
           } else {//誰もルームに残ってなかったら
             if(getFilenamePhoto10($roomId) !== PDO::PARAM_NULL) {//ファイル名が保存されてる時
               // 写真登録履歴あれば、前の写真消す
@@ -101,13 +102,13 @@ foreach ($events as $event) {
               // DBの各テーブルからもデータを消す
               leaveRoom($event->getUserId());
               destroyAllRoom($event->getUserId());
-              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。');
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。2');
             } else {//ファイル名の保存がない時
               // Cloudinaryには接続しないで、
               // DBの各テーブルからデータを消す
               leaveRoom($event->getUserId());
               destroyAllRoom($event->getUserId());
-              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。');
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。3');
             }
           }
         } else {//ルームIDがなければ
@@ -3275,7 +3276,7 @@ function destroyAllRoom($userId) {
   $sthPhotoStep10->execute(array($roomId));
 }
 // 
-function getRoomMate($bot, $userId) {
+function getRoomMate($userId) {
   $roomId = getRoomIdOfUser($userId);
   $dbh = dbConnection::getConnection();
   $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
