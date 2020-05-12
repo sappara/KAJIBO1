@@ -1659,6 +1659,17 @@ foreach ($events as $event) {
         );
       }
 
+      // -----------------------登録・更新------------------------------------
+      else if($event->getText() == '登録を維持します。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
+      }
+      else if($event->getText() == '退室しません。ルームを維持します。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
+      }
+      else if($event->getText() == '送信しません。'){
+        replyTextMessage($bot, $event->getReplyToken(), '承知しました。洗濯おつかれさまでした🍺');
+      }
+
       // ーーーーーーーーーーーールームのメニュー関連ーーーーーーーーーーーーーーーーー
 
       // リッチコンテンツ以外の時(ルームIDが入力された時)
@@ -2157,15 +2168,6 @@ foreach ($events as $event) {
 
 
       // -----------------------登録・更新------------------------------------
-      else if($event->getText() == '登録を維持します。'){
-        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
-      }
-      else if($event->getText() == '退室しません。ルームを維持します。'){
-        replyTextMessage($bot, $event->getReplyToken(), '承知しました。');
-      }
-      else if($event->getText() == '送信しません。'){
-        replyTextMessage($bot, $event->getReplyToken(), '承知しました。洗濯おつかれさまでした🍺');
-      }
       else {
         $roomId = getRoomIdOfUser($event->getUserId());
         if($roomId === PDO::PARAM_NULL) {
