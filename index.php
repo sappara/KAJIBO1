@@ -91,7 +91,7 @@ foreach ($events as $event) {
           if(getRoomMate($roomId) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
             // 自分のユーザーID消す
             // leaveRoom($event->getUserId());
-            replyTextMessage($bot, $event->getReplyToken(), '退室しました。1');
+            replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
           } else {//誰もルームに残ってなかったら
             if(getFilenamePhoto10($roomId) !== PDO::PARAM_NULL) {//ファイル名が保存されてる時
               // 写真登録履歴あれば、前の写真消す
@@ -106,13 +106,13 @@ foreach ($events as $event) {
               // DBの各テーブルからもデータを消す
               // leaveRoom($event->getUserId());
               destroyAllRoom($roomId);
-              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。2');
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータと写真を消去しました。');
             } else {//ファイル名の保存がない時
               // Cloudinaryには接続しないで、
               // DBの各テーブルからデータを消す
               // leaveRoom($event->getUserId());
               destroyAllRoom($roomId);
-              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。3');
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。');
             }
           }
         } else {//ルームIDがなければ
