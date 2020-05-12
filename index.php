@@ -1558,9 +1558,11 @@ foreach ($events as $event) {
           // $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
           // $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
           // $result = \Cloudinary\Uploader::upload($path, $filename_save);
-          $public_id = getFilenamePhoto10($roomId);
-          $options = array('folder'=>'kajiboimage/step10photo/'.$roomId);
-          $resultDelete = \Cloudinary\Uploader::destroy($public_id, $options);
+          $oldfilename = getFilenamePhoto10($roomId);
+          $public_id = 'kajiboimage/step10photo/'.$roomId.'/'.$oldfilename;
+          // $options = array('folder'=>'kajiboimage/step10photo/'.$roomId);
+          // $resultDelete = \Cloudinary\Uploader::destroy($public_id, $options);
+          $resultDelete = \Cloudinary\Uploader::destroy($public_id);
 
           // 以下写真のアップロード
           $response = $bot->getMessageContent($event->getMessageId());
