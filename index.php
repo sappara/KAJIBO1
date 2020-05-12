@@ -1549,8 +1549,9 @@ foreach ($events as $event) {
           ));
           // 不要になったファイルを消す
           // $result = \Cloudinary\Uploader::destroy($public_id, $options = array());
-          $oldfilename = getFilenamePhoto10($roomId);
-          $oldImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
+          // $oldfilename = getFilenamePhoto10($roomId);
+          // $oldImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
+          $oldImageUrl =  'https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc.jpg';
           $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
 
           // 以下写真のアップロード
