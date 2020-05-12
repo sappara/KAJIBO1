@@ -1474,69 +1474,107 @@ foreach ($events as $event) {
 
     // ImageMessageクラスのインスタンスであれば
     if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage) {
-      if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      $roomId = getRoomIdOfUser($event->getUserId());
+      if($roomId === PDO::PARAM_NULL) {
         replyTextMessage($bot, $event->getReplyToken(), '登録するにはルームに入ってください。');
       } else {
-        \Cloudinary::config(array(
-          'cloud_name' => getenv('CLOUDINARY_NAME'),
-          'api_key' => getenv('CLOUDINARY_KEY'),
-          'api_secret' => getenv('CLOUDINARY_SECRET')
-        ));
+        // 写真登録履歴がなければ＝初回登録
+        if(getFilenamePhoto10($roomId) === PDO::PARAM_NULL) {
+          \Cloudinary::config(array(
+            'cloud_name' => getenv('CLOUDINARY_NAME'),
+            'api_key' => getenv('CLOUDINARY_KEY'),
+            'api_secret' => getenv('CLOUDINARY_SECRET')
+          ));
 
-        $response = $bot->getMessageContent($event->getMessageId());
-        $im = imagecreatefromstring($response->getRawBody());
-        // PHP Fatal error:  Uncaught Error: Call to undefined function imagecreatefromstring()
-        // imagecreatefromstring — 文字列の中のイメージストリームから新規イメージを作成する
-        // ext-gd入れたら解決
+          $response = $bot->getMessageContent($event->getMessageId());
+          $im = imagecreatefromstring($response->getRawBody());
+          // PHP Fatal error:  Uncaught Error: Call to undefined function imagecreatefromstring()
+          // imagecreatefromstring — 文字列の中のイメージストリームから新規イメージを作成する
+          // ext-gd入れたら解決
 
-        if ($im !== false) {
-            // $roomId = getRoomIdOfUser($event->getUserId());
-            // $filename = $roomId.'step10photo';
-            $filename = uniqid();
-            $directory_path = 'tmp';
-            if(!file_exists($directory_path)) {
-              if(mkdir($directory_path, 0777, true)) {
-                  chmod($directory_path, 0777);
+          if ($im !== false) {
+              // $roomId = getRoomIdOfUser($event->getUserId());
+              // $filename = $roomId.'step10photo';
+              $filename = uniqid();
+              $directory_path = 'tmp';
+              if(!file_exists($directory_path)) {
+                if(mkdir($directory_path, 0777, true)) {
+                    chmod($directory_path, 0777);
+                }
               }
-            }
-            imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
+              imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
+          }
+
+          // $filesize = new \LINE\LINEBot\Event\MessageEvent();
+          // $filesize = $bot->getMessageContent($event->getFileSize());
+
+
+          $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
+          // $filesize = filesize($path);
+          // 238830だった<=238kb
+          // $filesize_save = floor(intdiv(100000, $filesize)*100);
+          // 変数を入れ込むとうまくいかない、q_0になってしまう、もしくは計算上76kbの筈が7.9kbと一桁少なく保存される。なので固定値で。
+          // $roomId = getRoomIdOfUser($event->getUserId());
+          // $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+          $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+          $result = \Cloudinary\Uploader::upload($path, $filename_save);
+          // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
+
+          // $bot->replyMessage($event->getReplyToken(),
+          //     (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
+          //       ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
+          //   );
+          // replyMultiMessage($bot, $event->getReplyToken(),
+          //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
+          //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
+          //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例：　step10'));
+            // 下のstep10に表示に続く
+          // 写真の表示につなげる
+          // replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 に写真を登録しますか？', '１０）洗剤の投入口 に写真を登録しますか？',
+          //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '写真十'),
+          //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
+          // ルームメイトにも写真付きマニュアル見れるようにする
+          // 
+          // 写真登録したことルームメイトに通知する＋DBにファイル名保存
+          endPhoto($bot, $event->getUserId(), $filename);
+          replyConfirmTemplate($bot, $event->getReplyToken(), '写真を確認しますか？', '写真を確認しますか？',
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を見る', 'cmd_showPhoto10'),
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を変更', 'cmd_changePhoto10'));
+        } else {
+        // 写真登録履歴あれば、前の写真消す
+          \Cloudinary::config(array(
+            'cloud_name' => getenv('CLOUDINARY_NAME'),
+            'api_key' => getenv('CLOUDINARY_KEY'),
+            'api_secret' => getenv('CLOUDINARY_SECRET')
+          ));
+          // 不要になったファイルを消す
+          // $result = \Cloudinary\Uploader::destroy($public_id, $options = array());
+          $oldfilename = getFilenamePhoto10($roomId);
+          $resultDelete = \Cloudinary\Uploader::destroy($oldfilename);
+
+          // 以下写真のアップロード
+          $response = $bot->getMessageContent($event->getMessageId());
+          $im = imagecreatefromstring($response->getRawBody());
+          if ($im !== false) {
+              $filename = uniqid();
+              $directory_path = 'tmp';
+              if(!file_exists($directory_path)) {
+                if(mkdir($directory_path, 0777, true)) {
+                    chmod($directory_path, 0777);
+                }
+              }
+              imagejpeg($im, $directory_path. '/' . $filename . '.jpg', 75);
+          }
+          $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
+          $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+          $result = \Cloudinary\Uploader::upload($path, $filename_save);
+          // 写真登録したことルームメイトに通知する＋DBにファイル名保存
+          endPhoto($bot, $event->getUserId(), $filename);
+          replyConfirmTemplate($bot, $event->getReplyToken(), '写真を確認しますか？', '写真を確認しますか？',
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を見る', 'cmd_showPhoto10'),
+              new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を変更', 'cmd_changePhoto10'));
+
         }
-
-        // $filesize = new \LINE\LINEBot\Event\MessageEvent();
-        // $filesize = $bot->getMessageContent($event->getFileSize());
-
-
-        $path = dirname(__FILE__) . '/' . $directory_path. '/' . $filename . '.jpg';
-        // $filesize = filesize($path);
-        // 238830だった<=238kb
-        // $filesize_save = floor(intdiv(100000, $filesize)*100);
-        // 変数を入れ込むとうまくいかない、q_0になってしまう、もしくは計算上76kbの筈が7.9kbと一桁少なく保存される。なので固定値で。
-        $roomId = getRoomIdOfUser($event->getUserId());
-        // $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
-        $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
-        $result = \Cloudinary\Uploader::upload($path, $filename_save);
-        // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
-
-        // $bot->replyMessage($event->getReplyToken(),
-        //     (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
-        //       ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($result['secure_url']))
-        //   );
-        // replyMultiMessage($bot, $event->getReplyToken(),
-        //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('マニュアルを見る時は、下記↓ステップ名をコピペして'),
-        //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('step10'),
-        //   new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ステップ名を、送信してください。例：　step10'));
-          // 下のstep10に表示に続く
-        // 写真の表示につなげる
-        // replyConfirmTemplate($bot, $event->getReplyToken(), '１０）洗剤の投入口 に写真を登録しますか？', '１０）洗剤の投入口 に写真を登録しますか？',
-        //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('はい', '写真十'),
-        //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
-        // ルームメイトにも写真付きマニュアル見れるようにする
-        // 
-        // 写真登録したことルームメイトに通知する＋DBにファイル名保存
-        endPhoto($bot, $event->getUserId(), $filename);
-        replyConfirmTemplate($bot, $event->getReplyToken(), '写真を確認しますか？', '写真を確認しますか？',
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を見る', 'cmd_showPhoto10'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を変更', 'cmd_changePhoto10'));
       }
     }
   // }
