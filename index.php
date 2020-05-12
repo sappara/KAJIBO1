@@ -12,6 +12,7 @@ define('TABLE_NAME_STEP10S', 'step10s');
 define('TABLE_NAME_STEP11S', 'step11s');
 define('TABLE_NAME_STEP12S', 'step12s');
 define('TABLE_NAME_USERSITUATIONS', 'usersituations');
+define('TABLE_NAME_PHOTOSTEP10S', 'photostep10s');
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -302,8 +303,10 @@ foreach ($events as $event) {
         $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
         $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
         $roomId = getRoomIdOfUser($event->getUserId());
-        $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
         // キャッシュが取れず、上書き更新しても最初の写真のまま
+        $filename = getFilenamePhoto10($roomId);
+        $heroImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$filename.'.jpg';
         $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
         $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
         $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
@@ -316,6 +319,11 @@ foreach ($events as $event) {
         $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
         replyFlexMessagePhoto($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
         );
+      }
+      // cmd_changePhoto10
+      else if(substr($event->getPostbackData(), 4) == 'changePhoto10'){
+        replyTextMessage($bot, $event->getReplyToken(), 'もう一度、写真を一枚送信してください。');
+        // 下方の、ImageMessage型イベント確認グループに続く
       }
 
       // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
@@ -1470,8 +1478,8 @@ foreach ($events as $event) {
         // $filesize_save = floor(intdiv(100000, $filesize)*100);
         // 変数を入れ込むとうまくいかない、q_0になってしまう、もしくは計算上76kbの筈が7.9kbと一桁少なく保存される。なので固定値で。
         $roomId = getRoomIdOfUser($event->getUserId());
-        $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
-        // $filename_save = array('folder'=>'kajiboimage/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+        // $filename_save = array('folder'=>'kajiboimage/step10photo', 'public_id'=>$roomId, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+        $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
         $result = \Cloudinary\Uploader::upload($path, $filename_save);
         // セキュリティを配慮してファイル名を推測できない形→オプションでパラメータつけてフォルダ名、ファイル名管理
 
@@ -1490,11 +1498,11 @@ foreach ($events as $event) {
         //     new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('いいえ', '現状を維持します。'));
         // ルームメイトにも写真付きマニュアル見れるようにする
         // 
-        // 写真登録したことルームメイトに通知する
-        endPhoto($bot, $event->getUserId());
+        // 写真登録したことルームメイトに通知する＋DBにファイル名保存
+        endPhoto($bot, $event->getUserId(), $filename);
         replyConfirmTemplate($bot, $event->getReplyToken(), '写真を確認しますか？', '写真を確認しますか？',
             new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を見る', 'cmd_showPhoto10'),
-            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を変更', 'cmd_abc'));
+            new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('写真を変更', 'cmd_changePhoto10'));
       }
     }
   // }
@@ -2200,17 +2208,46 @@ foreach ($events as $event) {
 
 // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
 
-// 写真登録完了の通知
-function endPhoto($bot, $userId) {
+// 写真登録完了の通知＋DBにファイル名保存の実行
+function endPhoto($bot, $userId, $filename) {
   $roomId = getRoomIdOfUser($userId);
-
+  // 毎回uniqueなファイル名でクラウディナリに写真保存。そのファイル名をDBに上書き保存。
+  setFilenamePhoto10($roomId, $filename);
+  //　以下はpushMessageのためのルームメイト情報抽出およびpushMessageの実行 
   $dbh = dbConnection::getConnection();
   $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
   $sth = $dbh->prepare($sql);
   $sth->execute(array(getRoomIdOfUser($userId)));
   // 各ユーザーにメッセージを送信
   foreach ($sth->fetchAll() as $row) {
-    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。次の文字を入力送信するとマニュアルを表示できます。→ 写真十'));
+    // $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。次の文字を入力送信するとマニュアルを表示できます。→ 写真十'));
+    $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】step10の写真を変えました。'));
+  }
+}
+// ファイル名をデータベースに保存
+function setFilenamePhoto10($roomId, $filename) {
+  if(getFilenamePhoto10($roomId) === PDO::PARAM_NULL) {
+    $dbh = dbConnection::getConnection();
+    $sql = 'insert into ' . TABLE_NAME_PHOTOSTEP10S . ' (roomid, filename) values (?, ?)';
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array($roomId, $filename));
+  } else {
+    $dbh = dbConnection::getConnection();
+    $sql = 'update ' . TABLE_NAME_PHOTOSTEP10S . ' set filename = ? where ? = roomid';
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array($filename, $roomId));
+  }
+}
+// データベースからファイル名を取得
+function getFilenamePhoto10($roomId) {
+  $dbh = dbConnection::getConnection();
+  $sql = 'select filename from ' . TABLE_NAME_PHOTOSTEP10S . ' where ? = roomid';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['filename'];
   }
 }
 
