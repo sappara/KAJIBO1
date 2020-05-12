@@ -1552,8 +1552,15 @@ foreach ($events as $event) {
           // $oldfilename = getFilenamePhoto10($roomId);
           // $oldImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
           // $oldImageUrl =  'https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc.jpg';
-          $oldImageUrl =  'https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc';
-          $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
+          //https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc.jpg
+          //https://res.cloudinary.com/kajibo/image/upload/v1589258194/kajiboimage/step10photo/5eb8f7b6c8901/5eba27d259c1e.jpg
+          // $oldImageUrl =  '/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc';
+          // $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
+          // $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
+          // $result = \Cloudinary\Uploader::upload($path, $filename_save);
+          $public_id = getFilenamePhoto10($roomId);
+          $options = array('folder'=>'kajiboimage/step10photo/'.$roomId);
+          $resultDelete = \Cloudinary\Uploader::destroy($public_id, $options);
 
           // 以下写真のアップロード
           $response = $bot->getMessageContent($event->getMessageId());
