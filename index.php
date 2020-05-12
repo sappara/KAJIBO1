@@ -1550,7 +1550,8 @@ foreach ($events as $event) {
           // 不要になったファイルを消す
           // $result = \Cloudinary\Uploader::destroy($public_id, $options = array());
           $oldfilename = getFilenamePhoto10($roomId);
-          $resultDelete = \Cloudinary\Uploader::destroy($oldfilename);
+          $oldImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
+          $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
 
           // 以下写真のアップロード
           $response = $bot->getMessageContent($event->getMessageId());
