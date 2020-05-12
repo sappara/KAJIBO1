@@ -81,10 +81,36 @@ foreach ($events as $event) {
       }
       // 退室
       else if(substr($event->getPostbackData(), 4) == 'leave') {
-        if(getRoomIdOfUser($event->getUserId()) !== PDO::PARAM_NULL) {
-          leaveRoom($event->getUserId());
-          replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
-        } else {
+        $roomId = getRoomIdOfUser($event->getUserId());
+        if($roomId !== PDO::PARAM_NULL) {//ルームIDがあれば
+          if(getRoomMate($bot, $event->getUserId()) !== PDO::PARAM_NULL) {//仲間がまだルームに残っていたら
+            // 自分のユーザーID消す
+            leaveRoom($event->getUserId());
+            replyTextMessage($bot, $event->getReplyToken(), '退室しました。');
+          } else {//誰もルームに残ってなかったら
+            if(getFilenamePhoto10($roomId) !== PDO::PARAM_NULL) {//ファイル名が保存されてる時
+              // 写真登録履歴あれば、前の写真消す
+              \Cloudinary::config(array(
+                'cloud_name' => getenv('CLOUDINARY_NAME'),
+                'api_key' => getenv('CLOUDINARY_KEY'),
+                'api_secret' => getenv('CLOUDINARY_SECRET')
+              ));
+              $oldfilename = getFilenamePhoto10($roomId);
+              $public_id = 'kajiboimage/step10photo/'.$roomId.'/'.$oldfilename;
+              $resultDelete = \Cloudinary\Uploader::destroy($public_id);
+              // DBの各テーブルからもデータを消す
+              leaveRoom($event->getUserId());
+              destroyAllRoom($event->getUserId());
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。');
+            } else {//ファイル名の保存がない時
+              // Cloudinaryには接続しないで、
+              // DBの各テーブルからデータを消す
+              leaveRoom($event->getUserId());
+              destroyAllRoom($event->getUserId());
+              replyTextMessage($bot, $event->getReplyToken(), '退室しました。保存されていたデータを消去しました。');
+            }
+          }
+        } else {//ルームIDがなければ
           replyTextMessage($bot, $event->getReplyToken(), 'ルームに入っていません。');
         }
       }
@@ -1548,20 +1574,10 @@ foreach ($events as $event) {
             'api_secret' => getenv('CLOUDINARY_SECRET')
           ));
           // 不要になったファイルを消す
-          // $result = \Cloudinary\Uploader::destroy($public_id, $options = array());
-          // $oldfilename = getFilenamePhoto10($roomId);
-          // $oldImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
-          // $oldImageUrl =  'https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc.jpg';
-          //https://res.cloudinary.com/kajibo/image/upload/v1589262078/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc.jpg
-          //https://res.cloudinary.com/kajibo/image/upload/v1589258194/kajiboimage/step10photo/5eb8f7b6c8901/5eba27d259c1e.jpg
-          // $oldImageUrl =  '/kajiboimage/step10photo/5eb7befeaf469/5eba36fe00bfc';
-          // $resultDelete = \Cloudinary\Uploader::destroy($oldImageUrl);
-          // $filename_save = array('folder'=>'kajiboimage/step10photo/'.$roomId, 'public_id'=>$filename, 'format'=>'jpg','transformation'=>['quality'=>'30']);
-          // $result = \Cloudinary\Uploader::upload($path, $filename_save);
+          // $result = \Cloudinary\Uploader::destroy($public_id, $options = array());//Upload API reference Destroy method
+          // $heroImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$oldfilename.'.jpg';
           $oldfilename = getFilenamePhoto10($roomId);
-          $public_id = 'kajiboimage/step10photo/'.$roomId.'/'.$oldfilename;
-          // $options = array('folder'=>'kajiboimage/step10photo/'.$roomId);
-          // $resultDelete = \Cloudinary\Uploader::destroy($public_id, $options);
+          $public_id = 'kajiboimage/step10photo/'.$roomId.'/'.$oldfilename;//先頭に/つけるとエラーだった
           $resultDelete = \Cloudinary\Uploader::destroy($public_id);
 
           // 以下写真のアップロード
@@ -3226,6 +3242,51 @@ function leaveRoom($userId) {
   $sth = $dbh->prepare($sql);
   $sth->execute(array($userId));
 }
+// 
+function destroyAllRoom($userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql4 = 'delete FROM ' . TABLE_NAME_STEP4S . ' where ? = roomid';
+  $sth4 = $dbh->prepare($sql4);
+  $sth4->execute(array($roomId));
+  $sql5 = 'delete FROM ' . TABLE_NAME_STEP5S . ' where ? = roomid';
+  $sth5 = $dbh->prepare($sql5);
+  $sth5->execute(array($roomId));
+  $sql6 = 'delete FROM ' . TABLE_NAME_STEP6S . ' where ? = roomid';
+  $sth6 = $dbh->prepare($sql6);
+  $sth6->execute(array($roomId));
+  $sql9 = 'delete FROM ' . TABLE_NAME_STEP9S . ' where ? = roomid';
+  $sth9 = $dbh->prepare($sql9);
+  $sth9->execute(array($roomId));
+  $sql10 = 'delete FROM ' . TABLE_NAME_STEP10S . ' where ? = roomid';
+  $sth10 = $dbh->prepare($sql10);
+  $sth10->execute(array($roomId));
+  $sql11 = 'delete FROM ' . TABLE_NAME_STEP11S . ' where ? = roomid';
+  $sth11 = $dbh->prepare($sql11);
+  $sth11->execute(array($roomId));
+  $sql12 = 'delete FROM ' . TABLE_NAME_STEP12S . ' where ? = roomid';
+  $sth12 = $dbh->prepare($sql12);
+  $sth12->execute(array($roomId));
+  $sqlUserSituation = 'delete FROM ' . TABLE_NAME_USERSITUATIONS . ' where ? = roomid';
+  $sthUserSituation = $dbh->prepare($sqlUserSituation);
+  $sthUserSituation->execute(array($roomId));
+  $sqlPhotoStep10 = 'delete FROM ' . TABLE_NAME_PHOTOSTEP10S . ' where ? = roomid';
+  $sthPhotoStep10 = $dbh->prepare($sqlPhotoStep10);
+  $sthPhotoStep10->execute(array($roomId));
+}
+// 
+function getRoomMate($bot, $userId) {
+  $roomId = getRoomIdOfUser($userId);
+  $dbh = dbConnection::getConnection();
+  $sql = 'select pgp_sym_decrypt(userid, \'' . getenv('DB_ENCRYPT_PASS') . '\') as userid from ' . TABLE_NAME_ROOMS . ' where roomid = ?';
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array($roomId));
+  if (!($row = $sth->fetch())) {
+    return PDO::PARAM_NULL;
+  } else {
+    return $row['userid'];
+  }
+}
 
 // ーーーーーーーーーーーー家事のメニュー（pushMessage関連）ーーーーーーーーーーーーーーーーー
 // 作業終了の報告
@@ -3240,11 +3301,6 @@ function endKaji($bot, $userId) {
   foreach ($sth->fetchAll() as $row) {
     $bot->pushMessage($row['userid'], new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ご報告】洗濯機を回しました✨'));
   }
-
-  // ルームを削除（ユーザーも削除？）
-  // $sqlDeleteRoom = 'delete FROM ' . TABLE_NAME_ROOMS . ' where roomid = ?';
-  // $sthDeleteRoom = $dbh->prepare($sqlDeleteRoom);
-  // $sthDeleteRoom->execute(array($roomId));
 }
 
 // ーーーーーーーーーーーー家事マニュアルとその選択肢ーーーーーーーーーーーーーーーーー
