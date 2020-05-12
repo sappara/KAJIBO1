@@ -287,43 +287,50 @@ foreach ($events as $event) {
       }
       // cmd_showPhoto10
       else if(substr($event->getPostbackData(), 4) == 'showPhoto10'){
-        // $step10 = getStep10($event->getUserId());
-        // replyButtonsTemplate($bot, $event->getReplyToken(),
-        // 'step10の写真カスタマイズ',
-        // 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg',
-        // '10)洗剤の投入口',
-        // '洗剤を入れる場所は「'.$step10.'」',
-        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-        //   'やり直す', 'cmd_editPhoto10'),
-        // new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-        //   '初期化する', 'cmd_deletePhoto10')
-        // );
-        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
-        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        $step10 = getStep10($event->getUserId());
         $roomId = getRoomIdOfUser($event->getUserId());
-        // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
-        // キャッシュが取れず、上書き更新しても最初の写真のまま
         $filename = getFilenamePhoto10($roomId);
-        $heroImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$filename.'.jpg';
-        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-        replyFlexMessagePhoto($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        replyButtonsTemplate($bot, $event->getReplyToken(),
+        'step10のカスタマイズ',
+        // 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg',
+        'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$filename.'.jpg',
+        '10)洗剤の投入口',
+        '洗剤を入れる場所は「'.$step10.'」',
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+          '写真を再変更する', 'cmd_changePhoto10'),
+        new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+          '他の写真も変える', 'cmd_modifyPhoto')
         );
+        // $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+        // $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+        // $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        // $roomId = getRoomIdOfUser($event->getUserId());
+        // // $heroImageUrl = 'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'.jpg';
+        // // キャッシュが取れず、上書き更新しても最初の写真のまま
+        // $filename = getFilenamePhoto10($roomId);
+        // $heroImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$filename.'.jpg';
+        // $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+        // $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+        // $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+        // $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        // replyFlexMessagePhoto($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        // );
       }
       // cmd_changePhoto10
       else if(substr($event->getPostbackData(), 4) == 'changePhoto10'){
         replyTextMessage($bot, $event->getReplyToken(), 'もう一度、写真を一枚送信してください。');
         // 下方の、ImageMessage型イベント確認グループに続く
+      }
+      // cmd_modifyPhoto
+      else if(substr($event->getPostbackData(), 4) == 'modifyPhoto'){
+        replyTextMessage($bot, $event->getReplyToken(), 'プレミアムコースを現在開発中です。完成しましたらお知らせします。');
       }
 
       // ーーーーーーーーーーーーカスタマイズのメニュー関連ーーーーーーーーーーーーーーーーー
@@ -1243,30 +1250,57 @@ foreach ($events as $event) {
       );
     }
     else if($event->getPostbackData() == 'step10'){
-      $step10 = getStep10($event->getUserId());
-      $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
-      $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
-      // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
-      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
-      // echo ComponentLayout::VERTICAL;
-      $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
-      $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
-      $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
-      $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-      // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
-      $quickReplyButtons =  flexMessageQuickReply();
-      $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
-      // $spacing = ComponentSpacing::XXL;
-      $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
-      replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
-      );
+      // 写真カスタムない時
+      if(getFilenamePhoto10(getRoomIdOfUser($event->getUserId())) === PDO::PARAM_NULL) {
+        $step10 = getStep10($event->getUserId());
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+        // $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「機種によって異なります。洗濯機の中かフチか洗濯機の上部かにあります。」',null,null,null,null,null,true)];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
+        // echo ComponentLayout::VERTICAL;
+        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+        // $quickReply = new \LINE\LINEBot\QuickReplyBuilder;
+        $quickReplyButtons =  flexMessageQuickReply();
+        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+        // $spacing = ComponentSpacing::XXL;
+        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        );
+      } else {// 写真カスタムある時
+        $step10 = getStep10($event->getUserId());
+        $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step10   ★洗濯機で洗う（全13step）',null,null,'sm','center')];
+        $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の投入口',null,null,'xl',null,null,true,null,'bold')];
+        $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤を入れる場所は「'.$step10.'」',null,null,null,null,null,true)];
+        $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
+        // $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0218.jpg';
+        $roomId = getRoomIdOfUser($event->getUserId());
+        $filename = getFilenamePhoto10($roomId);
+        $heroImageUrl =  'https://res.cloudinary.com/kajibo/kajiboimage/step10photo/'.$roomId.'/'.$filename.'.jpg';
+        $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
+        $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
+        $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
+        $quickReplyButtons =  flexMessageQuickReply();
+        $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
+        $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $bodyPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingEnd = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        $footerPaddingStart = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
+        replyFlexMessage($bot, $event->getReplyToken(), 'step10', $layout::VERTICAL, $headerTextComponents, $bodyTextComponents, $footerTextComponents, $heroImageUrl, $heroImageSize::FULL, $aspectRatio::R1TO1, $aspectMode::COVER, $quickReply, $headerPaddingTop::MD, $headerPaddingBottom::MD, $bodyPaddingEnd::LG, $bodyPaddingStart::LG, $footerPaddingBottom::XXL, $footerPaddingEnd::LG, $footerPaddingStart::LG
+        );
+      }
     }
     else if($event->getPostbackData() == 'step11'){
       $step11 = getStep11($event->getUserId());
