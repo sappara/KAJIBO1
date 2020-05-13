@@ -141,7 +141,7 @@ foreach ($events as $event) {
 
       // 家事stepの選択肢ボタンをタイムラインに投稿
       else if(substr($event->getPostbackData(), 4) == 'kaji'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してね。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してください。',
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
@@ -387,7 +387,7 @@ foreach ($events as $event) {
         if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
           replyTextMessage($bot, $event->getReplyToken(), '登録するにはルームに入ってください。');
         } else {
-          replyQuickReplyButton($bot, $event->getReplyToken(), '登録するstepを選んでください。下のボタンを押してね。',
+          replyQuickReplyButton($bot, $event->getReplyToken(), '登録するstepを選んでください。下のボタンを押してください。',
             new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'cmd_modification4')),
             new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'cmd_modification5')),
             new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'cmd_modification6')),
@@ -1640,9 +1640,9 @@ foreach ($events as $event) {
 
       // ーーーーーーーーーーーーLIFF関連ーーーーーーーーーーーーーーーーー
 
-      // LIFFで「家事マニュアルを見る」ボタン押した後の処理
+      // LIFFで「家事マニュアルを見る」ボタン押した後の処理(cmd_kajiと同じ)
       else if($event->getText() == '家事マニュアルを見る'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してね。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してください。',
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
@@ -1658,6 +1658,20 @@ foreach ($events as $event) {
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('13)洗濯機スタート', 'step13'))
         );
       }
+      // // ルーム作成(cmd_newroomと同じ)
+      // else if($event->getText() == 'ルームに入る'){
+      //   if(getRoomIdOfUser($event->getUserId()) === PDO::PARAM_NULL) {
+      //     $roomId = createRoomAndGetRoomId($event->getUserId());
+      //     replyMultiMessage($bot,
+      //       $event->getReplyToken(),
+      //       new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームを作成し、入室しました。ルームIDは'),
+      //       new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($roomId),
+      //       new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('です。'));
+      //   }
+      //   else {
+      //     replyTextMessage($bot, $event->getReplyToken(), '既に入室済みです。');
+      //   }
+      // }
 
       // -----------------------登録・更新------------------------------------
       else if($event->getText() == '登録を維持します。'){
