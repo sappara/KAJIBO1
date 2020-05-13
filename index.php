@@ -297,11 +297,11 @@ foreach ($events as $event) {
       // cmd_simpleHowToUse
       else if(substr($event->getPostbackData(), 4) == 'simpleHowToUse'){
         replyMultiMessage($bot, $event->getReplyToken(),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルを見る：メニューバー「家事する時」→「個別に見る」→緑のボタン（ステップ選ぶ）'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルをカスタマイズ：メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家族とマニュアル共有：①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ルームIDを受け取ったら：①ルームIDコピー。②KAJIBOと友達になる。③ルームIDをペーストしてKAJIBOへ送信'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('家事マニュアルをカスタマイズした時に、同じルームに入室している全員に通知が届きます。'));
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家事マニュアルを見る】メニューバー「家事する時」→「個別に見る」→緑のボタン（ステップ選ぶ）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家事マニュアルをカスタマイズ】メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('※家事マニュアルをカスタマイズした際、同じルームに入室している全員に通知が届きます。'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家族とマニュアル共有】①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ルームIDを受け取ったら】①ルームIDコピー。②KAJIBOと友達になる。③ルームIDをペーストしてKAJIBOへ送信'));
       }
 
 
