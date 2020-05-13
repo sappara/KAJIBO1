@@ -477,7 +477,7 @@ foreach ($events as $event) {
         $step11 = getStep11($event->getUserId());
         replyButtonsTemplate($bot, $event->getReplyToken(),
         'step11のカスタマイズ',
-        'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg',
+        'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0854.jpg',
         '11 ) 柔軟剤について',
         '柔軟剤は「'.$step11.'」',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
@@ -1341,7 +1341,7 @@ foreach ($events as $event) {
       $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('柔軟剤は「'.$step11.'」',null,null,null,null,null,true)];
       // echo ComponentLayout::VERTICAL;
       $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
-      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/KIMG0385.jpg';
+      $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_0854.jpg';
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
       $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
       $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
