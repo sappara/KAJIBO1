@@ -696,7 +696,7 @@ foreach ($events as $event) {
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
       $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
       $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReplyButtons =  flexMessageQuickReplyStep14();
       $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
       $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
       $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -718,7 +718,7 @@ foreach ($events as $event) {
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
       $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
       $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReplyButtons =  flexMessageQuickReplyStep14();
       $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
       $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
       $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -852,7 +852,7 @@ foreach ($events as $event) {
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
       $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
       $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReplyButtons =  flexMessageQuickReplyStep14();
       $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
       $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
       $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -2096,6 +2096,15 @@ function endKaji($bot, $userId) {
 
 // ーーーーーーーーーーーー家事マニュアルとその選択肢ーーーーーーーーーーーーーーーーー
 // ーーーーーーーーーーーーBotからの返信関連（QuickReplyとflexMessage）ーーーーーーーーーーーーーーーーー
+
+// フレックスメッセージに添付するクイックリプライボタン
+function flexMessageQuickReplyStep14(){
+  $flexMessageQuickReplyStep14 = array( 
+    new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('14)洗剤の詰めかえ', 'step14')),
+    new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のステップ', 'cmd_kaji'))
+  );
+  return $flexMessageQuickReplyStep14;
+}
 
 // フレックスメッセージに添付するクイックリプライボタン
 function flexMessageQuickReply(){
