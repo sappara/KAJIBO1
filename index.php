@@ -355,7 +355,7 @@ foreach ($events as $event) {
         'step14のカスタマイズ',
         'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_1113.jpg',
         '14 ) 洗剤の詰めかえ',
-        '洗剤が終わりかけなら詰めかえてください。ストックは「'.$step14.'」にあります。',
+        '洗剤の残量が少なくなったら詰めかえてください。ストックは「'.$step14.'」にあります。',
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
           '登録する', 'cmd_edit14'),
         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
@@ -908,9 +908,10 @@ foreach ($events as $event) {
       );
     }
     else if($event->getPostbackData() == 'step14'){
+      $step14 = getStep14($event->getUserId());
       $headerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('step14   ★洗濯機で洗う（全14step）',null,null,'sm','center')];
       $bodyTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の詰めかえ',null,null,'xl',null,null,true,null,'bold')];
-      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤が終わりかけなら詰めかえてください。ストックは「'.$step14.'」にあります。',null,null,null,null,null,true)];
+      $footerTextComponents=[new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder('洗剤の残量が少なくなったら詰めかえてください。ストックは「'.$step14.'」にあります。',null,null,null,null,null,true)];
       $layout = new \LINE\LINEBot\Constant\Flex\ComponentLayout;
       $heroImageUrl = 'https://' . $_SERVER['HTTP_HOST'] .  '/img/IMG_1113.jpg';
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
