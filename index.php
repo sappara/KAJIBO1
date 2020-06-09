@@ -159,7 +159,7 @@ foreach ($events as $event) {
         );
       }
       else if(substr($event->getPostbackData(), 4) == 'utilize'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '下のボタンのフレーズをBotに送ると関連する洗濯マニュアルを呼び出せます。下のボタンを押してみてください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '下記ボタンのフレーズをBotに送ると関連する洗濯マニュアルを呼び出せます。下のボタンを押して試してみてください。',
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('収納場所', '収納場所')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('詰めかえ（または、ストック）', '詰めかえ')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤', '洗剤')),
@@ -206,9 +206,9 @@ foreach ($events as $event) {
       else if(substr($event->getPostbackData(), 4) == 'simpleHowToUse'){
         replyMultiMessage($bot, $event->getReplyToken(),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家事マニュアルを見る】メニューバー「家事する時」→「個別に見る」→緑のボタン（ステップ選ぶ）'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家事マニュアルをカスタマイズ】メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('※家事マニュアルをカスタマイズした際、同じルームに入室している全員に通知が届きます。'),
-          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家族とマニュアル共有】①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家事マニュアルをカスタマイズする】メニューバー「カスタマイズ」→「登録修正」→緑のボタン（ステップ選ぶ）'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('※家事マニュアルをカスタマイズすると同時に、同じルームに入室している全員にLINEが配信されます。'),
+          new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【家族とマニュアル共有する】①メニューバー「ルーム」→「ルームを作る」→ルームIDを転送。②KAJIBOをシェア（右上の三本線ボタン→おすすめ→転送）'),
           new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('【ルームIDを受け取ったら】①ルームIDコピー。②KAJIBOと友達になる。③ルームIDをペーストしてKAJIBOへ送信'));
       }
 
@@ -907,7 +907,7 @@ foreach ($events as $event) {
       $heroImageSize = new \LINE\LINEBot\Constant\Flex\ComponentImageSize;
       $aspectRatio = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectRatio;
       $aspectMode = new \LINE\LINEBot\Constant\Flex\ComponentImageAspectMode;
-      $quickReplyButtons =  flexMessageQuickReply();
+      $quickReplyButtons =  flexMessageQuickReplyStep13();
       $quickReply = new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($quickReplyButtons);
       $headerPaddingTop = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
       $headerPaddingBottom = new \LINE\LINEBot\Constant\Flex\ComponentSpacing;
@@ -2162,6 +2162,16 @@ function endKaji($bot, $userId) {
 
 // ーーーーーーーーーーーー家事マニュアルとその選択肢ーーーーーーーーーーーーーーーーー
 // ーーーーーーーーーーーーBotからの返信関連（QuickReplyとflexMessage）ーーーーーーーーーーーーーーーーー
+
+// フレックスメッセージに添付するクイックリプライボタン
+function flexMessageQuickReplyStep13(){
+  $flexMessageQuickReplyStep13 = array( 
+    new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('終わった〜', '洗濯開始作業完了！')),
+    new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('みんなに報告する', 'cmd_end_confirm')),
+    new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('他のステップ', 'cmd_kaji'))
+  );
+  return $flexMessageQuickReplyStep13;
+}
 
 // フレックスメッセージに添付するクイックリプライボタン
 function flexMessageQuickReplyStep14(){
