@@ -160,11 +160,13 @@ foreach ($events as $event) {
       }
       else if(substr($event->getPostbackData(), 4) == 'utilize'){
         replyQuickReplyButton($bot, $event->getReplyToken(), '下のボタンのフレーズをBotに送ると関連する洗濯マニュアルを呼び出せます。下のボタンを押してみてください。',
-          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯マニュアル', '洗濯マニュアル')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('収納場所', '収納場所')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('詰めかえ（または、ストック）', '詰めかえ')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗剤', '洗剤')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('柔軟剤', '柔軟剤')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯ネット', '洗濯ネット')),
-          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('下準備', '下準備'))
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('下準備', '下準備')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('洗濯マニュアル', '洗濯マニュアル'))
         );
       }
 
@@ -1044,7 +1046,7 @@ foreach ($events as $event) {
 
       // LIFFで「洗濯マニュアルを見る」ボタン押した後の処理(cmd_kajiと同じ)
       else if($event->getText() == '洗濯マニュアル'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯マニュアルを個別stepで表示します。下のボタンを押してください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗濯マニュアル】を個別stepで表示します。下のボタンを押してください。',
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
@@ -1065,7 +1067,7 @@ foreach ($events as $event) {
 
       // ユーザーからの問いかけ
       else if($event->getText() == '洗剤'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗剤に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗剤】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('6)洗剤の種類', 'step6')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('9)洗剤の量について', 'step9')),
@@ -1076,24 +1078,41 @@ foreach ($events as $event) {
         );
       }
       else if($event->getText() == '柔軟剤'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '柔軟剤に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【柔軟剤】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('11)柔軟剤について', 'step11')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('12)柔軟剤の投入口', 'step12')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('14)洗剤の詰めかえ', 'step14'))
         );
       }
       else if($event->getText() == '洗濯ネット'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯ネットに関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗濯ネット】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
         new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4'))
         );
       }
       else if($event->getText() == '下準備'){
-        replyQuickReplyButton($bot, $event->getReplyToken(), '洗濯の下準備に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗濯の下準備】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('1)異物混入チェック', 'step1')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('2)泥汚れの下洗い', 'step2')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('3)洗濯ネットで保護', 'step3')),
           new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4'))
+        );
+      }
+      else if($event->getText() == '収納場所'){
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【収納場所】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('4)洗濯ネットの収納場所', 'step4')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('5)洗剤の収納場所', 'step5')),
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('14)洗剤の詰めかえ', 'step14'))
+        );
+      }
+      else if($event->getText() == '詰めかえ'){
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗濯の詰めかえ】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('14)洗剤の詰めかえ', 'step14'))
+        );
+      }
+      else if($event->getText() == 'ストック'){
+        replyQuickReplyButton($bot, $event->getReplyToken(), '【洗濯の詰めかえ】に関するマニュアルを個別stepで表示します。下のボタンを押してください。',
+          new \LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder(new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder('14)洗剤の詰めかえ', 'step14'))
         );
       }
 
